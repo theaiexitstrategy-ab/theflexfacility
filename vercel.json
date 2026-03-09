@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/flex-facility-squeeze-page.html" },
+    { "source": "/thank-you", "destination": "/thank-you.html" },
+    { "source": "/ebook", "destination": "/ebook-order-page.html" }
+  ]
+}
