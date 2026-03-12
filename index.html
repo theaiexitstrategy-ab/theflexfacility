@@ -236,6 +236,38 @@
   }
   .nil-callout-desc { font-size: 0.78rem; line-height: 1.7; color: #888; }
 
+  /* MEET COACH KENNY */
+  .meet-coach { padding: 100px 40px; position: relative; }
+  .meet-coach-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 380px 1fr; gap: 60px; align-items: center; }
+  .meet-coach-photo { border-radius: 12px; overflow: hidden; }
+  .meet-coach-photo img { width: 100%; height: auto; display: block; border-radius: 12px; }
+  .meet-coach-text {}
+  .meet-coach-heading { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2rem,4vw,3.2rem); font-weight: 900; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 8px; }
+  .meet-coach-heading .accent { color: var(--red); }
+  .meet-coach-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--red); margin-bottom: 24px; }
+  .meet-coach-bio { font-size: 0.9rem; line-height: 1.8; color: #999; margin-bottom: 32px; }
+  .meet-coach-btn { display: inline-block; background: var(--red); color: var(--white); border: none; padding: 14px 32px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-decoration: none; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
+  .meet-coach-btn:hover { background: var(--red-light); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(232,32,10,0.4); }
+
+  /* SOCIAL POSTS */
+  .social-posts { padding: 100px 40px; position: relative; }
+  .social-posts-inner { max-width: 900px; margin: 0 auto; }
+  .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 50px; }
+  .social-card { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; overflow: hidden; transition: transform 0.3s; }
+  .social-card:hover { transform: translateY(-4px); }
+  .social-img { width: 100%; aspect-ratio: 1/1; background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 60%, rgba(232,32,10,0.15) 100%); display: flex; align-items: center; justify-content: center; position: relative; }
+  .social-img-icon { font-size: 3rem; opacity: 0.15; }
+  .social-body { padding: 20px; }
+  .social-handle { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
+  .social-caption { font-size: 0.78rem; line-height: 1.7; color: #999; margin-bottom: 14px; }
+  .social-likes { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; color: #555; text-transform: uppercase; }
+
+  /* FIT CTA */
+  .fit-cta { text-align: center; padding: 40px 20px 0; }
+  .fit-cta a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.82rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #555; text-decoration: none; transition: color 0.2s; }
+  .fit-cta a:hover { color: var(--red); }
+  .fit-cta a span { color: var(--red); }
+
   .reveal { opacity: 1; transform: translateY(0); transition: all 0.6s ease; }
   .reveal.animate { opacity: 0; transform: translateY(20px); }
   .reveal.visible { opacity: 1 !important; transform: translateY(0) !important; }
@@ -251,6 +283,8 @@
     .nil-cta-strip { flex-direction: column; align-items: flex-start; }
     .sports { padding: 60px 20px; } .sports-grid { grid-template-columns: repeat(3,1fr); }
     .process { padding: 60px 20px; } .process-steps { grid-template-columns: 1fr 1fr; } .step-arrow { display: none; }
+    .meet-coach { padding: 60px 20px; } .meet-coach-inner { grid-template-columns: 1fr; gap: 30px; } .meet-coach-photo { max-width: 320px; margin: 0 auto; }
+    .social-posts { padding: 60px 20px; } .social-grid { grid-template-columns: 1fr; }
     .testimonials { padding: 60px 20px; } .testi-grid { grid-template-columns: 1fr; }
     .final-cta { padding: 60px 20px; } .cta-form { grid-template-columns: 1fr; } .cta-select,.cta-btn { grid-column: span 1; }
     footer { padding: 30px 20px; flex-direction: column; align-items: flex-start; }
@@ -286,7 +320,7 @@
         <div class="hstat-sep"></div>
         <div class="hstat"><div class="hstat-num">NIL</div><div class="hstat-label">Ready Training</div></div>
         <div class="hstat-sep"></div>
-        <div class="hstat"><div class="hstat-num">1-on-1</div><div class="hstat-label">Coaching</div></div>
+        <div class="hstat"><div class="hstat-num">Group</div><div class="hstat-label">Training</div></div>
       </div>
     </div>
     <div id="assessment">
@@ -297,8 +331,9 @@
         <div class="spots-bar"><div class="spots-fill"></div></div>
         <div class="spots-label"><span>9 of 12 spots</span> claimed this month</div>
         <div class="urgency-form">
-          <input type="text" class="uf-input" placeholder="Parent's Name">
-          <input type="text" class="uf-input" placeholder="Athlete's Name & Age">
+          <input type="text" class="uf-input" placeholder="Athlete's Name" required>
+          <input type="text" class="uf-input" placeholder="Athlete's Age" required>
+          <input type="text" class="uf-input" placeholder="Parent/Guardian Name (Optional)" style="opacity:0.7;">
           <input type="tel" class="uf-input" placeholder="Phone Number">
           <select class="uf-select"><option value="" disabled selected>Athlete's Sport...</option><option>Football</option><option>Basketball</option><option>Baseball / Softball</option><option>Track & Field</option><option>Soccer</option><option>Wrestling</option><option>Volleyball</option><option>Other</option></select>
           <select class="uf-select"><option value="" disabled selected>Primary Goal...</option><option>Increase Speed & Agility</option><option>Build Strength & Power</option><option>Prepare for Tryouts / Combine</option><option>College Recruitment Prep</option><option>NIL Readiness & Brand Building</option><option>Overall Athletic Performance</option></select>
@@ -333,9 +368,9 @@
       <div class="pain-card reveal delay-2">
         <span class="pain-icon">🎯</span>
         <div class="pain-title">Generic Training Doesn't Cut It</div>
-        <p class="pain-desc">Group classes and generic gym programs aren't built for sport-specific performance. Your athlete needs a program designed for their position and goals.</p>
+        <p class="pain-desc">Generic gym programs and big-box fitness classes aren't built for sport-specific performance. Your athlete needs a program designed for competitive athletes — not general fitness.</p>
         <div class="pain-stat">3×</div>
-        <div class="pain-stat-label">Faster improvement with sport-specific 1-on-1 training vs generic programs</div>
+        <div class="pain-stat-label">Faster improvement with sport-specific group performance training vs generic programs</div>
       </div>
     </div>
   </div>
@@ -352,7 +387,7 @@
       <div class="cred">Pro Bodybuilder & Certified Personal Trainer</div>
       <div class="cred">10+ Years Developing Athletes</div>
       <div class="cred">Custom Training & Nutrition Programs</div>
-      <div class="cred">1-on-1 In-Person & Virtual Coaching Available</div>
+      <div class="cred">Small-Group Performance Training — In-Person & Virtual</div>
       <div class="cred">NIL Performance & Visibility Training</div>
     </div>
   </div>
@@ -433,10 +468,25 @@
   <div class="section-tag reveal">How It Works</div>
   <h2 class="section-title reveal">From <span class="accent">Assessment</span> to Dominance</h2>
   <div class="process-steps">
-    <div class="process-step reveal"><div class="step-number">01</div><div class="step-title">Free Assessment</div><p class="step-desc">Coach Kenny evaluates your athlete's current performance levels across speed, strength, agility, and explosiveness. Zero cost, zero pressure.</p><div class="step-arrow"></div></div>
-    <div class="process-step reveal delay-1"><div class="step-number">02</div><div class="step-title">Custom Program Built</div><p class="step-desc">A training and nutrition program designed specifically around your athlete's sport, position, goals, and competition timeline.</p><div class="step-arrow"></div></div>
-    <div class="process-step reveal delay-2"><div class="step-number">03</div><div class="step-title">1-on-1 Training Begins</div><p class="step-desc">Focused, intense, and measurable. Every session tracks progress against your athlete's baseline so you can see improvement in real numbers.</p><div class="step-arrow"></div></div>
-    <div class="process-step reveal delay-3"><div class="step-number">04</div><div class="step-title">Dominate Your Season</div><p class="step-desc">Show up to tryouts, combines, and games as the most prepared athlete on the field. That's what Coach Kenny trains for.</p></div>
+    <div class="process-step reveal"><div class="step-number">01</div><div class="step-title">Book Your Free Assessment</div><p class="step-desc">We learn your sport, your goals, and where you're at. Coach Kenny evaluates speed, strength, agility, and explosiveness. Zero cost, zero pressure.</p><div class="step-arrow"></div></div>
+    <div class="process-step reveal delay-1"><div class="step-number">02</div><div class="step-title">Join the Group</div><p class="step-desc">You train alongside other competitive athletes. The energy is real. The competition is real. Group sessions built for athletes who want more.</p><div class="step-arrow"></div></div>
+    <div class="process-step reveal delay-2"><div class="step-number">03</div><div class="step-title">Get Pushed Further</div><p class="step-desc">When someone next to you is grinding, you grind harder. That's the Flex effect. Every session is tracked so you can see real improvement in real numbers.</p><div class="step-arrow"></div></div>
+    <div class="process-step reveal delay-3"><div class="step-number">04</div><div class="step-title">Show Up Different</div><p class="step-desc">Better speed, strength, and confidence — on the field and off it. Show up to tryouts, combines, and games as the most prepared athlete out there.</p></div>
+  </div>
+</section>
+
+<!-- MEET COACH KENNY -->
+<section class="meet-coach">
+  <div class="meet-coach-inner">
+    <div class="meet-coach-photo reveal">
+      <img src="images/coach_kenny.jpg" alt="Coach Kenny — Flex Training Est. 2013" loading="lazy">
+    </div>
+    <div class="meet-coach-text">
+      <h2 class="meet-coach-heading reveal">Meet <span class="accent">Coach Kenny</span></h2>
+      <div class="meet-coach-sub reveal">Certified Sports Performance Trainer &middot; Flex Training Est. 2013</div>
+      <p class="meet-coach-bio reveal">Coach Kenny has been building competitive athletes since 2013. His group training model is simple: put serious athletes in the same room, push them hard, and watch them rise. Whether you're training for your sport or just ready to get serious, Coach Kenny meets you where you are — and takes you further.</p>
+      <a href="#final-cta" class="meet-coach-btn reveal">Book Your Free Assessment &rarr;</a>
+    </div>
   </div>
 </section>
 
@@ -471,8 +521,34 @@
   </div>
 </section>
 
+<!-- SOCIAL POSTS -->
+<section class="social-posts">
+  <div class="social-posts-inner">
+    <div class="section-tag reveal">Follow the Journey</div>
+    <h2 class="section-title reveal">See What's <span class="accent">Happening</span></h2>
+    <div class="social-grid">
+      <div class="social-card reveal">
+        <div class="social-img"><div class="social-img-icon">&#9889;</div></div>
+        <div class="social-body">
+          <div class="social-handle">@theflexfacility</div>
+          <p class="social-caption">Morning session with the QuickStart crew. These athletes don't play around. &#x1F4AA;&#x1F3FE;&#x1F525; #FlexFacility #SportsPerformance #EarthCity</p>
+          <div class="social-likes">&#10084; 187 likes</div>
+        </div>
+      </div>
+      <div class="social-card reveal delay-1">
+        <div class="social-img"><div class="social-img-icon">&#9889;</div></div>
+        <div class="social-body">
+          <div class="social-handle">@theflexfacility</div>
+          <p class="social-caption">Speed. Strength. Accountability. That's what group training builds. Book your free assessment — link in bio. #FlexTraining #AthleteLife #QuickStart</p>
+          <div class="social-likes">&#10084; 214 likes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FINAL CTA -->
-<section class="final-cta">
+<section class="final-cta" id="final-cta">
   <div class="cta-inner">
     <div class="section-tag reveal" style="display:inline-flex;margin-bottom:16px;">Limited Spots Available</div>
     <h2 class="cta-h2 reveal">Don't Let<br><span class="accent">Tryouts</span><br>Decide For You</h2>
@@ -488,7 +564,7 @@
     </div>
 
     <div class="cta-form reveal">
-      <input type="text" class="cta-input" placeholder="Parent's Name">
+      <input type="text" class="cta-input" placeholder="Athlete's Name">
       <input type="tel" class="cta-input" placeholder="Phone Number">
       <select class="cta-select"><option value="" disabled selected>Athlete's Sport...</option><option>Football</option><option>Basketball</option><option>Baseball / Softball</option><option>Track & Field</option><option>Soccer</option><option>Wrestling</option><option>Other</option></select>
       <button class="cta-btn" onclick="handleCTA(this)">Book Free Assessment Now →</button>
@@ -496,6 +572,11 @@
     <p class="cta-note reveal">No commitment required · 20-minute session · Earth City, MO or Virtual</p>
   </div>
 </section>
+
+<!-- FIT CTA -->
+<div class="fit-cta">
+  <a href="/fit">Not training for a sport? Check out our Fitness &amp; Bodybuilding programs <span>&rarr;</span></a>
+</div>
 
 <footer>
   <div class="footer-logo">FLEX <span>FACILITY</span></div>
