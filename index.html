@@ -664,8 +664,8 @@ async function submitFormTop(formEl, btn) {
   btn.textContent = 'Sending...'; btn.disabled = true; btn.style.opacity = '0.7';
 
   try {
-    await fetch(WEBHOOK_TOP, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), mode: 'no-cors' });
-  } catch(e) { /* no-cors still delivers */ }
+    await fetch(WEBHOOK_TOP, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+  } catch(e) { /* silently continue on network error */ }
 
   formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
   btn.style.display = 'none';
@@ -698,8 +698,8 @@ async function submitFormBottom(formEl, btn) {
   btn.textContent = 'Sending...'; btn.disabled = true; btn.style.opacity = '0.7';
 
   try {
-    await fetch(WEBHOOK_BOTTOM, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), mode: 'no-cors' });
-  } catch(e) { /* no-cors still delivers */ }
+    await fetch(WEBHOOK_BOTTOM, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+  } catch(e) { /* silently continue on network error */ }
 
   formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
   btn.style.display = 'none';
@@ -736,8 +736,7 @@ function handleCallFlex() {
   fetch(WEBHOOK_CALL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-    mode: 'no-cors'
+    body: JSON.stringify(payload)
   }).catch(() => {});
 
   // Launch VAPI assistant
