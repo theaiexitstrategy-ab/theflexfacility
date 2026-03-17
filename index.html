@@ -12,6 +12,17 @@
   defer
   async
 ></script>
+<script>
+  window.addEventListener('load', function() {
+    if (window.vapiSDK) {
+      window.vapiSDK.run({
+        apiKey: 'pk_5f410705-fa13-400b-8d60-2d9a50335bd1',
+        assistant: 'e907b40a-0a8a-4116-9d32-69b3a3f6f8ed',
+        config: { hideButton: true }
+      });
+    }
+  });
+</script>
 <style>
   :root {
     --red: #E8200A;
@@ -293,10 +304,32 @@
   .kk-widget { position: fixed; bottom: 24px; right: 24px; z-index: 9999; }
   .kk-bubble { width: 68px; height: 68px; border-radius: 50%; cursor: pointer; position: relative; transition: transform 0.2s; }
   .kk-bubble:hover { transform: scale(1.08); }
-  .kk-bubble img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; filter: hue-rotate(200deg) saturate(2); }
+  .kk-bubble img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
   .kk-pulse { position: absolute; inset: -6px; border-radius: 50%; border: 3px solid var(--red); animation: kkpulse 2s ease-in-out infinite; }
   @keyframes kkpulse { 0%,100%{ opacity:0.3; transform:scale(1); } 50%{ opacity:0.8; transform:scale(1.12); } }
   .kk-badge { position: absolute; top: -2px; right: -2px; width: 20px; height: 20px; border-radius: 50%; background: var(--red); color: var(--white); font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 2px solid var(--black); }
+
+  /* FLEX CALL MODAL */
+  .flex-modal-overlay { display:none; position:fixed; inset:0; z-index:10000; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); align-items:center; justify-content:center; }
+  .flex-modal-overlay.open { display:flex; }
+  .flex-modal { background:#111; border:1px solid rgba(212,160,23,0.3); border-radius:16px; width:90%; max-width:420px; padding:0; box-shadow:0 24px 60px rgba(0,0,0,0.6); animation:modalIn 0.25s ease; overflow:hidden; }
+  @keyframes modalIn { from{opacity:0;transform:scale(0.95) translateY(10px)} to{opacity:1;transform:scale(1) translateY(0)} }
+  .flex-modal-head { background:linear-gradient(135deg,#d4a017,#b8900f); padding:20px 24px; display:flex; align-items:center; justify-content:space-between; }
+  .flex-modal-title { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:1.1rem; text-transform:uppercase; letter-spacing:3px; color:#000; }
+  .flex-modal-close { background:none; border:none; color:rgba(0,0,0,0.4); font-size:1.5rem; cursor:pointer; line-height:1; }
+  .flex-modal-close:hover { color:#000; }
+  .flex-modal-body { padding:28px 24px; }
+  .flex-modal-field { margin-bottom:16px; }
+  .flex-modal-field label { display:block; font-family:'Barlow Condensed',sans-serif; font-size:0.72rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#666; margin-bottom:6px; }
+  .flex-modal-field input { width:100%; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.12); color:#f5f5f5; padding:12px 16px; font-family:'Barlow',sans-serif; font-size:0.88rem; border-radius:8px; outline:none; transition:border-color 0.2s; }
+  .flex-modal-field input:focus { border-color:#d4a017; }
+  .flex-modal-field input::placeholder { color:#444; }
+  .flex-modal-submit { width:100%; background:linear-gradient(135deg,#d4a017,#f0c040); color:#000; border:none; padding:15px; font-family:'Barlow Condensed',sans-serif; font-size:1rem; font-weight:900; letter-spacing:3px; text-transform:uppercase; cursor:pointer; border-radius:8px; transition:all 0.2s; margin-top:4px; }
+  .flex-modal-submit:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(212,160,23,0.35); }
+  .flex-modal-note { text-align:center; font-size:0.62rem; color:#444; letter-spacing:1px; margin-top:14px; }
+  .flex-modal-confirm { text-align:center; padding:30px 20px; }
+  .flex-modal-confirm .icon { font-size:2.5rem; margin-bottom:10px; }
+  .flex-modal-confirm p { font-family:'Barlow Condensed',sans-serif; font-size:1.1rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#d4a017; }
 
   @media (max-width: 900px) {
     nav { padding: 14px 20px; }
@@ -621,6 +654,36 @@
   <div class="footer-copy">© 2025 Flex Training LLC · Earth City, MO 63045</div>
 </footer>
 
+<!-- FLEX CALL MODAL -->
+<div class="flex-modal-overlay" id="flexCallModal" onclick="if(event.target===this)closeFlexModal()">
+  <div class="flex-modal">
+    <div class="flex-modal-head">
+      <div class="flex-modal-title">Have FLEX Call You</div>
+      <button class="flex-modal-close" onclick="closeFlexModal()">&times;</button>
+    </div>
+    <div class="flex-modal-body" id="flexModalForm">
+      <div class="flex-modal-field">
+        <label>Full Name *</label>
+        <input type="text" id="flexCallName" placeholder="Your full name" required>
+      </div>
+      <div class="flex-modal-field">
+        <label>Phone Number *</label>
+        <input type="tel" id="flexCallPhone" placeholder="(555) 123-4567" required>
+      </div>
+      <div class="flex-modal-field">
+        <label>Instagram (Optional)</label>
+        <input type="text" id="flexCallIG" placeholder="@yourhandle">
+      </div>
+      <button class="flex-modal-submit" onclick="submitFlexCall()">Call Me Now</button>
+      <div class="flex-modal-note">We'll call you within minutes during business hours</div>
+    </div>
+    <div class="flex-modal-confirm" id="flexModalConfirm" style="display:none">
+      <div class="icon">&#128242;</div>
+      <p>FLEX will call you shortly!</p>
+    </div>
+  </div>
+</div>
+
 <!-- KINETIC KEN CHAT WIDGET -->
 <div class="kk-widget" id="kkWidget">
   <div class="kk-bubble" onclick="launchVapiFromKK()">
@@ -718,32 +781,50 @@ async function submitFormBottom(formEl, btn) {
 function handleAssessment(btn) { submitFormTop(btn.closest('.urgency-form'), btn); }
 function handleCTA(btn) { submitFormBottom(btn.closest('.cta-form'), btn); }
 
-// ── CALL FLEX BUTTON ──
+// ── FLEX CALL MODAL ──
 function handleCallFlex() {
-  // Fire call webhook
-  const payload = {
-    name: '',
-    phone: '',
-    source_page: 'primary_page',
-    timestamp: new Date().toISOString()
-  };
-  // Try to grab name/phone from hero form if filled
+  document.getElementById('flexModalForm').style.display = '';
+  document.getElementById('flexModalConfirm').style.display = 'none';
+  document.getElementById('flexCallName').value = '';
+  document.getElementById('flexCallPhone').value = '';
+  document.getElementById('flexCallIG').value = '';
+  // Pre-fill from hero form if available
   const heroName = document.querySelector('.urgency-form input[placeholder="Athlete\'s Name"]');
   const heroPhone = document.querySelector('.urgency-form input[placeholder="Phone Number"]');
-  if (heroName && heroName.value) payload.name = heroName.value;
-  if (heroPhone && heroPhone.value) payload.phone = heroPhone.value;
+  if (heroName && heroName.value) document.getElementById('flexCallName').value = heroName.value;
+  if (heroPhone && heroPhone.value) document.getElementById('flexCallPhone').value = heroPhone.value;
+  document.getElementById('flexCallModal').classList.add('open');
+}
 
-  fetch(WEBHOOK_CALL, {
+function closeFlexModal() {
+  document.getElementById('flexCallModal').classList.remove('open');
+}
+
+function submitFlexCall() {
+  const name = document.getElementById('flexCallName').value.trim();
+  const phone = document.getElementById('flexCallPhone').value.trim();
+  const ig = document.getElementById('flexCallIG').value.trim();
+  if (!name || !phone) { alert('Please enter your name and phone number.'); return; }
+
+  const payload = {
+    name: name,
+    phone: phone,
+    instagram: ig,
+    source: 'flex_call_button'
+  };
+
+  fetch('https://hook.us2.make.com/sbk1vo7nk82madk2b1ec1kx36ha74a37', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   }).catch(() => {});
 
-  // Launch VAPI assistant
-  launchVapi();
+  document.getElementById('flexModalForm').style.display = 'none';
+  document.getElementById('flexModalConfirm').style.display = '';
+  setTimeout(closeFlexModal, 2500);
 }
 
-// ── LAUNCH VAPI HELPER ──
+// ── LAUNCH VAPI HELPER (for Kinetic Ken only) ──
 function launchVapi() {
   if (window.vapiSDK) {
     try {
