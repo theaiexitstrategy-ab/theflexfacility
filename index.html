@@ -18,6 +18,7 @@
       apiKey: "5f410705-fa13-400b-8d60-2d9a50335bd1",
       assistant: "e907b40a-0a8a-4116-9d32-69b3a3f6f8ed",
       config: {
+        hideButton: true,
         position: "bottom-right",
         theme: {
           primary: "#111827",
@@ -304,14 +305,7 @@
   .call-flex-tel { color: var(--red); text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; transition: color 0.2s; }
   .call-flex-tel:hover { color: var(--red-light); }
 
-  /* KINETIC KEN CHAT WIDGET */
-  .kk-widget { position: fixed; bottom: 24px; right: 24px; z-index: 9999; }
-  .kk-bubble { width: 68px; height: 68px; border-radius: 50%; cursor: pointer; position: relative; transition: transform 0.2s; }
-  .kk-bubble:hover { transform: scale(1.08); }
-  .kk-bubble img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-  .kk-pulse { position: absolute; inset: -6px; border-radius: 50%; border: 3px solid var(--red); animation: kkpulse 2s ease-in-out infinite; }
-  @keyframes kkpulse { 0%,100%{ opacity:0.3; transform:scale(1); } 50%{ opacity:0.8; transform:scale(1.12); } }
-  .kk-badge { position: absolute; top: -2px; right: -2px; width: 20px; height: 20px; border-radius: 50%; background: var(--red); color: var(--white); font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 2px solid var(--black); }
+  /* KINETIC KEN CHAT WIDGET — replaced by floating bubble before </body> */
 
   /* FLEX CALL MODAL */
   .flex-modal-overlay { display:none; position:fixed; inset:0; z-index:10000; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); align-items:center; justify-content:center; }
@@ -685,14 +679,7 @@
   </div>
 </div>
 
-<!-- KINETIC KEN CHAT WIDGET -->
-<div class="kk-widget" id="kkWidget">
-  <div class="kk-bubble" onclick="launchVapiFromKK()">
-    <div class="kk-pulse"></div>
-    <img src="transparent_kinetic_ken.png" alt="Kinetic Ken">
-    <div class="kk-badge">1</div>
-  </div>
-</div>
+<!-- Kinetic Ken widget moved to floating bubble before </body> -->
 
 <script>
 // ── CONFIGURATION ──
@@ -831,6 +818,7 @@ function launchVapi() {
         apiKey: '5f410705-fa13-400b-8d60-2d9a50335bd1',
         assistant: 'e907b40a-0a8a-4116-9d32-69b3a3f6f8ed',
         config: {
+          hideButton: true,
           position: 'bottom-right',
           theme: { primary: '#111827', secondary: '#ffffff' }
         }
@@ -859,6 +847,55 @@ window.addEventListener('scroll', () => {
   if (window.scrollY > 50) { nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)'; }
   else { nav.style.boxShadow = 'none'; }
 });
+</script>
+<!-- Kinetic Ken Floating Bubble -->
+<style>
+.kk-bubble {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 9999;
+  background-image: url('transparent_kinetic_ken.png');
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+  animation: kk-pulse 2s infinite;
+}
+@keyframes kk-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+  70% { box-shadow: 0 0 0 12px rgba(220, 38, 38, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+.kk-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  background: #dc2626;
+  border-radius: 50%;
+  display: none;
+  border: 2px solid white;
+}
+.kk-badge.show {
+  display: block;
+}
+</style>
+<div class="kk-bubble" onclick="launchVapiFromKK()">
+  <div class="kk-badge" id="kkBadge"></div>
+</div>
+<script>
+  // Show red notification badge after 8 seconds
+  setTimeout(() => {
+    document.getElementById('kkBadge').classList.add('show');
+  }, 8000);
+  function launchVapiFromKK() {
+    launchVapi();
+  }
 </script>
 </body>
 </html>
