@@ -353,6 +353,18 @@
     .final-cta { padding: 60px 20px; } .cta-form { grid-template-columns: 1fr; } .cta-select,.cta-btn { grid-column: span 1; }
     footer { padding: 30px 20px; flex-direction: column; align-items: flex-start; }
   }
+/* Force hide VAPI default button */
+[id^="vapi-btn"],
+[class^="vapi-btn"],
+.vapi-btn,
+#vapi-support-btn,
+div[id*="vapi"] button,
+div[class*="vapi"] button {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
 </style>
 </head>
 <body>
