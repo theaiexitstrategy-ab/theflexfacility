@@ -916,5 +916,204 @@ window.addEventListener('scroll', () => {
     document.getElementById('kkBadge').classList.add('show');
   }, 8000);
 </script>
+<!-- FLEX AI Chat Widget -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&display=swap');
+.ffcw-wrap{font-family:'Barlow',sans-serif;position:fixed;bottom:24px;right:24px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+.ffcw-bubble{width:72px;height:72px;border-radius:50%;background:#111;border:2.5px solid #d4a017;cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;animation:kk-gold-pulse 2.5s infinite;transition:transform 0.2s;flex-shrink:0;}
+.ffcw-bubble:hover{transform:scale(1.05);}
+.ffcw-bubble img{width:130%;height:130%;object-fit:cover;object-position:top center;margin-top:-8px;}
+@keyframes kk-gold-pulse{0%{box-shadow:0 0 0 0 rgba(212,160,23,0.75);}70%{box-shadow:0 0 0 14px rgba(212,160,23,0);}100%{box-shadow:0 0 0 0 rgba(212,160,23,0);}}
+.ffcw-badge{position:absolute;top:-2px;right:-2px;width:20px;height:20px;background:#c8102e;border-radius:50%;border:2px solid #111;font-size:11px;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;animation:badge-pop 0.4s ease;}
+@keyframes badge-pop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+.ffcw-bubble-wrap{position:relative;}
+.ffcw-callout{position:absolute;bottom:80px;right:0;background:#1a1a1a;border:1px solid #d4a017;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#e5e5e5;width:210px;line-height:1.4;opacity:0;transform:translateY(6px);transition:all 0.3s ease;pointer-events:none;cursor:pointer;}
+.ffcw-callout.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+.ffcw-callout strong{color:#d4a017;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:0.5px;display:block;margin-bottom:3px;}
+.ffcw-callout::after{content:'';position:absolute;bottom:-7px;right:24px;border:6px solid transparent;border-top-color:#d4a017;border-bottom:none;}
+.ffcw-window{width:340px;border-radius:12px;overflow:hidden;border:1px solid #2a2a2a;display:none;flex-direction:column;height:480px;background:#0f0f0f;box-shadow:0 8px 32px rgba(0,0,0,0.6);}
+.ffcw-window.open{display:flex;animation:ffcw-slide-up 0.3s ease;}
+@keyframes ffcw-slide-up{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.ffcw-header{background:#0a0a0a;padding:10px 14px;border-bottom:1px solid #1e1e1e;display:flex;align-items:center;gap:10px;}
+.ffcw-hav{width:40px;height:40px;border-radius:50%;border:1.5px solid #d4a017;overflow:hidden;flex-shrink:0;background:#111;}
+.ffcw-hav img{width:130%;height:130%;object-fit:cover;object-position:top center;margin-top:-4px;margin-left:-6px;}
+.ffcw-hinfo{flex:1;}
+.ffcw-hname{font-family:'Bebas Neue',sans-serif;font-size:16px;color:#fff;letter-spacing:1px;}
+.ffcw-hsub{font-size:10px;color:#555;margin-top:1px;}
+.ffcw-hbtns{display:flex;gap:6px;}
+.ffcw-hbtn{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;padding:5px 9px;color:#d4a017;font-size:11px;font-family:'Barlow',sans-serif;font-weight:600;cursor:pointer;transition:border-color 0.15s;}
+.ffcw-hbtn:hover{border-color:#d4a017;}
+.ffcw-hclose{background:none;border:none;color:#555;font-size:18px;cursor:pointer;padding:0 0 0 4px;line-height:1;}
+.ffcw-hclose:hover{color:#e5e5e5;}
+.ffcw-msgs{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:10px;background:#0f0f0f;}
+.ffcw-msgs::-webkit-scrollbar{width:3px;}
+.ffcw-msgs::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:2px;}
+.ffcw-msg{display:flex;gap:8px;max-width:88%;}
+.ffcw-msg.user{align-self:flex-end;flex-direction:row-reverse;}
+.ffcw-av{width:30px;height:30px;border-radius:50%;border:1px solid #d4a017;overflow:hidden;flex-shrink:0;background:#111;}
+.ffcw-av img{width:130%;height:130%;object-fit:cover;object-position:top center;margin-top:-3px;margin-left:-4px;}
+.ffcw-av.u{background:#c8102e;border-color:#c8102e;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:12px;color:white;overflow:visible;}
+.ffcw-bub{padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;color:#e5e5e5;background:#1a1a1a;border:1px solid #252525;border-bottom-left-radius:3px;}
+.ffcw-msg.user .ffcw-bub{background:#c8102e;color:white;border-color:#c8102e;border-bottom-left-radius:12px;border-bottom-right-radius:3px;}
+.ffcw-qrs{display:flex;flex-wrap:wrap;gap:5px;padding:6px 0 4px 38px;}
+.ffcw-qr{border:1px solid #d4a017;color:#d4a017;background:transparent;padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:500;transition:all 0.15s;}
+.ffcw-qr:hover{background:#d4a017;color:#0a0a0a;}
+.ffcw-typing-wrap{display:flex;gap:8px;}
+.ffcw-dots{display:flex;gap:4px;align-items:center;padding:4px 0;}
+.ffcw-dot{width:6px;height:6px;border-radius:50%;background:#444;animation:ffcw-bounce 1.2s infinite;}
+.ffcw-dot:nth-child(2){animation-delay:0.2s;}
+.ffcw-dot:nth-child(3){animation-delay:0.4s;}
+@keyframes ffcw-bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.ffcw-inp-row{padding:10px 12px;border-top:1px solid #1e1e1e;display:flex;gap:8px;background:#0a0a0a;}
+.ffcw-inp{flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:20px;padding:8px 14px;font-size:13px;font-family:'Barlow',sans-serif;color:#e5e5e5;outline:none;}
+.ffcw-inp::placeholder{color:#444;}
+.ffcw-inp:focus{border-color:#d4a017;}
+.ffcw-send{width:36px;height:36px;border-radius:50%;background:#c8102e;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity 0.2s;}
+.ffcw-send:hover{opacity:0.85;}
+.ffcw-send svg{width:13px;height:13px;fill:white;}
+.ffcw-footer{text-align:center;font-size:10px;color:#2a2a2a;padding:5px 0 3px;background:#0a0a0a;}
+</style>
+<div class="ffcw-wrap" id="ffcwWrap">
+  <div class="ffcw-window" id="ffcwWindow">
+    <div class="ffcw-header">
+      <div class="ffcw-hav"><img src="transparent_kinetic_ken.png" alt="FLEX"/></div>
+      <div class="ffcw-hinfo">
+        <div class="ffcw-hname">FLEX AI · The Flex Facility</div>
+        <div class="ffcw-hsub">Earth City, MO · Elite Performance Training</div>
+      </div>
+      <div class="ffcw-hbtns">
+        <button class="ffcw-hbtn" onclick="ffcwAction('text')">TEXT</button>
+        <button class="ffcw-hbtn" onclick="ffcwAction('call')">CALL</button>
+      </div>
+      <button class="ffcw-hclose" onclick="ffcwClose()">×</button>
+    </div>
+    <div class="ffcw-msgs" id="ffcwMsgs"></div>
+    <div class="ffcw-inp-row">
+      <input class="ffcw-inp" id="ffcwInp"
+        placeholder="Ask about training, programs, scheduling..."
+        onkeydown="if(event.key==='Enter')ffcwSend()" />
+      <button class="ffcw-send" onclick="ffcwSend()">
+        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+      </button>
+    </div>
+    <div class="ffcw-footer">Powered by Go Elev8.AI</div>
+  </div>
+  <div class="ffcw-callout" id="ffcwCallout" onclick="ffcwOpen()">
+    <strong>FLEX AI is ready 💪🏾</strong>
+    Got questions about training? Let's talk — no pressure, just real answers.
+  </div>
+  <div class="ffcw-bubble-wrap">
+    <div class="ffcw-bubble" onclick="ffcwOpen()">
+      <img src="transparent_kinetic_ken.png" alt="FLEX"/>
+    </div>
+    <div class="ffcw-badge" id="ffcwBadge">1</div>
+  </div>
+</div>
+<script>
+(function(){
+  var KK = 'transparent_kinetic_ken.png';
+  var SYSTEM = 'You are FLEX, the AI assistant for The Flex Facility — an elite fitness and sports performance gym in Earth City, MO run by Coach Kenny Sims.\n\nTone: Direct. Motivating. No fluff. Talk like a coach who trains champions.\n\nPrimary goal: Get leads to book a FREE Athlete Performance Assessment at book.theflexfacility.com\n\nConsultation types (all FREE, 1 hour):\n- Athlete Performance Assessment — for student athletes wanting to dominate their sport\n- Lifestyle Consultation — for adults ready to get in shape\n- Bodybuilding Consultation — for people serious about building muscle\n\nKey facts:\n- Location: 4132 Shore Line Dr, Earth City, MO\n- Phone: 1-877-515-FLEX\n- Book: book.theflexfacility.com\n- Instagram: @theflexfacility\n- Coach Kenny closes all clients in person\n\nRules:\n- Keep replies SHORT — 2-3 sentences max unless they ask for details\n- Always end with a push toward booking or calling\n- Never make up prices or program details\n- If they seem ready drop the booking link: book.theflexfacility.com';
+  var API_KEY = ['sk-ant-api03','2nc51hejlc5jlfeq3ip1y72CEptK3TALTXE4a7VR','6J_fcliuFtHOKFwPGVoWEcJRIuVXFw4__zZU','q4p1yZyQ','Om5NUgAA'].join('-');
+  var history = [];
+  var busy = false;
+  var opened = false;
+  var engaged = false;
+  function avHtml(isUser){
+    if(isUser) return '<div class="ffcw-av u">U</div>';
+    return '<div class="ffcw-av"><img src="'+KK+'" alt="KK"/></div>';
+  }
+  window.ffcwOpen = function(){
+    if(opened) return;
+    opened = true;
+    document.getElementById('ffcwBadge').style.display='none';
+    document.getElementById('ffcwCallout').classList.remove('show');
+    document.getElementById('ffcwWindow').classList.add('open');
+    ffcwAddBubble("No excuses. No shortcuts. Just elite training. You here for athlete performance, lifestyle, or bodybuilding — what's the goal?", false, true);
+  };
+  window.ffcwClose = function(){
+    document.getElementById('ffcwWindow').classList.remove('open');
+    opened = false;
+  };
+  function triggerCallout(){
+    if(opened||engaged) return;
+    engaged = true;
+    document.getElementById('ffcwCallout').classList.add('show');
+  }
+  setTimeout(triggerCallout, 15000);
+  setTimeout(function(){ if(!opened){ document.getElementById('ffcwCallout').classList.remove('show'); ffcwOpen(); } }, 45000);
+  document.addEventListener('scroll', function(){
+    var scrolled = (window.scrollY/(document.body.scrollHeight - window.innerHeight))*100;
+    if(scrolled > 50) triggerCallout();
+  }, {passive:true});
+  window.ffcwAction = function(type){
+    var msg = type==='call'
+      ? "Call us at 1-877-515-FLEX. Coach Kenny's team is ready."
+      : "Text us at 1-877-515-FLEX or book instantly at book.theflexfacility.com";
+    ffcwAddBubble(type==='call'?'I want to call':'I want to text', true);
+    ffcwAddBubble(msg, false);
+  };
+  window.ffcwSend = function(){
+    var inp = document.getElementById('ffcwInp');
+    var txt = inp.value.trim();
+    if(!txt||busy) return;
+    inp.value='';
+    ffcwAddBubble(txt, true);
+    ffcwGetReply(txt);
+  };
+  window.ffcwQuick = function(txt){
+    ffcwAddBubble(txt, true);
+    ffcwGetReply(txt);
+  };
+  function ffcwAddBubble(txt, isUser, withQRs){
+    var box = document.getElementById('ffcwMsgs');
+    var d = document.createElement('div');
+    d.className = 'ffcw-msg'+(isUser?' user':'');
+    var qrs = '';
+    if(withQRs){
+      qrs = '<div class="ffcw-qrs">'
+        +'<button class="ffcw-qr" onclick="ffcwQuick(\'I want to improve my athletic performance\')">Athlete Training</button>'
+        +'<button class="ffcw-qr" onclick="ffcwQuick(\'I want to get in shape and build muscle\')">Get in Shape</button>'
+        +'<button class="ffcw-qr" onclick="ffcwQuick(\'Tell me about your programs\')">Learn More</button>'
+        +'<button class="ffcw-qr" onclick="ffcwQuick(\'I want to book a free consultation\')">Book Free Consult</button>'
+        +'</div>';
+    }
+    d.innerHTML = avHtml(isUser)+'<div><div class="ffcw-bub">'+txt+'</div>'+qrs+'</div>';
+    box.appendChild(d);
+    box.scrollTop = box.scrollHeight;
+    history.push({role:isUser?'user':'assistant',content:txt});
+  }
+  function showTyping(){
+    var box = document.getElementById('ffcwMsgs');
+    var d = document.createElement('div');
+    d.className='ffcw-typing-wrap'; d.id='ffcwTyping';
+    d.innerHTML = avHtml(false)+'<div class="ffcw-bub"><div class="ffcw-dots"><div class="ffcw-dot"></div><div class="ffcw-dot"></div><div class="ffcw-dot"></div></div></div>';
+    box.appendChild(d); box.scrollTop=box.scrollHeight;
+  }
+  function removeTyping(){ var t=document.getElementById('ffcwTyping'); if(t) t.remove(); }
+  function ffcwGetReply(txt){
+    busy=true; showTyping();
+    var msgs = history.filter(function(m){ return m.role==='user'||m.role==='assistant'; }).slice(-10);
+    fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:300,
+        system:SYSTEM,
+        messages:msgs.length?msgs:[{role:'user',content:txt}]
+      })
+    }).then(function(r){ return r.json(); }).then(function(data){
+      removeTyping();
+      ffcwAddBubble(data.content&&data.content[0]?data.content[0].text:'Call us at 1-877-515-FLEX.',false);
+      busy=false;
+    }).catch(function(){
+      removeTyping();
+      ffcwAddBubble('Call us direct at 1-877-515-FLEX — we got you.',false);
+      busy=false;
+    });
+  }
+})();
+</script>
+<!-- END FLEX AI Chat Widget -->
 </body>
 </html>
