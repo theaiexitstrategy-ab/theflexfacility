@@ -1,11 +1,11 @@
 {
   "rewrites": [
     {
-      "source": "/",
+      "source": "/(.*)",
       "has": [{ "type": "host", "value": "book.theflexfacility.com" }],
       "destination": "/flex-booking-calendar.html"
     },
-    { "source": "/", "destination": "/flex-facility-squeeze-page.html" },
+    { "source": "/", "destination": "/index.html" },
     { "source": "/thank-you", "destination": "/thank-you.html" },
     { "source": "/ebook", "destination": "/ebook-order-page.html" },
     { "source": "/fit", "destination": "/index7.html" }
