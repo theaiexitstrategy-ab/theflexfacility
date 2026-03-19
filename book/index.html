@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Your Free Consultation — The Flex Facility</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #E8200A;
+      --red-dark: #B51A08;
+      --black: #080808;
+      --dark: #111;
+      --card: #141414;
+      --text: #F5F5F5;
+      --muted: #888;
+      --white: #ffffff;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Barlow', sans-serif; background: var(--black); color: var(--text); min-height: 100vh; }
+
+    /* LOGO HEADER */
+    .logo-header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+    .logo-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    .logo-text span { color: var(--red); }
+    .logo-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* APPOINTMENT TYPE SELECTOR */
+    .type-selector {
+      max-width: 640px;
+      margin: 30px auto 10px;
+      padding: 0 20px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .type-btn {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+      padding: 14px 28px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .type-btn:hover { border-color: rgba(232,32,10,0.4); }
+    .type-btn.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--white);
+    }
+
+    /* CALENDAR */
+    .calendar-section {
+      max-width: 700px;
+      margin: 20px auto 0;
+      padding: 0 20px 40px;
+    }
+    .calendar-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .calendar-header h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .calendar-header h2 span { color: var(--red); }
+    .calendar-header p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+    .tidycal-wrap {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 20px;
+      min-height: 500px;
+    }
+    .tidycal-embed { min-height: 500px; }
+    .cal-slot { display: none; }
+    .cal-slot.active { display: block; }
+
+    /* FOOTER */
+    .booking-footer {
+      text-align: center;
+      padding: 30px 20px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .booking-footer p {
+      font-size: 0.65rem;
+      color: #333;
+      letter-spacing: 1px;
+    }
+    .booking-footer a {
+      color: var(--red);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGO -->
+  <div class="logo-header">
+    <div class="logo-text">THE FLEX <span>FACILITY</span></div>
+    <div class="logo-sub">Earth City, MO &middot; Est. 2013</div>
+  </div>
+
+  <!-- APPOINTMENT TYPE SELECTOR -->
+  <div class="type-selector">
+    <button class="type-btn active" onclick="showCalendar('general', this)">General Consultation</button>
+    <button class="type-btn" onclick="showCalendar('sports', this)">Sports Performance</button>
+  </div>
+
+  <!-- CALENDAR -->
+  <section class="calendar-section">
+    <div class="calendar-header">
+      <h2>Book Your <span>Free Session</span></h2>
+      <p>Select a date and time that works for you. Coach Kenny's team will confirm everything automatically.</p>
+    </div>
+    <div class="tidycal-wrap">
+      <div id="cal-general" class="cal-slot active">
+        <div class="tidycal-embed" data-path="goelev8ai/flex-consultation"></div>
+      </div>
+      <div id="cal-sports" class="cal-slot">
+        <div class="tidycal-embed" data-path="goelev8ai/flex-sports-performance"></div>
+      </div>
+    </div>
+    <script src="https://asset-tidycal.b-cdn.net/js/embed.js"></script>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="booking-footer">
+    <p>&copy; 2025 Flex Training LLC &middot; <a href="https://theflexfacility.com">theflexfacility.com</a></p>
+  </div>
+
+  <script>
+    function showCalendar(type, btn) {
+      document.querySelectorAll('.cal-slot').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('cal-' + type).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // Auto-select sports if URL has ?goal=Sports
+    const params = new URLSearchParams(window.location.search);
+    const goal = (params.get('goal') || '').toLowerCase();
+    if (goal.includes('sport') || goal.includes('performance') || goal.includes('athlete')) {
+      const sportsBtn = document.querySelectorAll('.type-btn')[1];
+      if (sportsBtn) showCalendar('sports', sportsBtn);
+    }
+  </script>
+</body>
+</html>
