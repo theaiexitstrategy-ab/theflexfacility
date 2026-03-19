@@ -2,12 +2,17 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "book.theflexfacility.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "book.theflexfacility.com"
+        }
+      ],
       "destination": "/flex-booking-calendar.html"
     },
-    { "source": "/", "destination": "/index.html" },
+    { "source": "/fit", "destination": "/index7.html" },
     { "source": "/thank-you", "destination": "/thank-you.html" },
     { "source": "/ebook", "destination": "/ebook-order-page.html" },
-    { "source": "/fit", "destination": "/index7.html" }
+    { "source": "/", "destination": "/index.html" }
   ]
 }
