@@ -1,13 +1,13 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "book.theflexfacility.com"
-        }
-      ],
+      "source": "/",
+      "has": [{ "type": "host", "value": "book.theflexfacility.com" }],
+      "destination": "/flex-booking-calendar.html"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "book.theflexfacility.com" }],
       "destination": "/flex-booking-calendar.html"
     },
     { "source": "/fit", "destination": "/index7.html" },
