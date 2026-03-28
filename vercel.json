@@ -3,6 +3,8 @@
     { "source": "/fit", "destination": "/index7.html" },
     { "source": "/thank-you", "destination": "/thank-you.html" },
     { "source": "/ebook", "destination": "/ebook-order-page.html" },
-    { "source": "/r2s", "destination": "/r2s.html" }
+    { "source": "/r2s", "destination": "/r2s.html" },
+    { "source": "/r2s-thank-you", "destination": "/r2s-thank-you.html" },
+    { "source": "/Road_to_the_Stage.pdf", "destination": "/road_to_the_stage.pdf" }
   ]
 }
