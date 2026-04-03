@@ -908,7 +908,16 @@ function appendKKMsg(cls, text) {
   var container = document.getElementById('kkChatMessages');
   var div = document.createElement('div');
   div.className = 'kk-msg ' + cls;
-  div.textContent = text;
+  // Auto-link URLs in bot messages
+  if (cls.indexOf('user') === -1) {
+    div.innerHTML = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color:#ff6b5a;text-decoration:underline">$1</a>')
+                        .replace(/(?<![\/\w])((?:www\.)?[\w-]+\.(?:com|org|net|io)(?:\/[^\s]*)?)/gi, function(m) {
+                          if (m.startsWith('http')) return m;
+                          return '<a href="https://' + m + '" target="_blank" style="color:#ff6b5a;text-decoration:underline">' + m + '</a>';
+                        });
+  } else {
+    div.textContent = text;
+  }
   container.appendChild(div);
   container.scrollTop = container.scrollHeight;
   return div;

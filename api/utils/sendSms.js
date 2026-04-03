@@ -42,10 +42,13 @@ async function sendSms({ to, body, eventType }) {
       }
     );
 
+    const resBody = await res.text();
     if (!res.ok) {
-      const text = await res.text();
-      console.error('Twilio SMS error:', text);
+      console.error('Twilio SMS error:', res.status, resBody);
+      console.error('Twilio SMS params — To:', toFormatted, 'From:', from, 'SID:', accountSid ? accountSid.substring(0, 8) + '...' : 'MISSING');
       status = 'failed';
+    } else {
+      console.log('Twilio SMS sent to:', toFormatted);
     }
   } catch (err) {
     console.error('Twilio SMS network error:', err.message);
