@@ -748,8 +748,10 @@ async function submitFormTop(formEl, btn) {
   btn.textContent = 'Sending...'; btn.disabled = true; btn.style.opacity = '0.7';
 
   try {
-    await fetch(WEBHOOK_TOP, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-  } catch(e) { /* silently continue on network error */ }
+    const resp = await fetch(WEBHOOK_TOP, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    const data = await resp.json().catch(() => ({}));
+    console.log('Lead API response:', resp.status, data);
+  } catch(e) { console.error('Lead API error:', e); }
 
   formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
   btn.style.display = 'none';
@@ -783,8 +785,10 @@ async function submitFormBottom(formEl, btn) {
   btn.textContent = 'Sending...'; btn.disabled = true; btn.style.opacity = '0.7';
 
   try {
-    await fetch(WEBHOOK_BOTTOM, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-  } catch(e) { /* silently continue on network error */ }
+    const resp = await fetch(WEBHOOK_BOTTOM, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    const data = await resp.json().catch(() => ({}));
+    console.log('Lead API response:', resp.status, data);
+  } catch(e) { console.error('Lead API error:', e); }
 
   formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
   btn.style.display = 'none';

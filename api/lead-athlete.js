@@ -8,6 +8,8 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    console.log('lead-athlete called, body:', JSON.stringify(req.body));
+
     const {
       name,
       athlete_age,
