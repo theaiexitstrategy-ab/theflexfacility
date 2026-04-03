@@ -6,27 +6,6 @@
 <title>The Flex Facility — Elite Athletic Performance Training</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
-<!-- Vapi Widget -->
-<script
-  src="https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js"
-  defer
-  async
-></script>
-<script>
-  window.addEventListener("load", () => {
-    window.vapiSDK.run({
-      apiKey: "5f410705-fa13-400b-8d60-2d9a50335bd1",
-      assistant: "e907b40a-0a8a-4116-9d32-69b3a3f6f8ed",
-      config: {
-        position: "bottom-right",
-        theme: {
-          primary: "#111827",
-          secondary: "#ffffff"
-        }
-      }
-    });
-  });
-</script>
 <style>
   :root {
     --red: #E8200A;
@@ -312,6 +291,33 @@
   .kk-pulse { position: absolute; inset: -6px; border-radius: 50%; border: 3px solid var(--red); animation: kkpulse 2s ease-in-out infinite; }
   @keyframes kkpulse { 0%,100%{ opacity:0.3; transform:scale(1); } 50%{ opacity:0.8; transform:scale(1.12); } }
   .kk-badge { position: absolute; top: -2px; right: -2px; width: 20px; height: 20px; border-radius: 50%; background: var(--red); color: var(--white); font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 2px solid var(--black); }
+  .kk-callout { position: absolute; bottom: 78px; right: 0; background: #1a1a1a; border: 1px solid rgba(232,32,10,0.3); color: #f5f5f5; padding: 12px 16px; border-radius: 12px; font-family: 'Barlow', sans-serif; font-size: 13px; white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,0.5); animation: fadeUp 0.4s ease; display: none; }
+  .kk-callout::after { content: ''; position: absolute; bottom: -8px; right: 24px; width: 16px; height: 8px; background: #1a1a1a; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+
+  /* KINETIC KEN CHAT WINDOW */
+  .kk-chat { position: fixed; bottom: 100px; right: 24px; width: 370px; max-height: 520px; background: #111; border: 1px solid rgba(232,32,10,0.25); border-radius: 16px; box-shadow: 0 24px 60px rgba(0,0,0,0.6); z-index: 10000; display: none; flex-direction: column; overflow: hidden; animation: modalIn 0.25s ease; font-family: 'Barlow', sans-serif; }
+  .kk-chat.open { display: flex; }
+  .kk-chat-header { background: var(--red); padding: 14px 18px; display: flex; align-items: center; gap: 10px; }
+  .kk-chat-header img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.2); }
+  .kk-chat-header-info { flex: 1; }
+  .kk-chat-header-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: #fff; }
+  .kk-chat-header-status { font-size: 10px; color: rgba(255,255,255,0.7); }
+  .kk-chat-close { background: none; border: none; color: rgba(255,255,255,0.5); font-size: 20px; cursor: pointer; line-height: 1; padding: 4px; }
+  .kk-chat-close:hover { color: #fff; }
+  .kk-chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; max-height: 340px; }
+  .kk-msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.5; word-wrap: break-word; }
+  .kk-msg.assistant { background: rgba(232,32,10,0.1); border: 1px solid rgba(232,32,10,0.15); color: #f0f0f0; align-self: flex-start; border-bottom-left-radius: 4px; }
+  .kk-msg.user { background: rgba(255,255,255,0.08); color: #ddd; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .kk-msg.typing { color: #888; font-style: italic; }
+  .kk-chat-input { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.06); background: rgba(0,0,0,0.3); }
+  .kk-chat-input input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #f5f5f5; padding: 10px 14px; font-family: 'Barlow', sans-serif; font-size: 13px; border-radius: 8px; outline: none; }
+  .kk-chat-input input:focus { border-color: var(--red); }
+  .kk-chat-input input::placeholder { color: #555; }
+  .kk-chat-input button { background: var(--red); color: #fff; border: none; padding: 10px 16px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+  .kk-chat-input button:hover { background: var(--red-light); }
+  .kk-chat-flex-btn { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 0 16px 12px; padding: 10px; background: rgba(232,32,10,0.08); border: 1px solid rgba(232,32,10,0.2); border-radius: 8px; color: var(--red); font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+  .kk-chat-flex-btn:hover { background: rgba(232,32,10,0.15); }
+  @media (max-width: 500px) { .kk-chat { width: calc(100vw - 32px); right: 16px; bottom: 90px; } }
 
   /* FLEX CALL MODAL */
   .flex-modal-overlay { display:none; position:fixed; inset:0; z-index:10000; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); align-items:center; justify-content:center; }
@@ -353,18 +359,6 @@
     .final-cta { padding: 60px 20px; } .cta-form { grid-template-columns: 1fr; } .cta-select,.cta-btn { grid-column: span 1; }
     footer { padding: 30px 20px; flex-direction: column; align-items: flex-start; }
   }
-/* Force hide VAPI default button */
-[id^="vapi-btn"],
-[class^="vapi-btn"],
-.vapi-btn,
-#vapi-support-btn,
-div[id*="vapi"] button,
-div[class*="vapi"] button {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6T75SN79LV"></script>
@@ -707,19 +701,40 @@ div[class*="vapi"] button {
 
 <!-- KINETIC KEN CHAT WIDGET -->
 <div class="kk-widget" id="kkWidget">
-  <div class="kk-bubble" onclick="launchVapiFromKK()">
+  <div class="kk-callout" id="kkCallout">Got questions? Chat with me! 💪🏾</div>
+  <div class="kk-bubble" onclick="toggleKKChat()">
     <div class="kk-pulse"></div>
     <img src="transparent_kinetic_ken.png" alt="Kinetic Ken">
-    <div class="kk-badge">1</div>
+    <div class="kk-badge" id="kkBadge">1</div>
+  </div>
+</div>
+
+<!-- KINETIC KEN CHAT WINDOW -->
+<div class="kk-chat" id="kkChat">
+  <div class="kk-chat-header">
+    <img src="transparent_kinetic_ken.png" alt="Kinetic Ken">
+    <div class="kk-chat-header-info">
+      <div class="kk-chat-header-name">Kinetic Ken</div>
+      <div class="kk-chat-header-status">The Flex Facility AI Assistant</div>
+    </div>
+    <button class="kk-chat-close" onclick="toggleKKChat()">&times;</button>
+  </div>
+  <div class="kk-chat-messages" id="kkMessages"></div>
+  <div class="kk-chat-flex-btn" onclick="showFlexCallForm()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+    Have FLEX Call You
+  </div>
+  <div class="kk-chat-input">
+    <input type="text" id="kkInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendKKMessage()">
+    <button onclick="sendKKMessage()">Send</button>
   </div>
 </div>
 
 <script>
 // ── CONFIGURATION ──
-const WEBHOOK_TOP    = 'https://hook.us2.make.com/6gzrprslv4ea2k67rk81uukchcpssiil';
-const WEBHOOK_BOTTOM = 'https://hook.us2.make.com/6gzrprslv4ea2k67rk81uukchcpssiil';
-const WEBHOOK_CALL   = 'https://hook.us2.make.com/z57rtckd5s6yh8vf36mkdbjlqjrj2e28';
-const BOOKING_LINK   = 'https://book.theflexfacility.com';
+const BOOKING_LINK = 'https://book.theflexfacility.com';
+const FLEX_WEBHOOK = 'https://hook.us2.make.com/sbk1vo7nk82madk2b1ec1kx36ha74a37';
+const PAGE_TYPE = 'athlete';
 
 // ── SCROLL REVEAL ──
 document.querySelectorAll('.reveal').forEach(el => el.classList.add('animate'));
@@ -732,24 +747,37 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 async function submitFormTop(formEl, btn) {
   const inputs = formEl.querySelectorAll('input');
   const selects = formEl.querySelectorAll('select');
-  const payload = {
-    name: (inputs[0] || {}).value || '',
-    athlete_age: (inputs[1] || {}).value || '',
-    parent_name: (inputs[2] || {}).value || '',
-    phone: (inputs[3] || {}).value || '',
-    email: '',
-    program_interest: (selects[0] || {}).value || '',
-    primary_goal: (selects[1] || {}).value || '',
-    source: 'primary_page_top',
-    timestamp: new Date().toISOString(),
-    page_url: window.location.href
-  };
 
   btn.textContent = 'Sending...'; btn.disabled = true; btn.style.opacity = '0.7';
 
   try {
-    await fetch(WEBHOOK_TOP, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-  } catch(e) { /* silently continue on network error */ }
+    const res = await fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'athlete',
+        first_name: (inputs[0] || {}).value || '',
+        athlete_age: (inputs[1] || {}).value || '',
+        parent_name: (inputs[2] || {}).value || '',
+        phone: (inputs[3] || {}).value || '',
+        email: '',
+        sport: (selects[0] || {}).value || '',
+        goals: (selects[1] || {}).value || '',
+        source: 'Main Page Form'
+      })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error);
+  } catch(e) {
+    console.error('Submit error:', e);
+    formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
+    btn.style.display = 'none';
+    const s = document.createElement('div');
+    s.className = 'form-success';
+    s.innerHTML = '<div class="success-title" style="color:#ff4444;">Something went wrong</div><div class="success-sub">Please try again or call us at <a href="tel:8775153539" style="color:#E8200A;">(877) 515-FLEX</a></div>';
+    formEl.appendChild(s);
+    return;
+  }
 
   formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
   btn.style.display = 'none';
@@ -769,22 +797,33 @@ async function submitFormTop(formEl, btn) {
 async function submitFormBottom(formEl, btn) {
   const inputs = formEl.querySelectorAll('input');
   const selects = formEl.querySelectorAll('select');
-  const payload = {
-    name: (inputs[0] || {}).value || '',
-    phone: (inputs[1] || {}).value || '',
-    instagram: (inputs[2] || {}).value || '',
-    email: '',
-    program_interest: (selects[0] || {}).value || '',
-    source: 'primary_page_bottom',
-    timestamp: new Date().toISOString(),
-    page_url: window.location.href
-  };
 
   btn.textContent = 'Sending...'; btn.disabled = true; btn.style.opacity = '0.7';
 
   try {
-    await fetch(WEBHOOK_BOTTOM, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-  } catch(e) { /* silently continue on network error */ }
+    const res = await fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'athlete',
+        first_name: (inputs[0] || {}).value || '',
+        phone: (inputs[1] || {}).value || '',
+        sport: (selects[0] || {}).value || '',
+        source: 'Main Page Form'
+      })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error);
+  } catch(e) {
+    console.error('Submit error:', e);
+    formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
+    btn.style.display = 'none';
+    const s = document.createElement('div');
+    s.className = 'form-success';
+    s.innerHTML = '<div class="success-title" style="color:#ff4444;">Something went wrong</div><div class="success-sub">Please try again or call us at <a href="tel:8775153539" style="color:#E8200A;">(877) 515-FLEX</a></div>';
+    formEl.appendChild(s);
+    return;
+  }
 
   formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
   btn.style.display = 'none';
@@ -809,7 +848,6 @@ function handleCallFlex() {
   document.getElementById('flexModalConfirm').style.display = 'none';
   document.getElementById('flexCallName').value = '';
   document.getElementById('flexCallPhone').value = '';
-  // Pre-fill from hero form if available
   const heroName = document.querySelector('.urgency-form input[placeholder="Athlete\'s Name"]');
   const heroPhone = document.querySelector('.urgency-form input[placeholder="Phone Number"]');
   if (heroName && heroName.value) document.getElementById('flexCallName').value = heroName.value;
@@ -826,47 +864,184 @@ function submitFlexCall() {
   const phone = document.getElementById('flexCallPhone').value.trim();
   if (!name || !phone) { alert('Please enter your name and phone number.'); return; }
 
-  const payload = {
-    name: name,
-    phone: phone,
-    source: 'flex_call_button'
-  };
-
-  fetch('https://hook.us2.make.com/sbk1vo7nk82madk2b1ec1kx36ha74a37', {
+  // Fire FLEX/VAPI Make webhook (keep this — handles Twilio SMS sequences)
+  fetch(FLEX_WEBHOOK, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    body: JSON.stringify({ name, phone, source: 'flex_call_button' })
   }).catch(() => {});
+
+  // Also write to Supabase
+  fetch('/api/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'athlete', first_name: name, phone, source: 'FLEX Call Request', lead_status: 'Contacted' })
+  }).catch(function(e) { console.error('Supabase write failed:', e); });
 
   document.getElementById('flexModalForm').style.display = 'none';
   document.getElementById('flexModalConfirm').style.display = '';
   setTimeout(closeFlexModal, 2500);
 }
 
-// ── LAUNCH VAPI HELPER (for Kinetic Ken only) ──
-function launchVapi() {
-  if (window.vapiSDK) {
-    try {
-      window.vapiSDK.run({
-        apiKey: '5f410705-fa13-400b-8d60-2d9a50335bd1',
-        assistant: 'e907b40a-0a8a-4116-9d32-69b3a3f6f8ed',
-        config: {
-          position: 'bottom-right',
-          theme: { primary: '#111827', secondary: '#ffffff' }
-        }
-      });
-    } catch(e) { window.location.href = 'tel:8775153539'; }
+// ── KINETIC KEN CHAT (Claude API) ──
+let kkConversation = [];
+let kkChatOpened = false;
+
+function toggleKKChat() {
+  const chat = document.getElementById('kkChat');
+  const badge = document.getElementById('kkBadge');
+  const callout = document.getElementById('kkCallout');
+  if (badge) badge.style.display = 'none';
+  if (callout) callout.style.display = 'none';
+
+  if (chat.classList.contains('open')) {
+    chat.classList.remove('open');
   } else {
-    window.location.href = 'tel:8775153539';
+    chat.classList.add('open');
+    if (!kkChatOpened) {
+      kkChatOpened = true;
+      const opening = "Hey! \uD83D\uDC4B\uD83C\uDFFE I'm Kinetic Ken \u2014 your guide to unlocking your athlete's full potential at The Flex Facility. Are you looking to level up your game, or are you a parent wanting to learn more about our Athlete Performance Assessment?";
+      displayKKMessage(opening, 'assistant');
+      kkConversation.push({ role: 'assistant', content: opening });
+    }
+    document.getElementById('kkInput').focus();
   }
 }
 
-// ── KINETIC KEN → VAPI ──
-function launchVapiFromKK() {
-  const badge = document.querySelector('.kk-badge');
-  if (badge) badge.style.display = 'none';
-  launchVapi();
+function displayKKMessage(text, role) {
+  const container = document.getElementById('kkMessages');
+  const msg = document.createElement('div');
+  msg.className = 'kk-msg ' + role;
+  msg.textContent = text;
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
 }
+
+async function sendKKMessage() {
+  const input = document.getElementById('kkInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  displayKKMessage(text, 'user');
+  kkConversation.push({ role: 'user', content: text });
+
+  // Show typing indicator
+  const typing = document.createElement('div');
+  typing.className = 'kk-msg assistant typing';
+  typing.id = 'kkTyping';
+  typing.textContent = 'Kinetic Ken is typing...';
+  document.getElementById('kkMessages').appendChild(typing);
+  document.getElementById('kkMessages').scrollTop = document.getElementById('kkMessages').scrollHeight;
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: kkConversation, page: PAGE_TYPE })
+    });
+    const data = await res.json();
+
+    // Remove typing indicator
+    const t = document.getElementById('kkTyping');
+    if (t) t.remove();
+
+    if (data.success) {
+      kkConversation.push({ role: 'assistant', content: data.message });
+      displayKKMessage(data.message, 'assistant');
+
+      // Silent lead capture — check if user mentioned a phone number or email
+      captureLeadFromChat(text);
+    } else {
+      displayKKMessage("Sorry, I'm having trouble connecting right now. Fill out the form above and Coach Kenny will reach out to you directly! \uD83D\uDCAA\uD83C\uDFFE", 'assistant');
+    }
+  } catch(err) {
+    console.error('Chat error:', err);
+    const t = document.getElementById('kkTyping');
+    if (t) t.remove();
+    displayKKMessage("Sorry, I'm having trouble connecting right now. Fill out the form above and Coach Kenny will reach out to you directly! \uD83D\uDCAA\uD83C\uDFFE", 'assistant');
+  }
+}
+
+// Silent lead capture from chat messages
+function captureLeadFromChat(text) {
+  const phoneMatch = text.match(/(\d{3}[-.\s]?\d{3}[-.\s]?\d{4})/);
+  const emailMatch = text.match(/[^\s@]+@[^\s@]+\.[^\s@]+/);
+  if (phoneMatch || emailMatch) {
+    fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: PAGE_TYPE,
+        phone: phoneMatch ? phoneMatch[1] : '',
+        email: emailMatch ? emailMatch[0] : '',
+        source: 'Kinetic Ken Chat',
+        lead_status: 'Contacted'
+      })
+    }).catch(function(e) { console.error('Chat lead capture failed:', e); });
+  }
+}
+
+// "Have FLEX Call You" inside chat
+function showFlexCallForm() {
+  const container = document.getElementById('kkMessages');
+  // Check if form already exists
+  if (document.getElementById('kkFlexForm')) return;
+
+  const formHtml = document.createElement('div');
+  formHtml.id = 'kkFlexForm';
+  formHtml.style.cssText = 'background:rgba(232,32,10,0.08);border:1px solid rgba(232,32,10,0.2);border-radius:10px;padding:14px;margin-top:4px;';
+  formHtml.innerHTML = '<div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:8px;font-family:Barlow Condensed,sans-serif;letter-spacing:1px;text-transform:uppercase;">FLEX will call you back instantly</div>'
+    + '<input type="text" id="kkFlexName" placeholder="Your name" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#f5f5f5;padding:8px 12px;font-family:Barlow,sans-serif;font-size:13px;border-radius:6px;outline:none;margin-bottom:6px;">'
+    + '<input type="tel" id="kkFlexPhone" placeholder="Phone number" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#f5f5f5;padding:8px 12px;font-family:Barlow,sans-serif;font-size:13px;border-radius:6px;outline:none;margin-bottom:8px;">'
+    + '<button onclick="submitKKFlexCall()" style="width:100%;background:var(--red);color:#fff;border:none;padding:10px;font-family:Barlow Condensed,sans-serif;font-weight:800;font-size:12px;letter-spacing:2px;text-transform:uppercase;border-radius:6px;cursor:pointer;">Call Me Now</button>';
+  container.appendChild(formHtml);
+  container.scrollTop = container.scrollHeight;
+}
+
+function submitKKFlexCall() {
+  const name = document.getElementById('kkFlexName').value.trim();
+  const phone = document.getElementById('kkFlexPhone').value.trim();
+  if (!name || !phone) { alert('Please enter your name and phone number.'); return; }
+
+  // Fire FLEX/VAPI Make webhook
+  fetch(FLEX_WEBHOOK, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, phone, source: 'flex_call_button' })
+  }).catch(() => {});
+
+  // Also write to Supabase
+  fetch('/api/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: PAGE_TYPE, first_name: name, phone, source: 'FLEX Call Request', lead_status: 'Contacted' })
+  }).catch(function(e) { console.error('Supabase write failed:', e); });
+
+  // Replace form with confirmation
+  const form = document.getElementById('kkFlexForm');
+  if (form) form.innerHTML = '<div style="text-align:center;padding:10px;color:var(--red);font-weight:700;font-family:Barlow Condensed,sans-serif;letter-spacing:1px;">FLEX will call you at ' + phone + ' in just a moment! \uD83E\uDD1C\uD83C\uDFFE</div>';
+
+  displayKKMessage("Awesome! FLEX is about to call you \u2014 pick up and let's get you started! \uD83D\uDCAA\uD83C\uDFFE", 'assistant');
+  kkConversation.push({ role: 'assistant', content: "Awesome! FLEX is about to call you \u2014 pick up and let's get you started! \uD83D\uDCAA\uD83C\uDFFE" });
+}
+
+// ── AUTO-ENGAGE TRIGGERS ──
+let kkCalloutShown = false;
+function showKKCallout() {
+  if (kkCalloutShown || kkChatOpened) return;
+  kkCalloutShown = true;
+  const callout = document.getElementById('kkCallout');
+  if (callout) callout.style.display = 'block';
+  setTimeout(function() { if (callout) callout.style.display = 'none'; }, 8000);
+}
+// Show callout at 15 seconds or 50% scroll
+setTimeout(showKKCallout, 15000);
+window.addEventListener('scroll', function() {
+  if (window.scrollY > document.body.scrollHeight * 0.5) showKKCallout();
+});
+// Auto-open chat at 45 seconds
+setTimeout(function() { if (!kkChatOpened) toggleKKChat(); }, 45000);
 
 // ── SMOOTH SCROLL ──
 document.querySelectorAll('a[href^="#"]').forEach(a => {

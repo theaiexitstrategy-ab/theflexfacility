@@ -433,6 +433,36 @@
   <a href="https://theflexfacility.com">Back to The Flex Facility</a>
 </div>
 
+<!-- SUPABASE PURCHASE RECORDING -->
+<script>
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    var sessionId = params.get('session_id');
+    if (sessionId) {
+      fetch('/api/purchase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          stripe_session_id: sessionId,
+          email: '',
+          phone: '',
+          full_name: '',
+          product_name: 'The Road to The Stage',
+          amount_paid: 65.00,
+          currency: 'usd',
+          delivery_status: 'Pending'
+        })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.success) console.log('Purchase recorded to Supabase');
+        else console.error('Purchase recording failed:', data);
+      })
+      .catch(function(err) { console.error('Purchase API error:', err); });
+    }
+  })();
+</script>
+
 <!-- CONFETTI SCRIPT -->
 <script>
   const canvas = document.getElementById('confetti-canvas');
