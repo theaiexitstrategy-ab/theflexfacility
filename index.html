@@ -6,27 +6,7 @@
 <title>The Flex Facility — Elite Athletic Performance Training</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
-<!-- Vapi Widget -->
-<script
-  src="https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js"
-  defer
-  async
-></script>
-<script>
-  window.addEventListener("load", () => {
-    window.vapiSDK.run({
-      apiKey: "5f410705-fa13-400b-8d60-2d9a50335bd1",
-      assistant: "e907b40a-0a8a-4116-9d32-69b3a3f6f8ed",
-      config: {
-        position: "bottom-right",
-        theme: {
-          primary: "#111827",
-          secondary: "#ffffff"
-        }
-      }
-    });
-  });
-</script>
+<!-- Kinetic Ken Chat Widget (Claude API) -->
 <style>
   :root {
     --red: #E8200A;
@@ -353,18 +333,30 @@
     .final-cta { padding: 60px 20px; } .cta-form { grid-template-columns: 1fr; } .cta-select,.cta-btn { grid-column: span 1; }
     footer { padding: 30px 20px; flex-direction: column; align-items: flex-start; }
   }
-/* Force hide VAPI default button */
-[id^="vapi-btn"],
-[class^="vapi-btn"],
-.vapi-btn,
-#vapi-support-btn,
-div[id*="vapi"] button,
-div[class*="vapi"] button {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
+/* KINETIC KEN CHAT PANEL */
+.kk-chat-panel { display:none; position:fixed; bottom:100px; right:24px; width:360px; max-width:calc(100vw - 48px); height:480px; max-height:calc(100vh - 140px); background:#111; border:1px solid rgba(232,32,10,0.25); border-radius:16px; z-index:9999; box-shadow:0 24px 60px rgba(0,0,0,0.6); flex-direction:column; overflow:hidden; animation:modalIn 0.25s ease; }
+.kk-chat-panel.open { display:flex; }
+.kk-chat-head { background:var(--red); padding:14px 18px; display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.kk-chat-head img { width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid rgba(255,255,255,0.3); }
+.kk-chat-head-info { flex:1; }
+.kk-chat-head-name { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:0.95rem; letter-spacing:2px; text-transform:uppercase; color:#fff; }
+.kk-chat-head-status { font-family:'Barlow',sans-serif; font-size:0.65rem; color:rgba(255,255,255,0.7); }
+.kk-chat-close { background:none; border:none; color:rgba(255,255,255,0.5); font-size:1.4rem; cursor:pointer; line-height:1; padding:4px; }
+.kk-chat-close:hover { color:#fff; }
+.kk-chat-messages { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px; }
+.kk-chat-messages::-webkit-scrollbar { width:4px; }
+.kk-chat-messages::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1); border-radius:4px; }
+.kk-msg { max-width:85%; padding:10px 14px; border-radius:12px; font-family:'Barlow',sans-serif; font-size:0.85rem; line-height:1.45; word-wrap:break-word; }
+.kk-msg.bot { background:rgba(255,255,255,0.06); color:#e0e0e0; align-self:flex-start; border-bottom-left-radius:4px; }
+.kk-msg.user { background:var(--red); color:#fff; align-self:flex-end; border-bottom-right-radius:4px; }
+.kk-msg.typing { color:#666; font-style:italic; }
+.kk-chat-input { display:flex; gap:8px; padding:12px; border-top:1px solid rgba(255,255,255,0.08); flex-shrink:0; }
+.kk-chat-input input { flex:1; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.12); color:#f5f5f5; padding:10px 14px; font-family:'Barlow',sans-serif; font-size:0.85rem; border-radius:8px; outline:none; }
+.kk-chat-input input:focus { border-color:var(--red); }
+.kk-chat-input input::placeholder { color:#444; }
+.kk-chat-input button { background:var(--red); border:none; color:#fff; width:40px; height:40px; border-radius:8px; cursor:pointer; font-size:1.1rem; display:flex; align-items:center; justify-content:center; transition:background 0.2s; flex-shrink:0; }
+.kk-chat-input button:hover { background:var(--red-light); }
+.kk-chat-input button:disabled { opacity:0.5; cursor:not-allowed; }
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6T75SN79LV"></script>
@@ -707,10 +699,29 @@ div[class*="vapi"] button {
 
 <!-- KINETIC KEN CHAT WIDGET -->
 <div class="kk-widget" id="kkWidget">
-  <div class="kk-bubble" onclick="launchVapiFromKK()">
+  <div class="kk-bubble" onclick="toggleKKChat()">
     <div class="kk-pulse"></div>
     <img src="transparent_kinetic_ken.png" alt="Kinetic Ken">
     <div class="kk-badge">1</div>
+  </div>
+</div>
+
+<!-- KINETIC KEN CHAT PANEL -->
+<div class="kk-chat-panel" id="kkChatPanel">
+  <div class="kk-chat-head">
+    <img src="transparent_kinetic_ken.png" alt="Kinetic Ken">
+    <div class="kk-chat-head-info">
+      <div class="kk-chat-head-name">Kinetic Ken</div>
+      <div class="kk-chat-head-status">AI Assistant &bull; Online</div>
+    </div>
+    <button class="kk-chat-close" onclick="toggleKKChat()">&times;</button>
+  </div>
+  <div class="kk-chat-messages" id="kkChatMessages">
+    <div class="kk-msg bot">Hey! 👋🏾 I'm Kinetic Ken, Coach Kenny's AI assistant. What can I help you with today?</div>
+  </div>
+  <div class="kk-chat-input">
+    <input type="text" id="kkChatInput" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendKKChat()">
+    <button id="kkChatSend" onclick="sendKKChat()">&#9654;</button>
   </div>
 </div>
 
@@ -847,29 +858,60 @@ function submitFlexCall() {
   setTimeout(closeFlexModal, 2500);
 }
 
-// ── LAUNCH VAPI HELPER (for Kinetic Ken only) ──
-function launchVapi() {
-  if (window.vapiSDK) {
-    try {
-      window.vapiSDK.run({
-        apiKey: '5f410705-fa13-400b-8d60-2d9a50335bd1',
-        assistant: 'e907b40a-0a8a-4116-9d32-69b3a3f6f8ed',
-        config: {
-          position: 'bottom-right',
-          theme: { primary: '#111827', secondary: '#ffffff' }
-        }
-      });
-    } catch(e) { window.location.href = 'tel:8775153539'; }
-  } else {
-    window.location.href = 'tel:8775153539';
+// ── KINETIC KEN CHAT (Claude API) ──
+var kkChatHistory = [];
+
+function toggleKKChat() {
+  var panel = document.getElementById('kkChatPanel');
+  var badge = document.querySelector('.kk-badge');
+  if (badge) badge.style.display = 'none';
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) {
+    document.getElementById('kkChatInput').focus();
   }
 }
 
-// ── KINETIC KEN → VAPI ──
-function launchVapiFromKK() {
-  const badge = document.querySelector('.kk-badge');
-  if (badge) badge.style.display = 'none';
-  launchVapi();
+async function sendKKChat() {
+  var input = document.getElementById('kkChatInput');
+  var sendBtn = document.getElementById('kkChatSend');
+  var msg = input.value.trim();
+  if (!msg) return;
+
+  input.value = '';
+  sendBtn.disabled = true;
+
+  appendKKMsg('user', msg);
+  kkChatHistory.push({ role: 'user', content: msg });
+
+  var typingEl = appendKKMsg('bot typing', 'Thinking...');
+
+  try {
+    var res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: kkChatHistory })
+    });
+    var data = await res.json();
+    typingEl.remove();
+    var reply = data.reply || "Sorry, I couldn't process that. Try again!";
+    appendKKMsg('bot', reply);
+    kkChatHistory.push({ role: 'assistant', content: reply });
+  } catch(e) {
+    typingEl.remove();
+    appendKKMsg('bot', "Oops, something went wrong. You can reach Coach Kenny at 1-877-515-FLEX!");
+  }
+  sendBtn.disabled = false;
+  input.focus();
+}
+
+function appendKKMsg(cls, text) {
+  var container = document.getElementById('kkChatMessages');
+  var div = document.createElement('div');
+  div.className = 'kk-msg ' + cls;
+  div.textContent = text;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  return div;
 }
 
 // ── SMOOTH SCROLL ──
