@@ -764,18 +764,7 @@ async function submitFormTop(formEl, btn) {
     console.log('Lead API response:', resp.status, data);
   } catch(e) { console.error('Lead API error:', e); }
 
-  formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
-  btn.style.display = 'none';
-  const s = document.createElement('div');
-  s.className = 'form-success';
-  s.innerHTML = `
-    <div class="success-check">\u2713</div>
-    <div class="success-title">Request Received!</div>
-    <div class="success-sub">Coach Kenny will reach out within 24 hours \u2014 or skip the wait and lock in your time right now.</div>
-    <a href="${BOOKING_LINK}" target="_blank" class="success-book-btn">Book Your Assessment Now \u2192</a>
-    <div class="success-note">Takes 60 seconds \u00b7 Pick a time that works for you</div>
-  `;
-  formEl.appendChild(s);
+  window.location.href = BOOKING_LINK;
 }
 
 // ── FORM SUBMIT (bottom form) ──
@@ -801,18 +790,7 @@ async function submitFormBottom(formEl, btn) {
     console.log('Lead API response:', resp.status, data);
   } catch(e) { console.error('Lead API error:', e); }
 
-  formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
-  btn.style.display = 'none';
-  const s = document.createElement('div');
-  s.className = 'form-success';
-  s.innerHTML = `
-    <div class="success-check">\u2713</div>
-    <div class="success-title">Request Received!</div>
-    <div class="success-sub">Coach Kenny will reach out within 24 hours \u2014 or skip the wait and lock in your time right now.</div>
-    <a href="${BOOKING_LINK}" target="_blank" class="success-book-btn">Book Your Assessment Now \u2192</a>
-    <div class="success-note">Takes 60 seconds \u00b7 Pick a time that works for you</div>
-  `;
-  formEl.appendChild(s);
+  window.location.href = BOOKING_LINK;
 }
 
 function handleAssessment(btn) { submitFormTop(btn.closest('.urgency-form'), btn); }
@@ -847,7 +825,7 @@ function submitFlexCall() {
     source: 'flex_call_button'
   };
 
-  fetch('/api/lead-athlete', {
+  fetch('/api/call-flex', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
