@@ -829,7 +829,8 @@ function submitFlexCall() {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
-  }).catch(() => {});
+  }).then(function(r) { return r.json().then(function(d) { console.log('Call-flex response:', r.status, d); }); })
+    .catch(function(e) { console.error('Call-flex error:', e); });
 
   document.getElementById('flexModalForm').style.display = 'none';
   document.getElementById('flexModalConfirm').style.display = '';
