@@ -52,7 +52,7 @@ module.exports = async function handler(req, res) {
       try {
         await sendSms({
           to: phone,
-          body: `Hey ${firstName}! 👋🏾 Coach Kenny got your info and will be reaching out shortly. In the meantime, check your options at theflexfacility.com. Reply STOP to opt out.`,
+          body: `Hey ${firstName}! 👋🏾 Welcome to The Flex Facility! Book your FREE assessment now and let's get to work: book.theflexfacility.com. Reply STOP to opt out.`,
           eventType: 'athlete_lead_confirmation',
         });
       } catch (err) {

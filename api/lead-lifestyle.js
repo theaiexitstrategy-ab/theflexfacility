@@ -44,7 +44,7 @@ module.exports = async function handler(req, res) {
       try {
         await sendSms({
           to: phone,
-          body: `Hey ${firstName}! 💪🏾 Coach Kenny got your info and will be in touch soon. Ready to see what's possible? theflexfacility.com/fit. Reply STOP to opt out.`,
+          body: `Hey ${firstName}! 💪🏾 Welcome to The Flex Facility! Ready to level up? Book your FREE assessment here: book.theflexfacility.com. Reply STOP to opt out.`,
           eventType: 'lifestyle_lead_confirmation',
         });
       } catch (err) {
