@@ -12,15 +12,33 @@
 //   GOELEV8_SECRET   — shared secret the portal validates (required)
 //   GOELEV8_LEAD_URL — override endpoint for staging (optional)
 //
-// Request:  POST /api/lead with JSON body { name, phone, email, funnel, tag, ... }
-// Response: forwards the portal's status + body verbatim, or 502 on upstream failure.
+// Endpoints:
+//   GET  /api/lead   → health check, returns { ok, portal_url, secret_configured, secret_length }
+//                      Safe to call from the browser. Never echoes the secret itself.
+//   POST /api/lead   → forwards the JSON body to the portal webhook. Injects
+//                      the slug + secret server-side in THREE places (body field,
+//                      x-goelev8-secret header, Authorization: Bearer) so the
+//                      portal can validate whichever pattern it uses.
+//   Response: forwards the portal's status + body verbatim, or 502 on upstream failure.
 
 const PORTAL_URL = process.env.GOELEV8_LEAD_URL || 'https://portal.goelev8.ai/api/webhooks/lead';
 const PORTAL_SECRET = process.env.GOELEV8_SECRET || '';
 
 module.exports = async function handler(req, res) {
+  // ── Health check: lets you verify from the browser that the env var is set
+  //    without leaking its value. Hit GET https://<preview>.vercel.app/api/lead
+  if (req.method === 'GET') {
+    return res.status(200).json({
+      ok: true,
+      portal_url: PORTAL_URL,
+      secret_configured: !!PORTAL_SECRET,
+      secret_length: PORTAL_SECRET ? PORTAL_SECRET.length : 0,
+      node_version: process.version
+    });
+  }
+
   if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
+    res.setHeader('Allow', 'GET, POST');
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
@@ -45,14 +63,26 @@ module.exports = async function handler(req, res) {
   // with a wrong value.
   delete payload.client_secret;
 
+  // Send the secret via THREE common patterns so whichever one the
+  // portal validates will work. If the portal 401s with all three, the
+  // secret value itself is wrong (not the transport mechanism).
+  const headers = { 'Content-Type': 'application/json' };
+  if (PORTAL_SECRET) {
+    headers['x-goelev8-secret'] = PORTAL_SECRET;
+    headers['Authorization'] = 'Bearer ' + PORTAL_SECRET;
+  }
+
+  console.log('[lead-proxy] →', PORTAL_URL, 'secret_configured:', !!PORTAL_SECRET, 'slug:', payload.slug, 'funnel:', payload.funnel || '(none)');
+
   try {
     const upstream = await fetch(PORTAL_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: headers,
       body: JSON.stringify(payload)
     });
 
     const text = await upstream.text();
+    console.log('[lead-proxy] ←', upstream.status, upstream.statusText, '—', text.slice(0, 300));
     res.status(upstream.status);
     const ct = upstream.headers.get('content-type');
     if (ct) res.setHeader('Content-Type', ct);
