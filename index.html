@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Flex Facility — Elite Athletic Performance Training</title>
+<!-- GoElev8 Portal embed — lead tracking (portal.goelev8.ai is the source of truth) -->
+<script>
+  window.GoElev8 = {
+    slug: "flex-facility",
+    // Public client identifier — replace REPLACE_WITH_GOELEV8_SECRET at deploy
+    // time (Vercel build hook or manual edit). Static HTML cannot read
+    // process.env, so any value here is publicly visible by design.
+    secret: "REPLACE_WITH_GOELEV8_SECRET"
+  };
+</script>
+<script src="https://portal.goelev8.ai/embed/track.js" async></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
 <!-- Vapi Widget -->
@@ -721,6 +732,26 @@ const WEBHOOK_BOTTOM = 'https://hook.us2.make.com/6gzrprslv4ea2k67rk81uukchcpssi
 const WEBHOOK_CALL   = 'https://hook.us2.make.com/z57rtckd5s6yh8vf36mkdbjlqjrj2e28';
 const BOOKING_LINK   = 'https://book.theflexfacility.com';
 
+// ── GOELEV8 PORTAL — source of truth for all leads ──
+const GOELEV8_LEAD_URL = 'https://portal.goelev8.ai/api/webhooks/lead';
+function sendGoElev8Lead(extra) {
+  var body = Object.assign({
+    slug: 'flex-facility',
+    secret: (window.GoElev8 && window.GoElev8.secret) || '',
+    source: window.location.href,
+    funnel: 'main',
+    page_url: window.location.href,
+    timestamp: new Date().toISOString()
+  }, extra || {});
+  try {
+    return fetch(GOELEV8_LEAD_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }).catch(function(){});
+  } catch (e) { return Promise.resolve(); }
+}
+
 // ── SCROLL REVEAL ──
 document.querySelectorAll('.reveal').forEach(el => el.classList.add('animate'));
 const observer = new IntersectionObserver((entries) => {
@@ -746,6 +777,9 @@ async function submitFormTop(formEl, btn) {
   };
 
   btn.textContent = 'Sending...'; btn.disabled = true; btn.style.opacity = '0.7';
+
+  // Mirror lead to GoElev8 portal (source of truth)
+  sendGoElev8Lead(Object.assign({}, payload, { funnel: 'main', tag: 'athlete' }));
 
   try {
     await fetch(WEBHOOK_TOP, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -781,6 +815,9 @@ async function submitFormBottom(formEl, btn) {
   };
 
   btn.textContent = 'Sending...'; btn.disabled = true; btn.style.opacity = '0.7';
+
+  // Mirror lead to GoElev8 portal (source of truth)
+  sendGoElev8Lead(Object.assign({}, payload, { funnel: 'main', tag: 'athlete' }));
 
   try {
     await fetch(WEBHOOK_BOTTOM, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -831,6 +868,9 @@ function submitFlexCall() {
     phone: phone,
     source: 'flex_call_button'
   };
+
+  // Mirror lead to GoElev8 portal (source of truth)
+  sendGoElev8Lead({ name: name, phone: phone, funnel: 'main', tag: 'call-back' });
 
   fetch('https://hook.us2.make.com/sbk1vo7nk82madk2b1ec1kx36ha74a37', {
     method: 'POST',
