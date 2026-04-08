@@ -743,13 +743,23 @@ function sendGoElev8Lead(extra) {
     page_url: window.location.href,
     timestamp: new Date().toISOString()
   }, extra || {});
+  console.log('[GoElev8] → POST lead', body);
   try {
     return fetch(GOELEV8_LEAD_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
-    }).catch(function(){});
-  } catch (e) { return Promise.resolve(); }
+    })
+    .then(function(r){
+      console.log('[GoElev8] ← lead response', r.status, r.statusText);
+      if (!r.ok) { r.text().then(function(t){ console.error('[GoElev8] body:', t); }); }
+      return r;
+    })
+    .catch(function(e){ console.error('[GoElev8] lead FAILED', e); });
+  } catch (e) {
+    console.error('[GoElev8] lead threw', e);
+    return Promise.resolve();
+  }
 }
 
 // ── SCROLL REVEAL ──
