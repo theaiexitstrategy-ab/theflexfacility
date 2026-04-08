@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Flex Facility — Elite Athletic Performance Training</title>
+<!-- GoElev8 Portal embed — lead tracking (portal.goelev8.ai is the source of truth) -->
+<script>
+  window.GoElev8 = {
+    slug: "flex-facility",
+    secret: "REPLACE_WITH_GOELEV8_SECRET"
+  };
+</script>
+<script src="https://portal.goelev8.ai/embed/track.js" async></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
@@ -508,9 +516,10 @@
 </footer>
 
 <script>
-// ── CONFIGURATION — only these two lines need to change ──
-const WEBHOOK_URL  = 'https://YOUR_GOELEV8_WEBHOOK_URL_HERE';
-const BOOKING_LINK = 'https://YOUR_BOOKING_LINK_HERE';
+// ── CONFIGURATION ──
+// GoElev8 Portal is the source of truth for all leads.
+const WEBHOOK_URL  = 'https://portal.goelev8.ai/api/webhooks/lead';
+const BOOKING_LINK = 'https://book.theflexfacility.com';
 
 // ── SCROLL REVEAL ──
 document.querySelectorAll('.reveal').forEach(el => el.classList.add('animate'));
@@ -521,7 +530,15 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // ── FORM SUBMIT ──
 async function submitForm(formEl, btn) {
-  const payload = { source: 'flex-facility-funnel', timestamp: new Date().toISOString(), page_url: window.location.href };
+  const payload = {
+    slug: 'flex-facility',
+    secret: (window.GoElev8 && window.GoElev8.secret) || '',
+    source: 'theflexfacility.com',
+    funnel: 'athlete-funnel',
+    tag: 'athlete',
+    page_url: window.location.href,
+    timestamp: new Date().toISOString()
+  };
   formEl.querySelectorAll('input').forEach(f => {
     const key = f.placeholder.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
     payload[key] = f.value;
