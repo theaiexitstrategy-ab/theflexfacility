@@ -70,6 +70,14 @@ module.exports = async function handler(req, res) {
   // with a wrong value.
   delete payload.client_secret;
 
+  // Field-name normalization: the client forms send `tag` (singular) but
+  // the portal's Supabase handler reads `tags` (plural). Mirror the value
+  // into both keys so whichever the portal's handler reaches for picks
+  // it up. Harmless if the portal only cares about one of them.
+  if (payload.tag && payload.tags === undefined) {
+    payload.tags = payload.tag;
+  }
+
   // Send the secret via THREE common patterns so whichever one the
   // portal validates will work. If the portal 401s with all three, the
   // secret value itself is wrong (not the transport mechanism).
