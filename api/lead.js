@@ -81,18 +81,58 @@ module.exports = async function handler(req, res) {
 
   console.log('[lead-proxy] →', PORTAL_URL, 'secret_configured:', !!PORTAL_SECRET, 'slug:', payload.slug, 'funnel:', payload.funnel || '(none)');
 
-  try {
-    const upstream = await fetch(PORTAL_URL, {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify(payload)
-    });
+  // Schema-tolerant forwarding: if the portal's Supabase table is missing
+  // a column we're sending (PostgREST returns
+  // "Could not find the 'X' column of '<table>' in the schema cache"),
+  // strip that column from the payload and retry. Repeats up to 10 times
+  // so we surface every missing column in one pass through the logs.
+  // The correct permanent fix is a portal-side migration that adds the
+  // columns, or nests extras into a jsonb column — this retry loop is
+  // a temporary bridge so leads keep flowing in the meantime.
+  const MAX_RETRIES = 10;
+  const strippedColumns = [];
+  let current = payload;
+  let upstream, text;
 
-    const text = await upstream.text();
+  try {
+    for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+      upstream = await fetch(PORTAL_URL, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(current)
+      });
+      text = await upstream.text();
+
+      // PostgREST schema-cache errors look like:
+      //   {"error":"Could not find the 'funnel' column of 'leads' in the schema cache"}
+      // Only retry on 4xx/5xx with that specific error shape.
+      if (upstream.status >= 400 && attempt < MAX_RETRIES) {
+        const m = /Could not find the '([^']+)' column/i.exec(text);
+        if (m && m[1] && Object.prototype.hasOwnProperty.call(current, m[1])) {
+          strippedColumns.push(m[1]);
+          console.warn('[lead-proxy] portal missing column:', m[1], '— retrying without it (attempt', attempt + 1, 'of', MAX_RETRIES + ')');
+          const next = Object.assign({}, current);
+          delete next[m[1]];
+          current = next;
+          continue;
+        }
+      }
+      break;
+    }
+
+    if (strippedColumns.length > 0) {
+      console.warn('[lead-proxy] portal schema is missing these columns — fix on the portal side:', strippedColumns.join(', '));
+    }
+
     console.log('[lead-proxy] ←', upstream.status, upstream.statusText, '—', text.slice(0, 300));
     res.status(upstream.status);
     const ct = upstream.headers.get('content-type');
     if (ct) res.setHeader('Content-Type', ct);
+    // Expose the list of stripped columns in a response header so the
+    // client-side diagnostics can surface it without parsing the body.
+    if (strippedColumns.length > 0) {
+      res.setHeader('x-lead-proxy-stripped', strippedColumns.join(','));
+    }
     return res.send(text);
   } catch (err) {
     console.error('[lead-proxy] upstream failed', err && err.message);

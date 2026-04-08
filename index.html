@@ -752,6 +752,8 @@ function sendGoElev8Lead(extra) {
     })
     .then(function(r){
       console.log('[GoElev8] ← lead response', r.status, r.statusText);
+      var stripped = r.headers.get('x-lead-proxy-stripped');
+      if (stripped) { console.warn('[GoElev8] proxy stripped missing portal columns:', stripped); }
       if (!r.ok) { r.text().then(function(t){ console.error('[GoElev8] body:', t); }); }
       return r;
     })
