@@ -9,8 +9,15 @@
 //   inlining it in public client HTML.
 //
 // Environment variables (set in Vercel project settings):
-//   GOELEV8_SECRET   — shared secret the portal validates (required)
-//   GOELEV8_LEAD_URL — override endpoint for staging (optional)
+//   GOELEV8_WEBHOOK_SECRET — shared secret the portal validates (required).
+//                            Must match the same env var set on the portal
+//                            project, since the portal verifies this value
+//                            on every incoming webhook. Vercel → Settings →
+//                            Environment Variables → add to Production,
+//                            Preview, and Development scopes, then redeploy.
+//   GOELEV8_SECRET         — legacy fallback name (optional; kept so older
+//                            env var configurations still work)
+//   GOELEV8_LEAD_URL       — override endpoint for staging (optional)
 //
 // Endpoints:
 //   GET  /api/lead   → health check, returns { ok, portal_url, secret_configured, secret_length }
@@ -22,7 +29,7 @@
 //   Response: forwards the portal's status + body verbatim, or 502 on upstream failure.
 
 const PORTAL_URL = process.env.GOELEV8_LEAD_URL || 'https://portal.goelev8.ai/api/webhooks/lead';
-const PORTAL_SECRET = process.env.GOELEV8_SECRET || '';
+const PORTAL_SECRET = process.env.GOELEV8_WEBHOOK_SECRET || process.env.GOELEV8_SECRET || '';
 
 module.exports = async function handler(req, res) {
   // ── Health check: lets you verify from the browser that the env var is set
