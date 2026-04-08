@@ -733,11 +733,11 @@ const WEBHOOK_CALL   = 'https://hook.us2.make.com/z57rtckd5s6yh8vf36mkdbjlqjrj2e
 const BOOKING_LINK   = 'https://book.theflexfacility.com';
 
 // ── GOELEV8 PORTAL — source of truth for all leads ──
-const GOELEV8_LEAD_URL = 'https://portal.goelev8.ai/api/webhooks/lead';
+// POST to same-origin /api/lead which proxies to portal.goelev8.ai
+// server-side (bypasses CORS, keeps the secret in Vercel env vars).
+const GOELEV8_LEAD_URL = '/api/lead';
 function sendGoElev8Lead(extra) {
   var body = Object.assign({
-    slug: 'flex-facility',
-    secret: (window.GoElev8 && window.GoElev8.secret) || '',
     source: window.location.href,
     funnel: 'main',
     page_url: window.location.href,

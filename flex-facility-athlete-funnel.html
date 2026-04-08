@@ -517,8 +517,10 @@
 
 <script>
 // ── CONFIGURATION ──
-// GoElev8 Portal is the source of truth for all leads.
-const WEBHOOK_URL  = 'https://portal.goelev8.ai/api/webhooks/lead';
+// GoElev8 Portal is the source of truth for all leads. POSTs go to the
+// same-origin /api/lead proxy which forwards server-side (bypasses CORS
+// and keeps the portal secret out of client HTML).
+const WEBHOOK_URL  = '/api/lead';
 const BOOKING_LINK = 'https://book.theflexfacility.com';
 
 // ── SCROLL REVEAL ──
@@ -531,8 +533,6 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 // ── FORM SUBMIT ──
 async function submitForm(formEl, btn) {
   const payload = {
-    slug: 'flex-facility',
-    secret: (window.GoElev8 && window.GoElev8.secret) || '',
     source: 'theflexfacility.com',
     funnel: 'athlete-funnel',
     tag: 'athlete',
