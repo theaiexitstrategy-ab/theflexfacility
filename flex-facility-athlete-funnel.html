@@ -548,9 +548,24 @@ async function submitForm(formEl, btn) {
   const orig = btn.textContent;
   btn.textContent = 'Sending...'; btn.disabled = true; btn.style.opacity = '0.7';
 
+  console.log('[GoElev8] → POST athlete-funnel lead', payload);
   try {
-    await fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), mode: 'no-cors' });
-  } catch(e) { /* no-cors still delivers */ }
+    // NOTE: dropped mode:'no-cors' so we can read response status. The portal
+    // MUST return Access-Control-Allow-Origin for theflexfacility.com or this
+    // request will be blocked by the browser.
+    const r = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    console.log('[GoElev8] ← athlete-funnel response', r.status, r.statusText);
+    if (!r.ok) {
+      const t = await r.text();
+      console.error('[GoElev8] body:', t);
+    }
+  } catch(e) {
+    console.error('[GoElev8] athlete-funnel FAILED', e);
+  }
 
   // Hide inputs, show success + booking link
   formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
