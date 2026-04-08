@@ -132,7 +132,10 @@ module.exports = async function handler(req, res) {
       console.warn('[lead-proxy] portal schema is missing these columns — fix on the portal side:', strippedColumns.join(', '));
     }
 
-    console.log('[lead-proxy] ←', upstream.status, upstream.statusText, '—', text.slice(0, 300));
+    // Log the full upstream body (up to 2KB) so Vercel function logs
+    // can distinguish a real success ({"id":...}) from a silent drop
+    // ({"ok":true} with no row created by the portal handler).
+    console.log('[lead-proxy] ←', upstream.status, upstream.statusText, '— body:', text.slice(0, 2000));
     res.status(upstream.status);
     const ct = upstream.headers.get('content-type');
     if (ct) res.setHeader('Content-Type', ct);

@@ -751,11 +751,19 @@ function sendGoElev8Lead(extra) {
       body: JSON.stringify(body)
     })
     .then(function(r){
-      console.log('[GoElev8] ← lead response', r.status, r.statusText);
       var stripped = r.headers.get('x-lead-proxy-stripped');
-      if (stripped) { console.warn('[GoElev8] proxy stripped missing portal columns:', stripped); }
-      if (!r.ok) { r.text().then(function(t){ console.error('[GoElev8] body:', t); }); }
-      return r;
+      // Always read and log the body — a 200 doesn't prove the portal
+      // actually inserted the row (silent RLS drops, swallowed errors,
+      // tenant mismatches all return 200 with a misleading body).
+      return r.text().then(function(t){
+        if (r.ok) {
+          console.log('[GoElev8] ← lead response', r.status, r.statusText, '—', t || '(empty body)');
+        } else {
+          console.error('[GoElev8] ← lead response', r.status, r.statusText, '—', t || '(empty body)');
+        }
+        if (stripped) { console.warn('[GoElev8] proxy stripped missing portal columns:', stripped); }
+        return r;
+      });
     })
     .catch(function(e){ console.error('[GoElev8] lead FAILED', e); });
   } catch (e) {
