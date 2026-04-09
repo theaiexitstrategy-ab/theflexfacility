@@ -716,6 +716,41 @@ div[class*="vapi"] button {
   </div>
 </div>
 
+<!-- APP DOWNLOAD BUTTON & POPUP -->
+<style>
+  .app-download-btn{position:fixed;bottom:100px;right:24px;background:#c8a84b;color:#0d0d0d;font-weight:700;font-size:14px;padding:12px 20px;border-radius:50px;border:none;cursor:pointer;z-index:9999;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(200,168,75,0.35);transition:transform 0.2s ease,box-shadow 0.2s ease;font-family:inherit;}
+  .app-download-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(200,168,75,0.5);}
+  .app-download-btn svg{width:18px;height:18px;fill:#0d0d0d;}
+  @media(max-width:600px){.app-download-btn{bottom:96px;right:16px;font-size:13px;padding:10px 16px;}}
+  .app-dl-overlay{display:none;position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,0.8);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;}
+  .app-dl-overlay.open{display:flex;}
+  .app-dl-popup{background:#141720;border:1px solid rgba(200,168,75,0.3);border-radius:20px;padding:40px 32px;max-width:380px;width:100%;text-align:center;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.6);}
+  .app-dl-popup h3{color:#c8a84b;font-size:22px;margin:0 0 8px;}
+  .app-dl-popup p{color:#ccc;font-size:15px;margin:0 0 24px;line-height:1.5;}
+  .app-dl-popup .app-dl-store-btn{display:inline-flex;align-items:center;gap:10px;background:#c8a84b;color:#0d0d0d;font-weight:700;font-size:16px;padding:14px 28px;border-radius:50px;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;}
+  .app-dl-popup .app-dl-store-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(200,168,75,0.5);}
+  .app-dl-popup .app-dl-store-btn svg{width:22px;height:22px;fill:#0d0d0d;}
+  .app-dl-close{position:absolute;top:14px;right:18px;background:none;border:none;color:#888;font-size:24px;cursor:pointer;line-height:1;}
+  .app-dl-close:hover{color:#fff;}
+</style>
+
+<button class="app-download-btn" onclick="document.getElementById('appDlOverlay').classList.add('open')" aria-label="Download the App">
+  <svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184 4 270.2c0 26.5 4.9 53.9 14.6 82.3C30.7 386.8 71.5 512 124.1 512c25.6-.6 43.5-18.1 76.2-18.1 31.8 0 48.3 18.1 76.4 18.1 52.9-.7 90.4-116.7 102.2-151.1-64.6-30.5-59.2-89.5-60.2-92.2zM245.1 0c-35.3 2.6-76.7 23.6-101.5 50.5-22.5 24.5-42.2 63.5-34.7 100.8 38.3 3 77.5-21.2 100.2-47.3 23.1-26.4 39.2-65.5 36-104z"/></svg>
+  Download the App
+</button>
+
+<div class="app-dl-overlay" id="appDlOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="app-dl-popup">
+    <button class="app-dl-close" onclick="document.getElementById('appDlOverlay').classList.remove('open')">&times;</button>
+    <h3>Get The Flex Facility App</h3>
+    <p>Train smarter. Track progress. Book sessions — all from your phone.</p>
+    <a href="https://apps.apple.com/app/id6755446262" target="_blank" rel="noopener" class="app-dl-store-btn">
+      <svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184 4 270.2c0 26.5 4.9 53.9 14.6 82.3C30.7 386.8 71.5 512 124.1 512c25.6-.6 43.5-18.1 76.2-18.1 31.8 0 48.3 18.1 76.4 18.1 52.9-.7 90.4-116.7 102.2-151.1-64.6-30.5-59.2-89.5-60.2-92.2zM245.1 0c-35.3 2.6-76.7 23.6-101.5 50.5-22.5 24.5-42.2 63.5-34.7 100.8 38.3 3 77.5-21.2 100.2-47.3 23.1-26.4 39.2-65.5 36-104z"/></svg>
+      Download on the App Store
+    </a>
+  </div>
+</div>
+
 <!-- KINETIC KEN CHAT WIDGET -->
 <div class="kk-widget" id="kkWidget">
   <div class="kk-bubble" onclick="launchVapiFromKK()">
