@@ -187,6 +187,28 @@
       const sportsBtn = document.querySelectorAll('.type-btn')[1];
       if (sportsBtn) showCalendar('sports', sportsBtn);
     }
+
+    // Redirect to thank-you page after TidyCal booking is confirmed
+    window.addEventListener('message', function(event) {
+      if (!event.data) return;
+      var data = typeof event.data === 'string' ? (function() { try { return JSON.parse(event.data); } catch(e) { return {}; } })() : event.data;
+      if (
+        (data.type && data.type.indexOf('tidycal') !== -1 && data.type.indexOf('complete') !== -1) ||
+        (data.event && data.event.indexOf('booking') !== -1 && data.event.indexOf('complete') !== -1) ||
+        (data.tidycal && data.tidycal === 'booking_completed')
+      ) {
+        var thankYouUrl = 'https://www.theflexfacility.com/thank-you';
+        var bookerName = data.name || data.bookerName || data.first_name || '';
+        var bookingDate = data.date || data.booking_date || '';
+        var bookingTime = data.time || data.booking_time || '';
+        var qs = [];
+        if (bookerName) qs.push('name=' + encodeURIComponent(bookerName));
+        if (bookingDate) qs.push('date=' + encodeURIComponent(bookingDate));
+        if (bookingTime) qs.push('time=' + encodeURIComponent(bookingTime));
+        if (qs.length) thankYouUrl += '?' + qs.join('&');
+        window.location.href = thankYouUrl;
+      }
+    });
   </script>
 </body>
 </html>
