@@ -762,9 +762,6 @@ div[class*="vapi"] button {
 
 <script>
 // ── CONFIGURATION ──
-const WEBHOOK_TOP    = 'https://hook.us2.make.com/6gzrprslv4ea2k67rk81uukchcpssiil';
-const WEBHOOK_BOTTOM = 'https://hook.us2.make.com/6gzrprslv4ea2k67rk81uukchcpssiil';
-const WEBHOOK_CALL   = 'https://hook.us2.make.com/z57rtckd5s6yh8vf36mkdbjlqjrj2e28';
 const BOOKING_LINK   = 'https://book.theflexfacility.com';
 
 // ── GOELEV8 PORTAL — source of truth for all leads ──
@@ -826,10 +823,6 @@ async function submitFormTop(formEl, btn) {
   // Mirror lead to GoElev8 portal (source of truth)
   sendGoElev8Lead(Object.assign({}, payload, { funnel: 'main', tag: 'athlete' }));
 
-  try {
-    await fetch(WEBHOOK_TOP, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-  } catch(e) { /* silently continue on network error */ }
-
   formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
   btn.style.display = 'none';
   const s = document.createElement('div');
@@ -863,10 +856,6 @@ async function submitFormBottom(formEl, btn) {
 
   // Mirror lead to GoElev8 portal (source of truth)
   sendGoElev8Lead(Object.assign({}, payload, { funnel: 'main', tag: 'athlete' }));
-
-  try {
-    await fetch(WEBHOOK_BOTTOM, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-  } catch(e) { /* silently continue on network error */ }
 
   formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
   btn.style.display = 'none';
@@ -914,14 +903,8 @@ function submitFlexCall() {
     source: 'flex_call_button'
   };
 
-  // Mirror lead to GoElev8 portal (source of truth)
+  // Send lead to GoElev8 portal (source of truth)
   sendGoElev8Lead({ name: name, phone: phone, funnel: 'main', tag: 'call-back' });
-
-  fetch('https://hook.us2.make.com/sbk1vo7nk82madk2b1ec1kx36ha74a37', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  }).catch(() => {});
 
   document.getElementById('flexModalForm').style.display = 'none';
   document.getElementById('flexModalConfirm').style.display = '';

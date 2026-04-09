@@ -53,71 +53,52 @@
       margin-top: 6px;
     }
 
-    /* APPOINTMENT TYPE SELECTOR */
-    .type-selector {
-      max-width: 640px;
-      margin: 30px auto 10px;
-      padding: 0 20px;
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .type-btn {
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--text);
-      padding: 14px 28px;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.2s;
-    }
-    .type-btn:hover { border-color: rgba(232,32,10,0.4); }
-    .type-btn.active {
-      background: var(--red);
-      border-color: var(--red);
-      color: var(--white);
-    }
-
-    /* CALENDAR */
-    .calendar-section {
+    /* BOOKING SECTION */
+    .booking-section {
       max-width: 700px;
-      margin: 20px auto 0;
+      margin: 60px auto 0;
       padding: 0 20px 40px;
-    }
-    .calendar-header {
       text-align: center;
-      margin-bottom: 24px;
     }
-    .calendar-header h2 {
+    .booking-section h2 {
       font-family: 'Barlow Condensed', sans-serif;
       font-weight: 900;
       font-size: clamp(1.4rem, 3.5vw, 2rem);
       text-transform: uppercase;
       letter-spacing: 2px;
+      margin-bottom: 12px;
     }
-    .calendar-header h2 span { color: var(--red); }
-    .calendar-header p {
-      font-size: 0.85rem;
+    .booking-section h2 span { color: var(--red); }
+    .booking-section p {
+      font-size: 0.95rem;
       color: var(--muted);
-      margin-top: 8px;
       line-height: 1.6;
+      margin-bottom: 32px;
     }
-    .tidycal-wrap {
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 12px;
-      padding: 20px;
-      min-height: 500px;
+    .btn-book {
+      display: inline-block;
+      background: var(--red);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 18px 48px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.15s;
     }
-    .tidycal-embed { min-height: 500px; }
-    .cal-slot { display: none; }
-    .cal-slot.active { display: block; }
+    .btn-book:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+    }
+    .btn-book:active { transform: translateY(0); }
+    .booking-note {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 14px;
+    }
 
     /* FOOTER */
     .booking-footer {
@@ -144,71 +125,29 @@
     <div class="logo-sub">Earth City, MO &middot; Est. 2013</div>
   </div>
 
-  <!-- APPOINTMENT TYPE SELECTOR -->
-  <div class="type-selector">
-    <button class="type-btn active" onclick="showCalendar('general', this)">General Consultation</button>
-    <button class="type-btn" onclick="showCalendar('sports', this)">Sports Performance</button>
-  </div>
-
-  <!-- CALENDAR -->
-  <section class="calendar-section">
-    <div class="calendar-header">
-      <h2>Book Your <span>Free Session</span></h2>
-      <p>Select a date and time that works for you. Coach Kenny's team will confirm everything automatically.</p>
-    </div>
-    <div class="tidycal-wrap">
-      <div id="cal-general" class="cal-slot active">
-        <div class="tidycal-embed" data-path="goelev8ai/flex-consultation"></div>
-      </div>
-      <div id="cal-sports" class="cal-slot">
-        <div class="tidycal-embed" data-path="goelev8ai/flex-sports-performance"></div>
-      </div>
-    </div>
-    <script src="https://asset-tidycal.b-cdn.net/js/embed.js"></script>
+  <!-- BOOKING -->
+  <section class="booking-section">
+    <h2>Book Your <span>Free Session</span></h2>
+    <p>Schedule your free consultation with Coach Kenny's team.<br>Pick a time that works for you — it only takes 60 seconds.</p>
+    <a href="https://portal.goelev8.ai" target="_blank" rel="noopener" class="btn-book">
+      Book Now &rarr;
+    </a>
+    <p class="booking-note">You'll be taken to our booking portal</p>
   </section>
 
   <!-- FOOTER -->
   <div class="booking-footer">
-    <p>&copy; 2025 Flex Training LLC &middot; <a href="https://theflexfacility.com">theflexfacility.com</a></p>
+    <p>&copy; 2026 Flex Training LLC &middot; <a href="https://theflexfacility.com">theflexfacility.com</a></p>
   </div>
 
   <script>
-    function showCalendar(type, btn) {
-      document.querySelectorAll('.cal-slot').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById('cal-' + type).classList.add('active');
-      btn.classList.add('active');
-    }
-
-    // Auto-select sports if URL has ?goal=Sports
-    const params = new URLSearchParams(window.location.search);
-    const goal = (params.get('goal') || '').toLowerCase();
-    if (goal.includes('sport') || goal.includes('performance') || goal.includes('athlete')) {
-      const sportsBtn = document.querySelectorAll('.type-btn')[1];
-      if (sportsBtn) showCalendar('sports', sportsBtn);
-    }
-
-    // Redirect to thank-you page after TidyCal booking is confirmed
-    window.addEventListener('message', function(event) {
-      if (!event.data) return;
-      var data = typeof event.data === 'string' ? (function() { try { return JSON.parse(event.data); } catch(e) { return {}; } })() : event.data;
-      if (
-        (data.type && data.type.indexOf('tidycal') !== -1 && data.type.indexOf('complete') !== -1) ||
-        (data.event && data.event.indexOf('booking') !== -1 && data.event.indexOf('complete') !== -1) ||
-        (data.tidycal && data.tidycal === 'booking_completed')
-      ) {
-        var thankYouUrl = 'https://www.theflexfacility.com/thank-you';
-        var bookerName = data.name || data.bookerName || data.first_name || '';
-        var bookingDate = data.date || data.booking_date || '';
-        var bookingTime = data.time || data.booking_time || '';
-        var qs = [];
-        if (bookerName) qs.push('name=' + encodeURIComponent(bookerName));
-        if (bookingDate) qs.push('date=' + encodeURIComponent(bookingDate));
-        if (bookingTime) qs.push('time=' + encodeURIComponent(bookingTime));
-        if (qs.length) thankYouUrl += '?' + qs.join('&');
-        window.location.href = thankYouUrl;
-      }
-    });
+    // Auto-redirect to GoElev8 portal with goal param if present
+    var params = new URLSearchParams(window.location.search);
+    var goal = (params.get('goal') || '').toLowerCase();
+    var portalUrl = 'https://portal.goelev8.ai';
+    if (goal) portalUrl += '?goal=' + encodeURIComponent(params.get('goal'));
+    // Uncomment the line below to auto-redirect instead of showing the page:
+    // window.location.href = portalUrl;
   </script>
 </body>
 </html>
