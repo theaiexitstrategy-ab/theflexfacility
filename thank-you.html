@@ -74,29 +74,6 @@
       animation: fadeUp 0.6s 0.35s ease both; margin-bottom: 8px;
     }
 
-    /* CALENDAR SECTION */
-    .calendar-section {
-      max-width: 800px; margin: 0 auto; padding: 48px 24px 64px;
-    }
-    .calendar-header {
-      text-align: center; margin-bottom: 32px;
-    }
-    .calendar-header h2 {
-      font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
-      font-size: clamp(30px,5vw,48px); text-transform: uppercase; margin-bottom: 8px;
-    }
-    .calendar-header h2 span { color: var(--gold); }
-    .calendar-header p { color: var(--gray-text); font-size: 15px; line-height: 1.6; }
-
-    /* TidyCal embed wrapper */
-    .tidycal-wrap {
-      background: var(--gray); border: 1px solid rgba(212,160,23,0.2);
-      border-radius: 20px; overflow: hidden; padding: 8px;
-      box-shadow: 0 0 60px rgba(212,160,23,0.08);
-      min-height: 600px;
-    }
-    .tidycal-embed { min-height: 600px; }
-    .cal-slot { min-height: 600px; }
 
     /* WHAT TO EXPECT */
     .expect {
@@ -204,26 +181,6 @@
       <span id="goal-icon">⚡</span>
       <span id="goal-label">Loading your session...</span>
     </div>
-  </section>
-
-  <!-- CALENDAR -->
-  <section class="calendar-section">
-    <div class="calendar-header">
-      <h2>Book Your <span>Free Session</span></h2>
-      <p id="calendar-sub">Select a date and time that works for you — Coach Kenny's AI assistant will confirm everything automatically.</p>
-    </div>
-    <div class="tidycal-wrap">
-      <!-- General / all goals calendar -->
-      <div id="cal-general" class="cal-slot">
-        <div id="tidycal-general" class="tidycal-embed" data-path="goelev8ai/flex-consultation"></div>
-      </div>
-      <!-- Sports Performance calendar (hidden by default) -->
-      <div id="cal-sports" class="cal-slot" style="display:none;">
-        <div id="tidycal-sports" class="tidycal-embed" data-path="goelev8ai/flex-sports-performance"></div>
-      </div>
-    </div>
-    <!-- TidyCal script — no async so it finds the divs immediately -->
-    <script src="https://asset-tidycal.b-cdn.net/js/embed.js"></script>
   </section>
 
   <!-- WHAT TO EXPECT -->
@@ -362,14 +319,11 @@
       const isSports = (goal === 'Sports Performance');
       const config = isSports ? CALENDARS['Sports Performance'] : CALENDARS.default;
 
-      // Update badge + subtext
+      // Update goal badge in the hero. (The TidyCal embed and its
+      // calendar-sub / cal-general / cal-sports elements were removed —
+      // booking now happens elsewhere.)
       document.getElementById('goal-icon').textContent = config.icon;
       document.getElementById('goal-label').textContent = config.label;
-      document.getElementById('calendar-sub').textContent = config.sub;
-
-      // Show correct pre-loaded calendar, hide the other
-      document.getElementById('cal-general').style.display = isSports ? 'none' : 'block';
-      document.getElementById('cal-sports').style.display  = isSports ? 'block' : 'none';
     }
 
     // Run immediately — don't wait for DOMContentLoaded
