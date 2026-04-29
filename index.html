@@ -805,7 +805,7 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // ── FORM SUBMIT (top form) ──
-async function submitFormTop(formEl, btn) {
+function submitFormTop(formEl, btn) {
   const inputs = formEl.querySelectorAll('input');
   const selects = formEl.querySelectorAll('select');
   const payload = {
@@ -821,31 +821,20 @@ async function submitFormTop(formEl, btn) {
     page_url: window.location.href
   };
 
-  btn.textContent = 'Sending...'; btn.disabled = true; btn.style.opacity = '0.7';
+  btn.textContent = 'Redirecting...'; btn.disabled = true; btn.style.opacity = '0.7';
 
-  // Mirror lead to GoElev8 portal (source of truth)
+  // keepalive lets the requests complete after we navigate away
   sendGoElev8Lead(Object.assign({}, payload, { funnel: 'main', tag: 'athlete' }));
-
   try {
-    await fetch(WEBHOOK_TOP, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-  } catch(e) { /* silently continue on network error */ }
+    fetch(WEBHOOK_TOP, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true });
+  } catch(e) { /* network errors must not block the redirect */ }
 
-  formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
-  btn.style.display = 'none';
-  const s = document.createElement('div');
-  s.className = 'form-success';
-  s.innerHTML = `
-    <div class="success-check">\u2713</div>
-    <div class="success-title">Request Received!</div>
-    <div class="success-sub">Coach Kenny will reach out within 24 hours \u2014 or skip the wait and lock in your time right now.</div>
-    <a href="${BOOKING_LINK}" target="_blank" class="success-book-btn">Book Your Assessment Now \u2192</a>
-    <div class="success-note">Takes 60 seconds \u00b7 Pick a time that works for you</div>
-  `;
-  formEl.appendChild(s);
+  const goal = encodeURIComponent(payload.primary_goal || payload.program_interest || '');
+  window.location.href = goal ? (BOOKING_LINK + '?goal=' + goal) : BOOKING_LINK;
 }
 
 // ── FORM SUBMIT (bottom form) ──
-async function submitFormBottom(formEl, btn) {
+function submitFormBottom(formEl, btn) {
   const inputs = formEl.querySelectorAll('input');
   const selects = formEl.querySelectorAll('select');
   const payload = {
@@ -859,27 +848,16 @@ async function submitFormBottom(formEl, btn) {
     page_url: window.location.href
   };
 
-  btn.textContent = 'Sending...'; btn.disabled = true; btn.style.opacity = '0.7';
+  btn.textContent = 'Redirecting...'; btn.disabled = true; btn.style.opacity = '0.7';
 
-  // Mirror lead to GoElev8 portal (source of truth)
+  // keepalive lets the requests complete after we navigate away
   sendGoElev8Lead(Object.assign({}, payload, { funnel: 'main', tag: 'athlete' }));
-
   try {
-    await fetch(WEBHOOK_BOTTOM, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-  } catch(e) { /* silently continue on network error */ }
+    fetch(WEBHOOK_BOTTOM, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true });
+  } catch(e) { /* network errors must not block the redirect */ }
 
-  formEl.querySelectorAll('input, select').forEach(f => f.style.display = 'none');
-  btn.style.display = 'none';
-  const s = document.createElement('div');
-  s.className = 'form-success';
-  s.innerHTML = `
-    <div class="success-check">\u2713</div>
-    <div class="success-title">Request Received!</div>
-    <div class="success-sub">Coach Kenny will reach out within 24 hours \u2014 or skip the wait and lock in your time right now.</div>
-    <a href="${BOOKING_LINK}" target="_blank" class="success-book-btn">Book Your Assessment Now \u2192</a>
-    <div class="success-note">Takes 60 seconds \u00b7 Pick a time that works for you</div>
-  `;
-  formEl.appendChild(s);
+  const goal = encodeURIComponent(payload.program_interest || '');
+  window.location.href = goal ? (BOOKING_LINK + '?goal=' + goal) : BOOKING_LINK;
 }
 
 function handleAssessment(btn) { submitFormTop(btn.closest('.urgency-form'), btn); }
