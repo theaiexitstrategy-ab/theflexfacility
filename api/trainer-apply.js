@@ -65,36 +65,42 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ success: false, error: 'insert_failed' });
   }
 
-  const firstName = String(body.full_name).trim().split(/\s+/)[0];
-  const kennyTo = toE164(process.env.COACH_KENNY_PHONE);
-  const fromNumber = process.env.TWILIO_FROM_NUMBER || process.env.TWILIO_PHONE_NUMBER;
+  // SMS notifications are off by default. Set TRAINER_NOTIFY_ENABLED=true
+  // in Vercel env when you're ready to start texting Kenny + applicants.
+  // Until then the portal tab is the only place new applications surface,
+  // which is the desired behavior while testing.
+  if (process.env.TRAINER_NOTIFY_ENABLED === 'true') {
+    const firstName = String(body.full_name).trim().split(/\s+/)[0];
+    const kennyTo = toE164(process.env.COACH_KENNY_PHONE);
+    const fromNumber = process.env.TWILIO_FROM_NUMBER || process.env.TWILIO_PHONE_NUMBER;
 
-  const sms = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+    const sms = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
-  const sends = [];
-  if (kennyTo && fromNumber) {
-    sends.push(
-      sms.messages.create({
-        from: fromNumber,
-        to: kennyTo,
-        body: `New trainer application from ${body.full_name} — ${body.specialty}. Check the portal.`,
-      }).catch((e) => console.error('[trainer-apply] kenny SMS failed:', e.message))
-    );
-  } else {
-    console.warn('[trainer-apply] skipping kenny SMS: missing COACH_KENNY_PHONE or TWILIO_FROM_NUMBER');
+    const sends = [];
+    if (kennyTo && fromNumber) {
+      sends.push(
+        sms.messages.create({
+          from: fromNumber,
+          to: kennyTo,
+          body: `New trainer application from ${body.full_name} — ${body.specialty}. Check the portal.`,
+        }).catch((e) => console.error('[trainer-apply] kenny SMS failed:', e.message))
+      );
+    } else {
+      console.warn('[trainer-apply] skipping kenny SMS: missing COACH_KENNY_PHONE or TWILIO_FROM_NUMBER');
+    }
+
+    if (fromNumber) {
+      sends.push(
+        sms.messages.create({
+          from: fromNumber,
+          to: applicantPhone,
+          body: `Hey ${firstName}! Coach Kenny got your application at The Flex Facility. We'll be in touch soon. 💪🏾`,
+        }).catch((e) => console.error('[trainer-apply] applicant SMS failed:', e.message))
+      );
+    }
+
+    await Promise.all(sends);
   }
-
-  if (fromNumber) {
-    sends.push(
-      sms.messages.create({
-        from: fromNumber,
-        to: applicantPhone,
-        body: `Hey ${firstName}! Coach Kenny got your application at The Flex Facility. We'll be in touch soon. 💪🏾`,
-      }).catch((e) => console.error('[trainer-apply] applicant SMS failed:', e.message))
-    );
-  }
-
-  await Promise.all(sends);
 
   return res.status(200).json({ success: true, id: inserted.id });
 };
