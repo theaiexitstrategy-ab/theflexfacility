@@ -28,14 +28,19 @@
   body { background: var(--black); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; line-height: 1.5; }
 
   nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 14px 40px; background: rgba(13,13,13,0.94); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
-  .nav-brand { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 20px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: var(--white); }
+  .nav-brand { display: flex; align-items: center; gap: 12px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 20px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: var(--white); }
   .nav-brand span { color: var(--gold); }
+  .nav-logo { height: 48px; width: 48px; object-fit: contain; }
   .nav-cta { background: var(--gold); color: var(--black); border: none; border-radius: 6px; padding: 10px 20px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background 0.2s; }
   .nav-cta:hover { background: var(--gold-light); }
 
   .hero { position: relative; padding: 96px 24px 72px; text-align: center; background: radial-gradient(ellipse 80% 55% at 50% 0%, rgba(200,168,75,0.12) 0%, transparent 65%), var(--black); overflow: hidden; }
   .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,0.018) 60px), repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,0.018) 60px); pointer-events: none; }
-  .eyebrow { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); }
+  .hero-watermark { position: absolute; right: -4%; top: 50%; transform: translateY(-50%); width: clamp(280px, 36vw, 460px); opacity: 0.05; pointer-events: none; user-select: none; }
+  .hero-watermark img { width: 100%; height: auto; display: block; }
+  .hero-logo { height: 140px; width: 140px; object-fit: contain; margin: 0 auto 12px; display: block; position: relative; animation: heroLogoIn 0.6s ease both; }
+  @keyframes heroLogoIn { from { opacity: 0; transform: translateY(-12px) scale(0.92); } to { opacity: 1; transform: none; } }
+  .eyebrow { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); position: relative; }
   .hero h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(48px, 10vw, 102px); line-height: 0.92; text-transform: uppercase; margin: 18px 0 22px; position: relative; }
   .hero h1 .gold { color: var(--gold); }
   .hero-sub { font-size: clamp(15px, 1.8vw, 18px); color: var(--muted); max-width: 620px; line-height: 1.7; margin: 0 auto 8px; position: relative; }
@@ -86,7 +91,8 @@
   .footer-cta a:hover { opacity: 0.8; }
 
   footer { border-top: 1px solid var(--border); padding: 36px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); }
+  .footer-logo { display: flex; align-items: center; gap: 12px; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); }
+  .footer-logo img { height: 38px; width: 38px; object-fit: contain; }
   .footer-logo span { color: var(--gold); }
   .footer-links { display: flex; gap: 24px; }
   .footer-links a { font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.2s; }
@@ -95,6 +101,10 @@
 
   @media (max-width: 720px) {
     nav { padding: 12px 20px; }
+    .nav-logo { height: 40px; width: 40px; }
+    .hero { padding: 64px 20px 56px; }
+    .hero-logo { height: 110px; width: 110px; }
+    .hero-watermark { display: none; }
     .section { padding: 56px 20px; }
     .apply-wrap { padding: 56px 20px; }
     .why-grid { grid-template-columns: 1fr; gap: 14px; }
@@ -107,11 +117,16 @@
 <body>
 
 <nav>
-  <a href="/" class="nav-brand">FLEX <span>FACILITY</span></a>
+  <a href="/" class="nav-brand">
+    <img src="/flex-logo.png" alt="The Flex Facility" class="nav-logo">
+    FLEX <span>FACILITY</span>
+  </a>
   <a href="#apply" class="nav-cta">Apply Now</a>
 </nav>
 
 <section class="hero">
+  <div class="hero-watermark" aria-hidden="true"><img src="/flex-logo.png" alt=""></div>
+  <img src="/flex-logo.png" alt="The Flex Facility" class="hero-logo">
   <div class="eyebrow">Coaches Wanted</div>
   <h1>Train Where <span class="gold">It Matters.</span></h1>
   <p class="hero-sub">The Flex Facility is looking for coaches who are serious about results. <strong>If that's you — let's talk.</strong></p>
@@ -209,7 +224,10 @@
 </section>
 
 <footer>
-  <div class="footer-logo">FLEX <span>FACILITY</span></div>
+  <div class="footer-logo">
+    <img src="/flex-logo.png" alt="The Flex Facility">
+    <span style="color:var(--white);">FLEX <span style="color:var(--gold);">FACILITY</span></span>
+  </div>
   <div class="footer-links">
     <a href="/">Home</a>
     <a href="/about">About</a>
