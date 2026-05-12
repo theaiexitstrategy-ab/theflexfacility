@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join The Flex Facility — Coaching Opportunities</title>
+<meta name="description" content="Train where it matters. The Flex Facility is hiring coaches who are serious about results.">
+<script>
+  window.GoElev8 = { slug: "flex-facility", secret: "REPLACE_WITH_GOELEV8_SECRET" };
+</script>
+<script src="https://portal.goelev8.ai/embed/track.js" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0d0d;
+    --navy: #141720;
+    --gold: #c8a84b;
+    --gold-light: #e0c068;
+    --white: #ffffff;
+    --muted: #9a9a9a;
+    --dim: #555;
+    --border: rgba(255,255,255,0.08);
+    --gold-border: rgba(200,168,75,0.25);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; line-height: 1.5; }
+
+  nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 14px 40px; background: rgba(13,13,13,0.94); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-brand { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 20px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: var(--white); }
+  .nav-brand span { color: var(--gold); }
+  .nav-cta { background: var(--gold); color: var(--black); border: none; border-radius: 6px; padding: 10px 20px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  .hero { position: relative; padding: 96px 24px 72px; text-align: center; background: radial-gradient(ellipse 80% 55% at 50% 0%, rgba(200,168,75,0.12) 0%, transparent 65%), var(--black); overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,0.018) 60px), repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,0.018) 60px); pointer-events: none; }
+  .eyebrow { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); }
+  .hero h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(48px, 10vw, 102px); line-height: 0.92; text-transform: uppercase; margin: 18px 0 22px; position: relative; }
+  .hero h1 .gold { color: var(--gold); }
+  .hero-sub { font-size: clamp(15px, 1.8vw, 18px); color: var(--muted); max-width: 620px; line-height: 1.7; margin: 0 auto 8px; position: relative; }
+  .hero-sub strong { color: var(--white); font-weight: 600; }
+
+  .section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+  .section-tag { display: inline-flex; align-items: center; gap: 10px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  .section-tag::before { content: ''; width: 22px; height: 2px; background: var(--gold); }
+  .section-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(34px, 5vw, 56px); text-transform: uppercase; line-height: 1; letter-spacing: -0.5px; margin-bottom: 44px; }
+  .section-title .gold { color: var(--gold); }
+
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .why-card { background: var(--navy); border: 1px solid var(--border); border-radius: 14px; padding: 32px 28px; transition: border-color 0.2s, transform 0.2s; }
+  .why-card:hover { border-color: var(--gold-border); transform: translateY(-2px); }
+  .why-icon { font-size: 32px; line-height: 1; margin-bottom: 18px; }
+  .why-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; }
+  .why-desc { font-size: 15px; line-height: 1.65; color: var(--muted); }
+
+  .apply-wrap { background: var(--navy); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 80px 24px; }
+  .apply-inner { max-width: 720px; margin: 0 auto; }
+  .form-card { background: var(--black); border: 1px solid var(--gold-border); border-radius: 18px; padding: 44px 40px; box-shadow: 0 0 80px rgba(200,168,75,0.08); }
+  .form-card h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 30px; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 8px; }
+  .form-card .sub { color: var(--muted); font-size: 14px; margin-bottom: 28px; line-height: 1.55; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 6px; }
+  .form-group label .req { color: var(--gold); }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 13px 15px; color: var(--white); font-family: 'Barlow', sans-serif; font-size: 15px; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none; }
+  .form-group textarea { min-height: 110px; resize: vertical; font-family: 'Barlow', sans-serif; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(200,168,75,0.15); }
+  .form-group select option { background: #1a1a1a; }
+  .submit-btn { width: 100%; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: var(--black); border: none; border-radius: 10px; padding: 18px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 19px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; margin-top: 8px; transition: transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 28px rgba(200,168,75,0.32); }
+  .submit-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 32px rgba(200,168,75,0.45); }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .privacy-note { font-size: 11px; color: var(--dim); text-align: center; margin-top: 14px; }
+  .form-error { background: rgba(255,80,80,0.08); border: 1px solid rgba(255,80,80,0.35); color: #ff9090; padding: 12px 14px; border-radius: 8px; font-size: 14px; margin-top: 16px; display: none; }
+  .form-error.show { display: block; }
+  .form-success { text-align: center; padding: 40px 20px; display: none; }
+  .form-success.show { display: block; }
+  .form-success .emoji { font-size: 48px; margin-bottom: 16px; }
+  .form-success h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 32px; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 10px; }
+  .form-success p { color: var(--muted); font-size: 16px; line-height: 1.6; }
+
+  .footer-cta { text-align: center; padding: 72px 24px 32px; }
+  .footer-cta p { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+  .footer-cta a { color: var(--gold); text-decoration: none; border-bottom: 2px solid var(--gold); transition: opacity 0.2s; }
+  .footer-cta a:hover { opacity: 0.8; }
+
+  footer { border-top: 1px solid var(--border); padding: 36px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); }
+  .footer-logo span { color: var(--gold); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy { font-size: 0.6rem; color: #333; letter-spacing: 1px; }
+
+  @media (max-width: 720px) {
+    nav { padding: 12px 20px; }
+    .section { padding: 56px 20px; }
+    .apply-wrap { padding: 56px 20px; }
+    .why-grid { grid-template-columns: 1fr; gap: 14px; }
+    .form-card { padding: 32px 22px; }
+    .form-grid { grid-template-columns: 1fr; gap: 0; }
+    footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">FLEX <span>FACILITY</span></a>
+  <a href="#apply" class="nav-cta">Apply Now</a>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">Coaches Wanted</div>
+  <h1>Train Where <span class="gold">It Matters.</span></h1>
+  <p class="hero-sub">The Flex Facility is looking for coaches who are serious about results. <strong>If that's you — let's talk.</strong></p>
+</section>
+
+<section class="section">
+  <div class="section-tag">Why Train Here</div>
+  <h2 class="section-title">What You'll <span class="gold">Walk Into.</span></h2>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">🏆</div>
+      <h3 class="why-title">Serious Athletes</h3>
+      <p class="why-desc">Our clientele trains with purpose. No egos, just work.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">📍</div>
+      <h3 class="why-title">Prime Location</h3>
+      <p class="why-desc">Based in Earth City, MO — high visibility, high traffic.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">💼</div>
+      <h3 class="why-title">Built Infrastructure</h3>
+      <p class="why-desc">Online booking, client management, and marketing already in place.</p>
+    </div>
+  </div>
+</section>
+
+<section class="apply-wrap" id="apply">
+  <div class="apply-inner">
+    <div class="form-card" id="formCard">
+      <h2>Apply to Coach</h2>
+      <p class="sub">A few quick questions. We read every one — Coach Kenny will reach out personally if it's a fit.</p>
+
+      <div id="formFields">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Full Name <span class="req">*</span></label>
+            <input type="text" id="fullName" autocomplete="name" placeholder="First Last">
+          </div>
+          <div class="form-group">
+            <label>Email <span class="req">*</span></label>
+            <input type="email" id="email" autocomplete="email" placeholder="you@example.com">
+          </div>
+          <div class="form-group">
+            <label>Phone <span class="req">*</span></label>
+            <input type="tel" id="phone" autocomplete="tel" placeholder="(314) 555-0123">
+          </div>
+          <div class="form-group">
+            <label>Specialty <span class="req">*</span></label>
+            <select id="specialty">
+              <option value="">Choose one…</option>
+              <option>Strength &amp; Conditioning</option>
+              <option>Sports Performance</option>
+              <option>Bodybuilding</option>
+              <option>General Fitness</option>
+              <option>Nutrition</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Years of Experience</label>
+            <select id="yearsExperience">
+              <option value="">Choose one…</option>
+              <option>Less than 1</option>
+              <option>1–3</option>
+              <option>3–5</option>
+              <option>5+</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label>Certifications</label>
+            <input type="text" id="certifications" placeholder="CSCS, NASM-CPT, etc.">
+          </div>
+          <div class="form-group full">
+            <label>Why The Flex Facility?</label>
+            <textarea id="whyFlex" placeholder="What makes you a fit? What do you want out of this?"></textarea>
+          </div>
+        </div>
+        <button type="button" class="submit-btn" id="submitBtn" onclick="submitTrainerApplication()">Submit My Application</button>
+        <div class="privacy-note">By submitting, you consent to be contacted by The Flex Facility.</div>
+        <div class="form-error" id="formError"></div>
+      </div>
+
+      <div class="form-success" id="formSuccess">
+        <div class="emoji">💪🏾</div>
+        <h3>We got you.</h3>
+        <p>Coach Kenny will be in touch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="footer-cta">
+  <p>Not ready to apply? <a href="https://www.instagram.com/flextraining2013" target="_blank" rel="noopener">Follow our journey →</a></p>
+</section>
+
+<footer>
+  <div class="footer-logo">FLEX <span>FACILITY</span></div>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/trainers">Join Our Team</a>
+    <a href="https://www.instagram.com/flextraining2013" target="_blank" rel="noopener">Instagram</a>
+  </div>
+  <div class="footer-copy">© 2025 Flex Training LLC · Earth City, MO 63045</div>
+</footer>
+
+<script>
+  function showError(msg) {
+    const err = document.getElementById('formError');
+    err.textContent = msg;
+    err.classList.add('show');
+  }
+  function clearError() {
+    const err = document.getElementById('formError');
+    err.textContent = '';
+    err.classList.remove('show');
+  }
+
+  function isValidEmail(s) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+  }
+
+  async function submitTrainerApplication() {
+    clearError();
+
+    const payload = {
+      full_name: document.getElementById('fullName').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      specialty: document.getElementById('specialty').value,
+      certifications: document.getElementById('certifications').value.trim(),
+      years_experience: document.getElementById('yearsExperience').value,
+      why_flex: document.getElementById('whyFlex').value.trim(),
+    };
+
+    if (!payload.full_name) return showError('Please enter your full name.');
+    if (!payload.email || !isValidEmail(payload.email)) return showError('Please enter a valid email.');
+    if (!payload.phone || payload.phone.replace(/\D/g, '').length < 10) return showError('Please enter a valid phone number.');
+    if (!payload.specialty) return showError('Please choose a specialty.');
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    try {
+      const r = await fetch('/api/trainer-apply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok || !data.success) {
+        throw new Error(data.error || 'submit_failed');
+      }
+      document.getElementById('formFields').style.display = 'none';
+      document.getElementById('formSuccess').classList.add('show');
+      window.scrollTo({ top: document.getElementById('formCard').offsetTop - 60, behavior: 'smooth' });
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Submit My Application';
+      showError('Something went wrong. Please try again or DM us on Instagram.');
+    }
+  }
+</script>
+</body>
+</html>
