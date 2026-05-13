@@ -45,10 +45,14 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ success: false, error: 'invalid_phone' });
     }
 
-    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
+    // Accept either SUPABASE_SERVICE_ROLE_KEY (Supabase's standard naming,
+    // already used by the booking widget and portal) or SUPABASE_SERVICE_KEY.
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY;
+    if (!supabaseUrl || !supabaseKey) {
       const missing = [];
-      if (!process.env.SUPABASE_URL) missing.push('SUPABASE_URL');
-      if (!process.env.SUPABASE_SERVICE_KEY) missing.push('SUPABASE_SERVICE_KEY');
+      if (!supabaseUrl) missing.push('SUPABASE_URL');
+      if (!supabaseKey) missing.push('SUPABASE_SERVICE_ROLE_KEY (or SUPABASE_SERVICE_KEY)');
       console.error('[trainer-apply] missing env vars:', missing.join(', '));
       return res.status(500).json({ success: false, error: 'supabase_env_missing', missing });
     }
@@ -61,11 +65,9 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({ success: false, error: 'supabase_module_missing', detail: e.message });
     }
 
-    const supabase = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_KEY,
-      { auth: { persistSession: false } }
-    );
+    const supabase = createClient(supabaseUrl, supabaseKey, {
+      auth: { persistSession: false },
+    });
 
     const { data: inserted, error: insertErr } = await supabase
       .from('trainer_applications')
