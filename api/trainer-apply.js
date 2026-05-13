@@ -46,8 +46,11 @@ module.exports = async function handler(req, res) {
     }
 
     if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
-      console.error('[trainer-apply] Supabase env vars not set');
-      return res.status(500).json({ success: false, error: 'supabase_env_missing' });
+      const missing = [];
+      if (!process.env.SUPABASE_URL) missing.push('SUPABASE_URL');
+      if (!process.env.SUPABASE_SERVICE_KEY) missing.push('SUPABASE_SERVICE_KEY');
+      console.error('[trainer-apply] missing env vars:', missing.join(', '));
+      return res.status(500).json({ success: false, error: 'supabase_env_missing', missing });
     }
 
     let createClient;
