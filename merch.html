@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLEX Training Gear — The Flex Facility</title>
+<meta name="description" content="Sleeveless hoodies built for the way we train. Premium comfort, maximum flexibility, moisture wicking.">
+<script>
+  window.GoElev8 = { slug: "flex-facility", secret: "REPLACE_WITH_GOELEV8_SECRET" };
+</script>
+<script src="https://portal.goelev8.ai/embed/track.js" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0d0d;
+    --navy: #141720;
+    --gold: #c8a84b;
+    --gold-light: #e0c068;
+    --white: #ffffff;
+    --muted: #9a9a9a;
+    --dim: #555;
+    --border: rgba(255,255,255,0.08);
+    --gold-border: rgba(200,168,75,0.25);
+    --red: #ff6b6b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; line-height: 1.5; }
+
+  nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 14px 40px; background: rgba(13,13,13,0.94); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-brand { display: flex; align-items: center; gap: 12px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 20px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: var(--white); }
+  .nav-brand span { color: var(--gold); }
+  .nav-logo { height: 48px; width: 48px; object-fit: contain; }
+  .nav-cta { background: var(--gold); color: var(--black); border: none; border-radius: 6px; padding: 10px 20px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  .hero { position: relative; padding: 80px 24px 56px; text-align: center; background: radial-gradient(ellipse 80% 55% at 50% 0%, rgba(200,168,75,0.12) 0%, transparent 65%), var(--black); overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,0.018) 60px), repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,0.018) 60px); pointer-events: none; }
+  .hero-logo { height: 120px; width: 120px; object-fit: contain; margin: 0 auto 14px; display: block; position: relative; animation: heroLogoIn 0.6s ease both; }
+  @keyframes heroLogoIn { from { opacity: 0; transform: translateY(-12px) scale(0.92); } to { opacity: 1; transform: none; } }
+  .eyebrow { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); position: relative; }
+  .hero h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(46px, 10vw, 92px); line-height: 0.92; text-transform: uppercase; margin: 14px 0 18px; position: relative; }
+  .hero h1 .gold { color: var(--gold); }
+  .hero-sub { font-size: clamp(15px, 1.6vw, 17px); color: var(--muted); max-width: 600px; line-height: 1.7; margin: 0 auto; position: relative; }
+
+  .shop { max-width: 1180px; margin: 0 auto; padding: 56px 24px 32px; }
+  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .product-card { background: var(--navy); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s; }
+  .product-card:hover { border-color: var(--gold-border); transform: translateY(-3px); }
+  .product-image-wrap { aspect-ratio: 4/5; background: #1a1d28; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .product-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .product-body { padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 14px; }
+  .product-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 19px; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.1; }
+  .product-color { font-size: 12px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
+  .price-block { display: flex; flex-direction: column; gap: 4px; padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .price-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; color: var(--muted); }
+  .price-row.total { font-size: 15px; color: var(--white); font-weight: 600; padding-top: 6px; border-top: 1px dashed rgba(255,255,255,0.06); margin-top: 4px; }
+  .price-row .gold { color: var(--gold); }
+  .size-block label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); margin-bottom: 8px; }
+  .size-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+  .size-pill { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--white); padding: 8px 0; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.15s; border-radius: 6px; text-align: center; letter-spacing: 0.04em; }
+  .size-pill:hover { border-color: var(--gold); }
+  .size-pill.selected { background: var(--gold); color: var(--black); border-color: var(--gold); }
+  .order-btn { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: var(--black); border: none; border-radius: 10px; padding: 14px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 22px rgba(200,168,75,0.28); }
+  .order-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(200,168,75,0.45); }
+  .order-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .ebook-cta { margin-top: 56px; background: var(--navy); border: 1px solid var(--gold-border); border-radius: 18px; padding: 36px 32px; display: flex; flex-direction: column; sm:flex-direction: row; align-items: center; justify-content: space-between; gap: 22px; box-shadow: 0 0 60px rgba(200,168,75,0.06); }
+  .ebook-text h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 26px; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 4px; }
+  .ebook-text p { color: var(--muted); font-size: 14px; max-width: 540px; line-height: 1.6; }
+  .ebook-btn { background: var(--gold); color: var(--black); border: none; border-radius: 10px; padding: 16px 28px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+  .ebook-btn:hover { background: var(--gold-light); }
+
+  /* Modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(5,5,5,0.85); backdrop-filter: blur(8px); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--black); border: 1px solid var(--gold-border); border-radius: 18px; max-width: 480px; width: 100%; padding: 36px 32px; position: relative; box-shadow: 0 32px 80px rgba(0,0,0,0.8); }
+  .modal-close { position: absolute; top: 14px; right: 14px; background: transparent; border: none; color: var(--muted); font-size: 28px; cursor: pointer; line-height: 1; padding: 4px 10px; }
+  .modal-close:hover { color: var(--white); }
+  .modal h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 24px; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 6px; }
+  .modal .modal-sub { color: var(--muted); font-size: 13px; margin-bottom: 22px; }
+  .modal-field { margin-bottom: 14px; }
+  .modal-field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 5px; }
+  .modal-field input, .modal-field select { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px 14px; color: var(--white); font-family: 'Barlow', sans-serif; font-size: 14px; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none; }
+  .modal-field input:focus, .modal-field select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(200,168,75,0.15); }
+  .modal-field select option { background: #1a1a1a; }
+  .modal-summary { background: rgba(200,168,75,0.06); border: 1px solid var(--gold-border); border-radius: 10px; padding: 12px 14px; margin-bottom: 18px; font-size: 13px; color: var(--muted); }
+  .modal-summary .summary-row { display: flex; justify-content: space-between; padding: 2px 0; }
+  .modal-summary .summary-row.total { color: var(--gold); font-weight: 700; font-size: 14px; padding-top: 6px; border-top: 1px dashed var(--gold-border); margin-top: 4px; }
+  .modal-submit { width: 100%; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: var(--black); border: none; border-radius: 10px; padding: 15px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 17px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 22px rgba(200,168,75,0.32); }
+  .modal-submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(200,168,75,0.45); }
+  .modal-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .modal-error { display: none; background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.35); color: var(--red); padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-top: 14px; }
+  .modal-error.show { display: block; }
+  .modal-note { font-size: 11px; color: var(--dim); text-align: center; margin-top: 12px; }
+
+  /* Success banner (shown on ?order=success) */
+  .success-banner { display: none; position: fixed; top: 78px; left: 50%; transform: translateX(-50%); z-index: 150; background: rgba(76,217,100,0.12); border: 1px solid rgba(76,217,100,0.4); color: #6fe07a; padding: 14px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; max-width: 92%; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+  .success-banner.show { display: block; animation: bannerIn 0.4s ease; }
+  @keyframes bannerIn { from { opacity: 0; transform: translate(-50%, -10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+  footer { border-top: 1px solid var(--border); padding: 36px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; margin-top: 56px; }
+  .footer-logo { display: flex; align-items: center; gap: 12px; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); }
+  .footer-logo img { height: 38px; width: 38px; object-fit: contain; }
+  .footer-logo span { color: var(--gold); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy { font-size: 0.6rem; color: #333; letter-spacing: 1px; }
+
+  @media (max-width: 900px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) {
+    nav { padding: 12px 20px; }
+    .nav-logo { height: 40px; width: 40px; }
+    .hero { padding: 56px 20px 40px; }
+    .hero-logo { height: 100px; width: 100px; }
+    .shop { padding: 40px 20px; }
+    .product-grid { grid-template-columns: 1fr; gap: 18px; }
+    .ebook-cta { padding: 26px 22px; text-align: center; }
+    footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">
+    <img src="/flex-logo.png" alt="The Flex Facility" class="nav-logo">
+    FLEX <span>FACILITY</span>
+  </a>
+  <a href="#shop" class="nav-cta">Shop</a>
+</nav>
+
+<div class="success-banner" id="successBanner">✅ Order received! Coach Kenny's team will be in touch.</div>
+
+<section class="hero">
+  <img src="/flex-logo.png" alt="The Flex Facility" class="hero-logo">
+  <div class="eyebrow">Flex Training Gear</div>
+  <h1>Built for <span class="gold">Strength.</span></h1>
+  <p class="hero-sub">Sleeveless hoodies built for the way we train. Premium comfort, maximum flexibility, moisture wicking, durable for the toughest sessions.</p>
+</section>
+
+<section class="shop" id="shop">
+  <div class="product-grid" id="productGrid">
+    <!-- Cards rendered via JS so the price math is computed once from the single source -->
+  </div>
+
+  <div class="ebook-cta">
+    <div class="ebook-text">
+      <h3>Want more than gear?</h3>
+      <p>Grab the <strong style="color:var(--white);">Road to the Stage</strong> training program — the full-body program Coach Kenny uses with serious athletes.</p>
+    </div>
+    <button class="ebook-btn" onclick="openEbookModal()">Order eBook — $65</button>
+  </div>
+</section>
+
+<!-- Order modal -->
+<div class="modal-overlay" id="orderModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">×</button>
+    <h2 id="modalTitle">Order</h2>
+    <p class="modal-sub" id="modalSub"></p>
+
+    <div class="modal-field">
+      <label>Full Name</label>
+      <input type="text" id="customerName" autocomplete="name" placeholder="First Last">
+    </div>
+    <div class="modal-field">
+      <label>Email</label>
+      <input type="email" id="customerEmail" autocomplete="email" placeholder="you@example.com">
+    </div>
+    <div class="modal-field">
+      <label>Phone</label>
+      <input type="tel" id="customerPhone" autocomplete="tel" placeholder="(314) 555-0123">
+    </div>
+    <div class="modal-field" id="modalSizeField">
+      <label>Size</label>
+      <select id="customerSize">
+        <option value="">Choose size…</option>
+        <option>S</option><option>M</option><option>L</option>
+        <option>XL</option><option>2XL</option><option>3XL</option>
+      </select>
+    </div>
+
+    <div class="modal-summary" id="modalSummary"></div>
+
+    <button class="modal-submit" id="modalSubmitBtn" onclick="submitOrder()">Continue to Secure Checkout →</button>
+    <div class="modal-note">You'll be redirected to Stripe to complete payment.</div>
+    <div class="modal-error" id="modalError"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">
+    <img src="/flex-logo.png" alt="The Flex Facility">
+    <span style="color:var(--white);">FLEX <span style="color:var(--gold);">FACILITY</span></span>
+  </div>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/trainers">Join Our Team</a>
+    <a href="https://www.instagram.com/flextraining2013" target="_blank" rel="noopener">Instagram</a>
+  </div>
+  <div class="footer-copy">© 2025 Flex Training LLC · Earth City, MO 63045</div>
+</footer>
+
+<script>
+  // ─── Product catalog + fee math (mirrors lib/platform-config.js) ───
+  // Single source of truth on the server. Inlined here so the static
+  // page can show the customer-total without an API call. Keep in sync
+  // with lib/platform-config.js if values change.
+  const PRODUCTS = {
+    hoodie: {
+      name: 'Flex Training Sleeveless Hoodie',
+      listCents: 4500,
+      variants: [
+        { color: 'Black / Cyan',  image: '/public/merch/hoodie-black-cyan.png' },
+        { color: 'Black / White', image: '/public/merch/hoodie-black-white.png' },
+        { color: 'White',         image: '/public/merch/hoodie-white.png' },
+      ],
+    },
+    ebook: {
+      name: 'Road to the Stage — Full Body Training Program',
+      listCents: 6500,
+    },
+  };
+  function calcTransactionFee(cents) { return Math.round(cents * 0.029) + 30; }
+  function calcCustomerTotal(cents)  { return cents + calcTransactionFee(cents); }
+  function fmt(cents) { return '$' + (cents / 100).toFixed(2); }
+
+  // ─── Render product grid ───
+  function renderGrid() {
+    const grid = document.getElementById('productGrid');
+    const p = PRODUCTS.hoodie;
+    const txFee = calcTransactionFee(p.listCents);
+    const total = calcCustomerTotal(p.listCents);
+    grid.innerHTML = p.variants.map((v, idx) => `
+      <div class="product-card" data-color="${v.color}">
+        <div class="product-image-wrap">
+          <img src="${v.image}" alt="${p.name} — ${v.color}" loading="${idx === 0 ? 'eager' : 'lazy'}">
+        </div>
+        <div class="product-body">
+          <div>
+            <div class="product-name">${p.name}</div>
+            <div class="product-color">${v.color}</div>
+          </div>
+          <div class="price-block">
+            <div class="price-row"><span>List price</span><span>${fmt(p.listCents)}</span></div>
+            <div class="price-row"><span>Transaction fee</span><span>+ ${fmt(txFee)}</span></div>
+            <div class="price-row total"><span>Total</span><span class="gold">${fmt(total)}</span></div>
+          </div>
+          <div class="size-block">
+            <label>Size</label>
+            <div class="size-grid" role="radiogroup">
+              ${['S','M','L','XL','2XL','3XL'].map(s => `<button class="size-pill" data-size="${s}" onclick="selectSize(this)">${s}</button>`).join('')}
+            </div>
+          </div>
+          <button class="order-btn" onclick="openHoodieModal('${v.color.replace(/'/g, "\\'")}', this)">Order Now</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function selectSize(btn) {
+    const grid = btn.closest('.size-grid');
+    grid.querySelectorAll('.size-pill').forEach(p => p.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
+
+  // ─── Modal ───
+  let modalCtx = null; // { product_key, color, size }
+
+  function openHoodieModal(color, btn) {
+    const card = btn.closest('.product-card');
+    const selectedSizeBtn = card.querySelector('.size-pill.selected');
+    const size = selectedSizeBtn ? selectedSizeBtn.dataset.size : '';
+
+    modalCtx = { product_key: 'hoodie', color };
+    document.getElementById('modalTitle').textContent = 'Order — ' + PRODUCTS.hoodie.name;
+    document.getElementById('modalSub').textContent = color + ' · Hassle-free returns within 14 days.';
+    document.getElementById('modalSizeField').style.display = '';
+    document.getElementById('customerSize').value = size;
+    renderModalSummary('hoodie', size);
+    showModal();
+  }
+
+  function openEbookModal() {
+    modalCtx = { product_key: 'ebook', color: null };
+    document.getElementById('modalTitle').textContent = 'Order — Road to the Stage';
+    document.getElementById('modalSub').textContent = 'Instant download after checkout.';
+    document.getElementById('modalSizeField').style.display = 'none';
+    document.getElementById('customerSize').value = '';
+    renderModalSummary('ebook', '');
+    showModal();
+  }
+
+  function renderModalSummary(productKey, size) {
+    const p = PRODUCTS[productKey];
+    const txFee = calcTransactionFee(p.listCents);
+    const total = calcCustomerTotal(p.listCents);
+    const sizeRow = (productKey === 'hoodie' && size) ? `<div class="summary-row"><span>Size</span><span>${size}</span></div>` : '';
+    document.getElementById('modalSummary').innerHTML = `
+      ${sizeRow}
+      <div class="summary-row"><span>List price</span><span>${fmt(p.listCents)}</span></div>
+      <div class="summary-row"><span>Transaction fee</span><span>${fmt(txFee)}</span></div>
+      <div class="summary-row total"><span>Total</span><span>${fmt(total)}</span></div>
+    `;
+  }
+
+  function showModal() {
+    clearModalError();
+    document.getElementById('orderModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('customerName').focus(), 100);
+  }
+  function closeModal() {
+    document.getElementById('orderModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function showModalError(msg) {
+    const e = document.getElementById('modalError');
+    e.textContent = msg;
+    e.classList.add('show');
+  }
+  function clearModalError() {
+    const e = document.getElementById('modalError');
+    e.textContent = '';
+    e.classList.remove('show');
+  }
+
+  async function submitOrder() {
+    clearModalError();
+    if (!modalCtx) return;
+
+    const customer_name  = document.getElementById('customerName').value.trim();
+    const customer_email = document.getElementById('customerEmail').value.trim();
+    const customer_phone = document.getElementById('customerPhone').value.trim();
+    const size = modalCtx.product_key === 'hoodie' ? document.getElementById('customerSize').value : null;
+
+    if (!customer_name) return showModalError('Please enter your name.');
+    if (!customer_email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer_email)) return showModalError('Please enter a valid email.');
+    if (!customer_phone || customer_phone.replace(/\D/g, '').length < 10) return showModalError('Please enter a valid phone number.');
+    if (modalCtx.product_key === 'hoodie' && !size) return showModalError('Please choose a size.');
+
+    const btn = document.getElementById('modalSubmitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Redirecting to checkout…';
+
+    try {
+      const r = await fetch('/api/payments?action=create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          product_key: modalCtx.product_key,
+          size,
+          color: modalCtx.color,
+          customer_name,
+          customer_email,
+          customer_phone,
+        }),
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok || !data.success || !data.url) {
+        const reason = data.detail || data.error || 'Unknown error';
+        throw new Error(reason);
+      }
+      window.location.href = data.url;
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Continue to Secure Checkout →';
+      showModalError('Could not start checkout: ' + e.message);
+    }
+  }
+
+  // ─── On load ───
+  renderGrid();
+
+  // ?order=success banner
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('order') === 'success') {
+    document.getElementById('successBanner').classList.add('show');
+    // Clear the query param so a refresh doesn't keep showing it
+    history.replaceState({}, '', '/merch');
+    setTimeout(() => {
+      document.getElementById('successBanner').classList.remove('show');
+    }, 8000);
+  }
+</script>
+</body>
+</html>
