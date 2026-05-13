@@ -1,0 +1,424 @@
+// Payments serverless function for theflexfacility.com.
+//
+// Single file, three actions routed via ?action= query string. Done this
+// way to stay well under the Vercel Hobby 12-function limit:
+//
+//   POST /api/payments?action=create-checkout
+//     Body: { product_key, size?, color?, customer_name, customer_email,
+//             customer_phone }
+//     Looks up the Flex Facility's connected Stripe account, computes
+//     fees from lib/platform-config.js, inserts a pending orders row,
+//     creates a Stripe Checkout Session with two line items
+//     (list price + transaction fee), and returns the hosted-checkout URL.
+//
+//   POST /api/payments?action=webhook
+//     Stripe webhook receiver. Verifies the Stripe-Signature header
+//     against STRIPE_WEBHOOK_SECRET, then on payment_intent.succeeded
+//     flips the order row to 'paid', writes a platform_fees row, and
+//     fires SMS to Coach Kenny + the customer. On payment_intent.payment_failed
+//     flips the order to 'failed'. Always 200s back so Stripe stops retrying.
+//
+//   GET  /api/payments?action=connect-status&client_id=flex-facility
+//     Returns { connected, charges_enabled, payouts_enabled, account_id }
+//     for the given client. Used by /merch to gate the Order button and by
+//     the portal to show connection status.
+//
+// IMPORTANT — bodyParser is disabled file-wide so the webhook can read
+// the raw body for signature verification. Other actions parse JSON
+// manually via readJsonBody().
+//
+// FEE LOGIC — see lib/platform-config.js. The spec's worked example
+// requires application_fee_amount = platformFee + transactionFee so the
+// customer's transaction fee stays on the platform side (covers Stripe's
+// processing fee). Kenny's net payout = listPrice - platformFee.
+
+const Stripe = require('stripe');
+const { createClient } = require('@supabase/supabase-js');
+const twilio = require('twilio');
+const {
+  PRODUCTS,
+  PLATFORM_FEE_PCT,
+  calcTransactionFee,
+  calcPlatformFee,
+  calcCustomerTotal,
+} = require('../lib/platform-config');
+
+module.exports.config = {
+  api: { bodyParser: false },
+};
+
+// ─── Helpers ─────────────────────────────────────────────────────────
+
+function readRawBody(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on('data', (c) => chunks.push(c));
+    req.on('end', () => resolve(Buffer.concat(chunks)));
+    req.on('error', reject);
+  });
+}
+
+async function readJsonBody(req) {
+  const raw = await readRawBody(req);
+  if (!raw.length) return {};
+  try { return JSON.parse(raw.toString('utf8')); } catch { return {}; }
+}
+
+function getSupabase() {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key, { auth: { persistSession: false } });
+}
+
+function getQuery(req) {
+  // Vercel injects req.query, but be defensive when bodyParser is off
+  // and the runtime hasn't populated it.
+  if (req.query) return req.query;
+  try {
+    const u = new URL(req.url, 'http://x');
+    return Object.fromEntries(u.searchParams.entries());
+  } catch {
+    return {};
+  }
+}
+
+function fmtUsd(cents) {
+  return (cents / 100).toFixed(2);
+}
+
+// ─── Router ──────────────────────────────────────────────────────────
+
+module.exports = async function handler(req, res) {
+  try {
+    const action = getQuery(req).action;
+
+    if (action === 'create-checkout' && req.method === 'POST') {
+      return handleCreateCheckout(req, res);
+    }
+    if (action === 'webhook' && req.method === 'POST') {
+      return handleWebhook(req, res);
+    }
+    if (action === 'connect-status' && req.method === 'GET') {
+      return handleConnectStatus(req, res);
+    }
+    res.setHeader('Allow', 'POST, GET');
+    return res.status(405).json({
+      success: false,
+      error: 'method_or_action_not_allowed',
+      hint: 'Use ?action=create-checkout (POST) | webhook (POST) | connect-status (GET)',
+    });
+  } catch (e) {
+    console.error('[payments] uncaught:', e);
+    return res.status(500).json({
+      success: false,
+      error: 'unhandled',
+      detail: e?.message || String(e),
+    });
+  }
+};
+
+// ─── action=create-checkout ──────────────────────────────────────────
+
+async function handleCreateCheckout(req, res) {
+  const body = await readJsonBody(req);
+
+  // Hardcoded — this is the single-tenant flex marketing site. The
+  // portal's create-checkout (when we add other tenants) would resolve
+  // client_id from session, never trust the client.
+  const client_id = 'flex-facility';
+
+  const { product_key, size, color, customer_name, customer_email, customer_phone } = body;
+
+  if (!product_key || !PRODUCTS[product_key]) {
+    return res.status(400).json({ success: false, error: 'invalid_product_key', valid: Object.keys(PRODUCTS) });
+  }
+  if (!customer_name || !customer_email || !customer_phone) {
+    return res.status(400).json({ success: false, error: 'missing_customer_info' });
+  }
+
+  const product = PRODUCTS[product_key];
+  const listPrice = product.listPriceCents;
+  const txFee = calcTransactionFee(listPrice);
+  const platformFee = calcPlatformFee(listPrice);
+  const totalCharge = calcCustomerTotal(listPrice);
+
+  const supabase = getSupabase();
+  if (!supabase) {
+    return res.status(500).json({ success: false, error: 'supabase_env_missing' });
+  }
+
+  // Look up the connected Stripe account for this client. Must be
+  // fully onboarded (charges_enabled) or checkout will fail.
+  const { data: account, error: acctErr } = await supabase
+    .from('stripe_connect_accounts')
+    .select('stripe_account_id, charges_enabled, onboarding_complete')
+    .eq('client_id', client_id)
+    .maybeSingle();
+
+  if (acctErr) {
+    console.error('[payments] account lookup failed:', acctErr);
+    return res.status(500).json({ success: false, error: 'account_lookup_failed', detail: acctErr.message });
+  }
+  if (!account || !account.onboarding_complete) {
+    return res.status(400).json({
+      success: false,
+      error: 'stripe_not_connected',
+      detail: 'Stripe not connected for this account.',
+    });
+  }
+  if (!account.charges_enabled) {
+    return res.status(400).json({
+      success: false,
+      error: 'charges_not_enabled',
+      detail: 'Stripe Connect account is not yet able to accept charges. Finish onboarding in the portal.',
+    });
+  }
+
+  // Insert pending order row up front so we have an id to thread into
+  // Stripe metadata. The webhook will flip status -> 'paid' and write
+  // the matching platform_fees row.
+  const { data: order, error: orderErr } = await supabase
+    .from('orders')
+    .insert({
+      client_id,
+      stripe_account_id: account.stripe_account_id,
+      product_type: product.type,
+      product_name: product.name,
+      list_price_cents: listPrice,
+      transaction_fee_cents: txFee,
+      customer_total_cents: totalCharge,
+      platform_fee_cents: platformFee,
+      platform_fee_pct: PLATFORM_FEE_PCT,
+      currency: 'usd',
+      customer_name,
+      customer_email,
+      customer_phone,
+      size: size || null,
+      color: color || null,
+      status: 'pending',
+    })
+    .select('id')
+    .single();
+
+  if (orderErr) {
+    console.error('[payments] order insert failed:', orderErr);
+    return res.status(500).json({ success: false, error: 'order_insert_failed', detail: orderErr.message });
+  }
+
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return res.status(500).json({ success: false, error: 'stripe_env_missing', missing: ['STRIPE_SECRET_KEY'] });
+  }
+  const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+
+  // application_fee_amount = transaction fee + platform fee. The
+  // transaction fee stays on the platform side to cover Stripe's
+  // processing fee; the platform fee is Go Elev8's 7% revenue.
+  // Net to Kenny = totalCharge - applicationFeeAmount = listPrice - platformFee.
+  const applicationFeeAmount = txFee + platformFee;
+
+  let session;
+  try {
+    session = await stripe.checkout.sessions.create({
+      mode: 'payment',
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: { name: product.name },
+            unit_amount: listPrice,
+          },
+          quantity: 1,
+        },
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: { name: 'Transaction fee' },
+            unit_amount: txFee,
+          },
+          quantity: 1,
+        },
+      ],
+      payment_intent_data: {
+        application_fee_amount: applicationFeeAmount,
+        transfer_data: { destination: account.stripe_account_id },
+        metadata: { order_id: order.id, client_id },
+      },
+      customer_email,
+      success_url: 'https://theflexfacility.com/merch?order=success',
+      cancel_url: 'https://theflexfacility.com/merch',
+      metadata: { order_id: order.id, client_id },
+    });
+  } catch (e) {
+    console.error('[payments] stripe checkout create failed:', e);
+    return res.status(500).json({ success: false, error: 'stripe_checkout_failed', detail: e?.message });
+  }
+
+  return res.status(200).json({ success: true, url: session.url, order_id: order.id });
+}
+
+// ─── action=webhook ──────────────────────────────────────────────────
+
+async function handleWebhook(req, res) {
+  if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) {
+    console.error('[payments] webhook env vars missing');
+    return res.status(500).json({ error: 'stripe_env_missing' });
+  }
+
+  const raw = await readRawBody(req);
+  const signature = req.headers['stripe-signature'];
+  const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(raw, signature, process.env.STRIPE_WEBHOOK_SECRET);
+  } catch (e) {
+    console.error('[payments] webhook signature verify failed:', e.message);
+    return res.status(400).json({ error: 'invalid_signature' });
+  }
+
+  const supabase = getSupabase();
+  if (!supabase) {
+    // Ack to Stripe so it stops retrying — but log loudly. The row
+    // won't reconcile until env is fixed and we either re-send the
+    // event or run a reconciliation script.
+    console.error('[payments] supabase env missing during webhook for event', event.id);
+    return res.status(200).json({ received: true, warn: 'supabase_env_missing' });
+  }
+
+  if (event.type === 'payment_intent.succeeded') {
+    await onPaymentSucceeded(event, supabase);
+    return res.status(200).json({ received: true });
+  }
+
+  if (event.type === 'payment_intent.payment_failed') {
+    const pi = event.data.object;
+    const orderId = pi.metadata?.order_id;
+    if (orderId) {
+      await supabase
+        .from('orders')
+        .update({
+          status: 'failed',
+          stripe_payment_intent_id: pi.id,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', orderId);
+    }
+    return res.status(200).json({ received: true });
+  }
+
+  // Acknowledge everything else (charge.succeeded, etc.) so Stripe stops retrying.
+  return res.status(200).json({ received: true, ignored: event.type });
+}
+
+async function onPaymentSucceeded(event, supabase) {
+  const pi = event.data.object;
+  const orderId = pi.metadata?.order_id;
+  if (!orderId) {
+    console.warn('[payments] PI missing order_id metadata:', pi.id);
+    return;
+  }
+
+  // Update the pending order row to paid + stamp the PI id.
+  const { data: order, error: orderErr } = await supabase
+    .from('orders')
+    .update({
+      status: 'paid',
+      stripe_payment_intent_id: pi.id,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', orderId)
+    .select('*')
+    .single();
+
+  if (orderErr || !order) {
+    console.error('[payments] order update failed for', orderId, orderErr);
+    return;
+  }
+
+  // Record the collected platform fee. The Stripe transfer id is on
+  // pi.latest_charge.application_fee or the application fee resource —
+  // not critical for first iteration; leave null and reconcile later.
+  await supabase.from('platform_fees').insert({
+    order_id: order.id,
+    client_id: order.client_id,
+    fee_amount_cents: order.platform_fee_cents,
+    fee_pct: PLATFORM_FEE_PCT,
+    go_elev8_stripe_account: process.env.GO_ELEV8_STRIPE_ACCOUNT_ID || null,
+    status: 'collected',
+  });
+
+  // Notify Kenny + the customer. SMS failures are logged but never
+  // bubble up — Stripe must always see a 200 here.
+  try {
+    const fromNumber = process.env.TWILIO_FROM_NUMBER || process.env.TWILIO_PHONE_NUMBER;
+    const kennyTo = process.env.COACH_KENNY_PHONE; // TODO: migrate to a portal-side setting
+    if (!fromNumber) return;
+    if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN) return;
+
+    const sms = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+
+    const listDollars = fmtUsd(order.list_price_cents);
+    const kennyNetCents = order.list_price_cents - order.platform_fee_cents;
+    const kennyNetDollars = fmtUsd(kennyNetCents);
+
+    const sends = [];
+    if (kennyTo) {
+      sends.push(
+        sms.messages
+          .create({
+            from: fromNumber,
+            to: kennyTo,
+            body: `💰 New order! ${order.product_name} – $${listDollars}. After fees you'll receive $${kennyNetDollars}. Check your portal.`,
+          })
+          .catch((e) => console.error('[payments] kenny SMS failed:', e.message))
+      );
+    }
+    if (order.customer_phone) {
+      sends.push(
+        sms.messages
+          .create({
+            from: fromNumber,
+            to: order.customer_phone,
+            body: `✅ Order confirmed! ${order.product_name} is on its way. Questions? Reply to this message. – Flex Training 💪🏾`,
+          })
+          .catch((e) => console.error('[payments] customer SMS failed:', e.message))
+      );
+    }
+    await Promise.all(sends);
+  } catch (smsErr) {
+    console.error('[payments] SMS block crashed (ignored):', smsErr.message);
+  }
+}
+
+// ─── action=connect-status ───────────────────────────────────────────
+
+async function handleConnectStatus(req, res) {
+  const q = getQuery(req);
+  const client_id = q.client_id || 'flex-facility';
+
+  const supabase = getSupabase();
+  if (!supabase) {
+    return res.status(500).json({ success: false, error: 'supabase_env_missing' });
+  }
+
+  const { data, error } = await supabase
+    .from('stripe_connect_accounts')
+    .select('stripe_account_id, charges_enabled, payouts_enabled, onboarding_complete')
+    .eq('client_id', client_id)
+    .maybeSingle();
+
+  if (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+  if (!data) {
+    return res.status(200).json({ connected: false });
+  }
+  return res.status(200).json({
+    connected: !!data.onboarding_complete,
+    charges_enabled: !!data.charges_enabled,
+    payouts_enabled: !!data.payouts_enabled,
+    account_id: data.stripe_account_id,
+  });
+}
