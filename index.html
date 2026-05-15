@@ -789,7 +789,8 @@ function sendGoElev8Lead(extra) {
     return fetch(GOELEV8_LEAD_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
+      keepalive: true
     })
     .then(function(r){
       console.log('[GoElev8] ← lead response', r.status, r.statusText);
