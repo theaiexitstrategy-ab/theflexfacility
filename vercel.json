@@ -7,7 +7,9 @@
     { "source": "/r2s-thank-you", "destination": "/r2s-thank-you.html" },
     { "source": "/dl/r2s-program", "destination": "/road_to_the_stage.pdf" },
     { "source": "/trainers", "destination": "/trainers.html" },
-    { "source": "/merch", "destination": "/merch.html" }
+    { "source": "/merch", "destination": "/merch.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/terms", "destination": "/terms.html" }
   ],
   "redirects": [
     {
