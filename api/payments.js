@@ -349,6 +349,14 @@ async function onPaymentSucceeded(event, supabase) {
     status: 'collected',
   });
 
+  // Mirror the paid order into the GoElev8 portal so Kenny sees it in
+  // the Merch → Orders tab at portal.goelev8.ai (under the
+  // flex-facility tenant). Best-effort — failure must never block
+  // Stripe ack or the SMS notifications below.
+  await syncOrderToPortal({ order, pi }).catch((err) => {
+    console.warn('[payments] portal sync failed (non-fatal):', err.message);
+  });
+
   // Notify Kenny + the customer. SMS failures are logged but never
   // bubble up — Stripe must always see a 200 here.
   try {
@@ -389,6 +397,64 @@ async function onPaymentSucceeded(event, supabase) {
     await Promise.all(sends);
   } catch (smsErr) {
     console.error('[payments] SMS block crashed (ignored):', smsErr.message);
+  }
+}
+
+// ─── Portal sync (best-effort, post-payment) ────────────────────────
+//
+// POSTs a copy of the paid order to portal.goelev8.ai so Kenny can
+// see it in the Merch → Orders tab. The portal keys orders to its
+// own clients row via the Bearer token (clients.portal_api_key on
+// the goelev8 portal Supabase). Idempotent at the receiving end via
+// the stripe_payment_id UNIQUE constraint — a retry just no-ops.
+//
+// Set in Vercel env:
+//   PORTAL_SYNC_URL   = https://portal.goelev8.ai
+//   PORTAL_API_KEY    = flex_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//                       (issued in goelev8 portal Master Admin →
+//                        Run Pending Migrations)
+
+async function syncOrderToPortal({ order, pi }) {
+  const baseUrl = (process.env.PORTAL_SYNC_URL || '').replace(/\/$/, '');
+  const apiKey = process.env.PORTAL_API_KEY;
+  if (!baseUrl || !apiKey) return;  // not configured → skip silently
+
+  // The portal's order schema is multi-line-item; Flex orders today
+  // are always single product. Wrap it in a one-item array so the
+  // portal's display + per-item ledger still works.
+  const payload = {
+    customer_name:  order.customer_name,
+    customer_email: order.customer_email,
+    customer_phone: order.customer_phone,
+    shipping: {},  // Flex orders are picked up at the gym — no ship-to
+    items: [{
+      product_id:  order.product_type,
+      name:        order.product_name,
+      color:       order.color,
+      size:        order.size,
+      quantity:    1,
+      price_cents: order.list_price_cents,
+    }],
+    subtotal_cents:     order.list_price_cents,
+    shipping_cents:     0,
+    platform_fee_cents: order.platform_fee_cents,
+    stripe_fee_cents:   order.transaction_fee_cents,
+    total_cents:        order.customer_total_cents,
+    stripe_payment_id:  pi.id,
+    external_order_number: String(order.id),
+  };
+
+  const r = await fetch(`${baseUrl}/api/external/orders`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type':  'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!r.ok) {
+    const text = await r.text();
+    throw new Error(`portal ${r.status}: ${text.slice(0, 200)}`);
   }
 }
 
