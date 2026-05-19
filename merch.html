@@ -375,8 +375,64 @@
     }
   }
 
+  // ─── Portal product sync ──────────────────────────────────────────
+  // After the initial paint, fetch whatever Kenny has set in the
+  // GoElev8 portal Merch tab. The portal is the source of truth for
+  // name/price/description/availability/image; variant info (colors,
+  // sizes) stays here because the portal schema doesn't model
+  // per-product variants. Portal outage → keeps hardcoded values;
+  // storefront never breaks.
+  const PORTAL_URL = 'https://portal.goelev8.ai';
+  const PORTAL_SLUG = 'flex-facility';
+
+  async function loadPortalProducts() {
+    let portalProducts;
+    try {
+      const r = await fetch(`${PORTAL_URL}/api/external/products?slug=${PORTAL_SLUG}`, { cache: 'no-store' });
+      if (!r.ok) return;
+      const data = await r.json();
+      portalProducts = data.products || [];
+    } catch (err) {
+      console.warn('[merch] portal sync skipped:', err.message);
+      return;
+    }
+    if (!portalProducts.length) return;
+
+    // Override existing hardcoded products with portal values. Match
+    // by product_key against the PRODUCTS map keys.
+    let touched = false;
+    for (const pp of portalProducts) {
+      const local = PRODUCTS[pp.key];
+      if (local) {
+        local.name      = pp.name || local.name;
+        local.listCents = pp.price_cents ?? local.listCents;
+        if (pp.image_url && local.variants && local.variants[0]) {
+          // Override the first variant's image with whatever the
+          // operator uploaded to the portal — keeps additional color
+          // variants intact for the hoodie's color swatches.
+          local.variants[0].image = pp.image_url;
+        }
+        touched = true;
+      } else {
+        // Portal-only product the operator added. Render it with a
+        // single default variant using the uploaded image.
+        PRODUCTS[pp.key] = {
+          name: pp.name,
+          listCents: pp.price_cents || 0,
+          variants: [{
+            color: 'Default',
+            image: pp.image_url || '/assets/merch/hoodie-black-cyan.png'
+          }]
+        };
+        touched = true;
+      }
+    }
+    if (touched) renderGrid();
+  }
+
   // ─── On load ───
   renderGrid();
+  loadPortalProducts();
 
   // ?order=success banner
   const params = new URLSearchParams(window.location.search);

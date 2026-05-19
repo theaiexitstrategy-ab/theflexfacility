@@ -36,12 +36,47 @@ const Stripe = require('stripe');
 const { createClient } = require('@supabase/supabase-js');
 const twilio = require('twilio');
 const {
-  PRODUCTS,
+  PRODUCTS: HARDCODED_PRODUCTS,
   PLATFORM_FEE_PCT,
   calcTransactionFee,
   calcPlatformFee,
   calcCustomerTotal,
 } = require('../lib/platform-config');
+
+// Fetch the live product catalog from the GoElev8 portal so Kenny's
+// price edits + new products in the portal Merch tab take effect on
+// the very next checkout without redeploying this site. The
+// hardcoded HARDCODED_PRODUCTS map from lib/platform-config.js stays
+// as a fallback so checkout never breaks on a portal outage.
+const PORTAL_URL = (process.env.PORTAL_SYNC_URL || 'https://portal.goelev8.ai').replace(/\/$/, '');
+const PORTAL_SLUG = 'flex-facility';
+
+async function fetchPortalProducts() {
+  try {
+    const r = await fetch(`${PORTAL_URL}/api/external/products?slug=${PORTAL_SLUG}`, {
+      headers: { 'Cache-Control': 'no-cache' }
+    });
+    if (!r.ok) return null;
+    const data = await r.json();
+    const products = data.products || [];
+    if (!products.length) return null;
+    // Build a map shaped like HARDCODED_PRODUCTS so the rest of the
+    // handler doesn't have to branch on the source.
+    const map = {};
+    for (const p of products) {
+      if (!p.key || !Number.isFinite(p.price_cents)) continue;
+      map[p.key] = {
+        name: p.name || (HARDCODED_PRODUCTS[p.key]?.name) || p.key,
+        listPriceCents: p.price_cents,
+        type: HARDCODED_PRODUCTS[p.key]?.type || 'merch'
+      };
+    }
+    return Object.keys(map).length ? map : null;
+  } catch (err) {
+    console.warn('[payments] portal product fetch failed (using hardcoded):', err.message);
+    return null;
+  }
+}
 
 module.exports.config = {
   api: { bodyParser: false },
@@ -129,6 +164,12 @@ async function handleCreateCheckout(req, res) {
   const client_id = 'flex-facility';
 
   const { product_key, size, color, customer_name, customer_email, customer_phone } = body;
+
+  // Merge live portal catalog over the hardcoded fallback. Portal
+  // wins on any key it provides; missing keys still resolve via the
+  // hardcoded map so an outage doesn't 400 a known product.
+  const portalProducts = await fetchPortalProducts();
+  const PRODUCTS = { ...HARDCODED_PRODUCTS, ...(portalProducts || {}) };
 
   if (!product_key || !PRODUCTS[product_key]) {
     return res.status(400).json({ success: false, error: 'invalid_product_key', valid: Object.keys(PRODUCTS) });
