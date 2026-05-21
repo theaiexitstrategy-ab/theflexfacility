@@ -232,36 +232,80 @@
   function fmt(cents) { return '$' + (cents / 100).toFixed(2); }
 
   // ─── Render product grid ───
+  // Iterates every product in the PRODUCTS map (hardcoded hoodie +
+  // anything Kenny added in the portal Merch tab). The hoodie keeps
+  // its multi-variant per-color cards; portal-added products render
+  // as a single card each using their first variant's image.
+  //
+  // The 'ebook' key is excluded — it's a non-shippable digital
+  // product the portal doesn't list (R2S pipeline sells it
+  // separately).
   function renderGrid() {
     const grid = document.getElementById('productGrid');
-    const p = PRODUCTS.hoodie;
-    const txFee = calcTransactionFee(p.listCents);
-    const total = calcCustomerTotal(p.listCents);
-    grid.innerHTML = p.variants.map((v, idx) => `
-      <div class="product-card" data-color="${v.color}">
-        <div class="product-image-wrap">
-          <img src="${v.image}" alt="${p.name} — ${v.color}" loading="${idx === 0 ? 'eager' : 'lazy'}">
-        </div>
-        <div class="product-body">
-          <div>
-            <div class="product-name">${p.name}</div>
-            <div class="product-color">${v.color}</div>
-          </div>
-          <div class="price-block">
-            <div class="price-row"><span>List price</span><span>${fmt(p.listCents)}</span></div>
-            <div class="price-row"><span>Transaction fee</span><span>+ ${fmt(txFee)}</span></div>
-            <div class="price-row total"><span>Total</span><span class="gold">${fmt(total)}</span></div>
-          </div>
-          <div class="size-block">
-            <label>Size</label>
-            <div class="size-grid" role="radiogroup">
-              ${['S','M','L','XL','2XL','3XL'].map(s => `<button class="size-pill" data-size="${s}" onclick="selectSize(this)">${s}</button>`).join('')}
+    const cards = [];
+    let cardIdx = 0;
+    for (const key of Object.keys(PRODUCTS)) {
+      if (key === 'ebook') continue;
+      const p = PRODUCTS[key];
+      if (!p || !Array.isArray(p.variants) || !p.variants.length) continue;
+      const txFee = calcTransactionFee(p.listCents);
+      const total = calcCustomerTotal(p.listCents);
+      // Hoodie shows every color as its own card (legacy design).
+      // Any other product renders just its first variant — operators
+      // can still upload swatches later by extending the variants
+      // array. The size grid is only meaningful for apparel; we
+      // still render it for any unknown product since the modal
+      // gates on selectedSize when needed.
+      const variantsToRender = key === 'hoodie' ? p.variants : p.variants.slice(0, 1);
+      for (const v of variantsToRender) {
+        const variantLabel = v.color || 'Default';
+        cards.push(`
+          <div class="product-card" data-product="${key}" data-color="${variantLabel}">
+            <div class="product-image-wrap">
+              <img src="${v.image}" alt="${p.name} — ${variantLabel}" loading="${cardIdx === 0 ? 'eager' : 'lazy'}">
+            </div>
+            <div class="product-body">
+              <div>
+                <div class="product-name">${p.name}</div>
+                ${variantLabel && variantLabel !== 'Default' ? `<div class="product-color">${variantLabel}</div>` : ''}
+              </div>
+              <div class="price-block">
+                <div class="price-row"><span>List price</span><span>${fmt(p.listCents)}</span></div>
+                <div class="price-row"><span>Transaction fee</span><span>+ ${fmt(txFee)}</span></div>
+                <div class="price-row total"><span>Total</span><span class="gold">${fmt(total)}</span></div>
+              </div>
+              <div class="size-block">
+                <label>Size</label>
+                <div class="size-grid" role="radiogroup">
+                  ${['S','M','L','XL','2XL','3XL'].map(s => `<button class="size-pill" data-size="${s}" onclick="selectSize(this)">${s}</button>`).join('')}
+                </div>
+              </div>
+              <button class="order-btn" onclick="openProductModal('${key}', '${variantLabel.replace(/'/g, "\\'")}', this)">Order Now</button>
             </div>
           </div>
-          <button class="order-btn" onclick="openHoodieModal('${v.color.replace(/'/g, "\\'")}', this)">Order Now</button>
-        </div>
-      </div>
-    `).join('');
+        `);
+        cardIdx++;
+      }
+    }
+    grid.innerHTML = cards.join('');
+  }
+
+  // Generic product-modal opener — renderGrid wires every card's
+  // 'Order Now' button to this with the matching product_key.
+  function openProductModal(productKey, color, btn) {
+    const product = PRODUCTS[productKey];
+    if (!product) return;
+    const card = btn.closest('.product-card');
+    const selectedSizeBtn = card.querySelector('.size-pill.selected');
+    const size = selectedSizeBtn ? selectedSizeBtn.dataset.size : '';
+
+    modalCtx = { product_key: productKey, color };
+    document.getElementById('modalTitle').textContent = 'Order — ' + product.name;
+    document.getElementById('modalSub').textContent = (color && color !== 'Default' ? color + ' · ' : '') + 'Hassle-free returns within 14 days.';
+    document.getElementById('modalSizeField').style.display = '';
+    document.getElementById('customerSize').value = size;
+    renderModalSummary(productKey, size);
+    showModal();
   }
 
   function selectSize(btn) {
