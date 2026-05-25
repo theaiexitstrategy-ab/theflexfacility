@@ -212,106 +212,93 @@
   // Single source of truth on the server. Inlined here so the static
   // page can show the customer-total without an API call. Keep in sync
   // with lib/platform-config.js if values change.
-  // Each color variant is its own product so Kenny can price them
-  // independently from the GoElev8 portal Merch tab. The portal
-  // is the source of truth — these hardcoded entries only ship to
-  // cover the cold-start render (and the unlikely portal outage).
-  // The 'ebook' entry is excluded from the grid by renderGrid() but
-  // kept here so the existing openEbookModal path keeps working.
+  // The grid is rendered entirely from the GoElev8 portal Merch tab
+  // (single source of truth). Kenny lists / hides / re-prices products
+  // in the portal and the change appears on the next page load — no
+  // redeploy needed.
+  //
+  // PRODUCTS below is intentionally just the ebook fallback for the
+  // bottom upsell card. The R2S ebook isn't a portal-listed SKU.
   const PRODUCTS = {
-    'hoodie-black-cyan': {
-      name: 'Flex Training Sleeveless Hoodie — Black/Cyan',
-      listCents: 4500,
-      variants: [{ color: 'Black/Cyan', image: '/assets/merch/hoodie-black-cyan.png' }],
-    },
-    'hoodie-black-white': {
-      name: 'Flex Training Sleeveless Hoodie — Black/White',
-      listCents: 4500,
-      variants: [{ color: 'Black/White', image: '/assets/merch/hoodie-black-white.png' }],
-    },
-    'hoodie-white': {
-      name: 'Flex Training Sleeveless Hoodie — White',
-      listCents: 4500,
-      variants: [{ color: 'White', image: '/assets/merch/hoodie-white.png' }],
-    },
     ebook: {
       name: 'Road to the Stage — Full Body Training Program',
       listCents: 6500,
     },
   };
+
+  // Portal products live here once loaded. Keyed by product_key so
+  // openProductModal / renderModalSummary can look them up.
+  const portalProductsByKey = {};
   function calcTransactionFee(cents) { return Math.round(cents * 0.029) + 30; }
   function calcCustomerTotal(cents)  { return cents + calcTransactionFee(cents); }
   function fmt(cents) { return '$' + (cents / 100).toFixed(2); }
 
-  // ─── Render product grid ───
-  // Iterates every product in the PRODUCTS map (hardcoded hoodie +
-  // anything Kenny added in the portal Merch tab). The hoodie keeps
-  // its multi-variant per-color cards; portal-added products render
-  // as a single card each using their first variant's image.
-  //
-  // The 'ebook' key is excluded — it's a non-shippable digital
-  // product the portal doesn't list (R2S pipeline sells it
-  // separately).
-  function renderGrid() {
+  // Escape a string for safe interpolation into both HTML text content
+  // and single-quoted attribute values used by inline onclick handlers.
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  // ─── Render product grid from portal data ───
+  // Renders one card per product returned by the portal external API,
+  // sorted by sort_order from the operator's portal. No hardcoded
+  // fallback — the portal IS the catalog.
+  function renderGrid(products) {
     const grid = document.getElementById('productGrid');
-    const cards = [];
-    let cardIdx = 0;
-    for (const key of Object.keys(PRODUCTS)) {
-      if (key === 'ebook') continue;
-      const p = PRODUCTS[key];
-      if (!p || !Array.isArray(p.variants) || !p.variants.length) continue;
+    if (!Array.isArray(products) || !products.length) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:48px 20px;color:var(--muted);border:1px dashed var(--border);border-radius:16px;">No products listed yet. Check back soon.</div>';
+      return;
+    }
+    grid.innerHTML = products.map((p, i) => {
       const txFee = calcTransactionFee(p.listCents);
       const total = calcCustomerTotal(p.listCents);
-      // Each product = one card (one variant). Color used to live as
-      // a sub-array under a single 'hoodie' key; now each color has
-      // its own product_key in the portal so Kenny can price them
-      // independently. renderGrid stays generic.
-      const variantsToRender = p.variants.slice(0, 1);
-      for (const v of variantsToRender) {
-        const variantLabel = v.color || 'Default';
-        cards.push(`
-          <div class="product-card" data-product="${key}" data-color="${variantLabel}">
-            <div class="product-image-wrap">
-              <img src="${v.image}" alt="${p.name} — ${variantLabel}" loading="${cardIdx === 0 ? 'eager' : 'lazy'}">
-            </div>
-            <div class="product-body">
-              <div>
-                <div class="product-name">${p.name}</div>
-                ${variantLabel && variantLabel !== 'Default' ? `<div class="product-color">${variantLabel}</div>` : ''}
-              </div>
-              <div class="price-block">
-                <div class="price-row"><span>List price</span><span>${fmt(p.listCents)}</span></div>
-                <div class="price-row"><span>Transaction fee</span><span>+ ${fmt(txFee)}</span></div>
-                <div class="price-row total"><span>Total</span><span class="gold">${fmt(total)}</span></div>
-              </div>
-              <div class="size-block">
-                <label>Size</label>
-                <div class="size-grid" role="radiogroup">
-                  ${['S','M','L','XL','2XL','3XL'].map(s => `<button class="size-pill" data-size="${s}" onclick="selectSize(this)">${s}</button>`).join('')}
-                </div>
-              </div>
-              <button class="order-btn" onclick="openProductModal('${key}', '${variantLabel.replace(/'/g, "\\'")}', this)">Order Now</button>
-            </div>
+      const imgSrc = p.image || '/assets/merch/hoodie-black-cyan.png';
+      return `
+        <div class="product-card" data-product="${esc(p.key)}">
+          <div class="product-image-wrap">
+            <img src="${esc(imgSrc)}" alt="${esc(p.name)}" loading="${i === 0 ? 'eager' : 'lazy'}">
           </div>
-        `);
-        cardIdx++;
-      }
-    }
-    grid.innerHTML = cards.join('');
+          <div class="product-body">
+            <div>
+              <div class="product-name">${esc(p.name)}</div>
+            </div>
+            <div class="price-block">
+              <div class="price-row"><span>List price</span><span>${fmt(p.listCents)}</span></div>
+              <div class="price-row"><span>Transaction fee</span><span>+ ${fmt(txFee)}</span></div>
+              <div class="price-row total"><span>Total</span><span class="gold">${fmt(total)}</span></div>
+            </div>
+            <div class="size-block">
+              <label>Size</label>
+              <div class="size-grid" role="radiogroup">
+                ${['S','M','L','XL','2XL','3XL'].map(s => `<button class="size-pill" data-size="${s}" onclick="selectSize(this)">${s}</button>`).join('')}
+              </div>
+            </div>
+            <button class="order-btn" onclick="openProductModal('${esc(p.key)}', this)">Order Now</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderGridLoading() {
+    document.getElementById('productGrid').innerHTML =
+      '<div style="grid-column:1/-1;text-align:center;padding:48px 20px;color:var(--muted);">Loading products…</div>';
   }
 
   // Generic product-modal opener — renderGrid wires every card's
   // 'Order Now' button to this with the matching product_key.
-  function openProductModal(productKey, color, btn) {
-    const product = PRODUCTS[productKey];
+  function openProductModal(productKey, btn) {
+    const product = portalProductsByKey[productKey];
     if (!product) return;
     const card = btn.closest('.product-card');
     const selectedSizeBtn = card.querySelector('.size-pill.selected');
     const size = selectedSizeBtn ? selectedSizeBtn.dataset.size : '';
 
-    modalCtx = { product_key: productKey, color };
+    modalCtx = { product_key: productKey, color: null };
     document.getElementById('modalTitle').textContent = 'Order — ' + product.name;
-    document.getElementById('modalSub').textContent = (color && color !== 'Default' ? color + ' · ' : '') + 'Hassle-free returns within 14 days.';
+    document.getElementById('modalSub').textContent = 'Hassle-free returns within 14 days.';
     document.getElementById('modalSizeField').style.display = '';
     document.getElementById('customerSize').value = size;
     renderModalSummary(productKey, size);
@@ -327,20 +314,6 @@
   // ─── Modal ───
   let modalCtx = null; // { product_key, color, size }
 
-  function openHoodieModal(color, btn) {
-    const card = btn.closest('.product-card');
-    const selectedSizeBtn = card.querySelector('.size-pill.selected');
-    const size = selectedSizeBtn ? selectedSizeBtn.dataset.size : '';
-
-    modalCtx = { product_key: 'hoodie', color };
-    document.getElementById('modalTitle').textContent = 'Order — ' + PRODUCTS.hoodie.name;
-    document.getElementById('modalSub').textContent = color + ' · Hassle-free returns within 14 days.';
-    document.getElementById('modalSizeField').style.display = '';
-    document.getElementById('customerSize').value = size;
-    renderModalSummary('hoodie', size);
-    showModal();
-  }
-
   function openEbookModal() {
     modalCtx = { product_key: 'ebook', color: null };
     document.getElementById('modalTitle').textContent = 'Order — Road to the Stage';
@@ -352,10 +325,13 @@
   }
 
   function renderModalSummary(productKey, size) {
-    const p = PRODUCTS[productKey];
+    // Portal products take precedence; PRODUCTS map is just the ebook
+    // fallback at the bottom of the page.
+    const p = portalProductsByKey[productKey] || PRODUCTS[productKey];
+    if (!p) return;
     const txFee = calcTransactionFee(p.listCents);
     const total = calcCustomerTotal(p.listCents);
-    const sizeRow = (productKey === 'hoodie' && size) ? `<div class="summary-row"><span>Size</span><span>${size}</span></div>` : '';
+    const sizeRow = (productKey !== 'ebook' && size) ? `<div class="summary-row"><span>Size</span><span>${size}</span></div>` : '';
     document.getElementById('modalSummary').innerHTML = `
       ${sizeRow}
       <div class="summary-row"><span>List price</span><span>${fmt(p.listCents)}</span></div>
@@ -392,12 +368,15 @@
     const customer_name  = document.getElementById('customerName').value.trim();
     const customer_email = document.getElementById('customerEmail').value.trim();
     const customer_phone = document.getElementById('customerPhone').value.trim();
-    const size = modalCtx.product_key === 'hoodie' ? document.getElementById('customerSize').value : null;
+    // Size only applies to physical products. The ebook is the one
+    // current digital SKU; portal-listed merch all needs a size.
+    const isDigital = modalCtx.product_key === 'ebook';
+    const size = isDigital ? null : document.getElementById('customerSize').value;
 
     if (!customer_name) return showModalError('Please enter your name.');
     if (!customer_email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer_email)) return showModalError('Please enter a valid email.');
     if (!customer_phone || customer_phone.replace(/\D/g, '').length < 10) return showModalError('Please enter a valid phone number.');
-    if (modalCtx.product_key === 'hoodie' && !size) return showModalError('Please choose a size.');
+    if (!isDigital && !size) return showModalError('Please choose a size.');
 
     const btn = document.getElementById('modalSubmitBtn');
     btn.disabled = true;
@@ -429,63 +408,42 @@
     }
   }
 
-  // ─── Portal product sync ──────────────────────────────────────────
-  // After the initial paint, fetch whatever Kenny has set in the
-  // GoElev8 portal Merch tab. The portal is the source of truth for
-  // name/price/description/availability/image; variant info (colors,
-  // sizes) stays here because the portal schema doesn't model
-  // per-product variants. Portal outage → keeps hardcoded values;
-  // storefront never breaks.
+  // ─── Portal product catalog (single source of truth) ─────────────
+  // Whatever Kenny has set in the GoElev8 portal Merch tab is what
+  // renders on /merch. No hardcoded shirt fallback — if the portal
+  // returns nothing, the grid shows an empty state.
   const PORTAL_URL = 'https://portal.goelev8.ai';
   const PORTAL_SLUG = 'flex-facility';
 
   async function loadPortalProducts() {
-    let portalProducts;
+    let products = [];
     try {
       const r = await fetch(`${PORTAL_URL}/api/external/products?slug=${PORTAL_SLUG}`, { cache: 'no-store' });
-      if (!r.ok) return;
+      if (!r.ok) throw new Error('HTTP ' + r.status);
       const data = await r.json();
-      portalProducts = data.products || [];
+      products = data.products || [];
     } catch (err) {
-      console.warn('[merch] portal sync skipped:', err.message);
+      console.warn('[merch] portal product fetch failed:', err.message);
+      document.getElementById('productGrid').innerHTML =
+        '<div style="grid-column:1/-1;text-align:center;padding:48px 20px;color:var(--muted);border:1px dashed var(--border);border-radius:16px;">Couldn\'t load products. Refresh in a moment, or grab the ebook below in the meantime.</div>';
       return;
     }
-    if (!portalProducts.length) return;
 
-    // Override existing hardcoded products with portal values. Match
-    // by product_key against the PRODUCTS map keys.
-    let touched = false;
-    for (const pp of portalProducts) {
-      const local = PRODUCTS[pp.key];
-      if (local) {
-        local.name      = pp.name || local.name;
-        local.listCents = pp.price_cents ?? local.listCents;
-        if (pp.image_url && local.variants && local.variants[0]) {
-          // Override the first variant's image with whatever the
-          // operator uploaded to the portal — keeps additional color
-          // variants intact for the hoodie's color swatches.
-          local.variants[0].image = pp.image_url;
-        }
-        touched = true;
-      } else {
-        // Portal-only product the operator added. Render it with a
-        // single default variant using the uploaded image.
-        PRODUCTS[pp.key] = {
-          name: pp.name,
-          listCents: pp.price_cents || 0,
-          variants: [{
-            color: 'Default',
-            image: pp.image_url || '/assets/merch/hoodie-black-cyan.png'
-          }]
-        };
-        touched = true;
-      }
-    }
-    if (touched) renderGrid();
+    // Normalize portal shape → the shape renderGrid expects, and
+    // stash by key for the modal lookups.
+    const normalized = products.map(p => ({
+      key:       p.key,
+      name:      p.name,
+      listCents: p.price_cents,
+      image:     p.image_url,
+      sortOrder: p.sort_order
+    }));
+    for (const p of normalized) portalProductsByKey[p.key] = p;
+    renderGrid(normalized);
   }
 
   // ─── On load ───
-  renderGrid();
+  renderGridLoading();
   loadPortalProducts();
 
   // ?order=success banner
