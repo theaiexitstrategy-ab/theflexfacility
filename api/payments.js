@@ -189,32 +189,80 @@ async function handleCreateCheckout(req, res) {
     return res.status(500).json({ success: false, error: 'supabase_env_missing' });
   }
 
-  // Look up the connected Stripe account for this client. Must be
-  // fully onboarded (charges_enabled) or checkout will fail.
-  const { data: account, error: acctErr } = await supabase
-    .from('stripe_connect_accounts')
-    .select('stripe_account_id, charges_enabled, onboarding_complete')
-    .eq('client_id', client_id)
+  // Look up the connected Stripe account for this tenant.
+  //
+  // Two storage locations exist historically:
+  //   1. clients.stripe_connected_account_id  — written by the
+  //      portal's OAuth callback (current source of truth)
+  //   2. stripe_connect_accounts table         — legacy seeded by the
+  //      old Express-onboarding flow
+  //
+  // We check clients FIRST because that's where new connections land
+  // (after the OAuth Connect Stripe flow Kenny clicked through). Fall
+  // back to stripe_connect_accounts only if the clients column is
+  // empty — covers projects that never migrated to the OAuth flow.
+  //
+  // charges_enabled is verified live against Stripe instead of trusting
+  // a possibly-stale row, so a tenant that disabled their account in
+  // Stripe Dashboard still blocks checkout cleanly.
+  let stripeAccountId = null;
+  const { data: clientRow, error: clientErr } = await supabase
+    .from('clients')
+    .select('stripe_connected_account_id')
+    .eq('slug', client_id)
     .maybeSingle();
-
-  if (acctErr) {
-    console.error('[payments] account lookup failed:', acctErr);
-    return res.status(500).json({ success: false, error: 'account_lookup_failed', detail: acctErr.message });
+  if (clientErr) {
+    console.error('[payments] clients lookup failed:', clientErr);
+    return res.status(500).json({ success: false, error: 'account_lookup_failed', detail: clientErr.message });
   }
-  if (!account || !account.onboarding_complete) {
+  if (clientRow?.stripe_connected_account_id) {
+    stripeAccountId = clientRow.stripe_connected_account_id;
+  } else {
+    // Fallback: legacy stripe_connect_accounts row.
+    const { data: legacy } = await supabase
+      .from('stripe_connect_accounts')
+      .select('stripe_account_id, charges_enabled, onboarding_complete')
+      .eq('client_id', client_id)
+      .maybeSingle();
+    if (legacy?.onboarding_complete && legacy?.stripe_account_id) {
+      stripeAccountId = legacy.stripe_account_id;
+    }
+  }
+  if (!stripeAccountId) {
     return res.status(400).json({
       success: false,
       error: 'stripe_not_connected',
-      detail: 'Stripe not connected for this account.',
+      detail: 'Stripe not connected for this account. Open the portal Settings tab and click Connect Stripe.',
     });
   }
-  if (!account.charges_enabled) {
+
+  // Verify charges_enabled live so a disconnected/restricted account
+  // doesn't slip through. Stripe SDK throws on bad account ids; we
+  // catch + surface a clean error.
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return res.status(500).json({ success: false, error: 'stripe_env_missing', missing: ['STRIPE_SECRET_KEY'] });
+  }
+  const stripeForVerify = Stripe(process.env.STRIPE_SECRET_KEY);
+  let acct;
+  try {
+    acct = await stripeForVerify.accounts.retrieve(stripeAccountId);
+  } catch (e) {
+    return res.status(400).json({
+      success: false,
+      error: 'stripe_account_unreachable',
+      detail: e?.message || 'Could not load Stripe account',
+      account_id: stripeAccountId,
+    });
+  }
+  if (!acct.charges_enabled) {
     return res.status(400).json({
       success: false,
       error: 'charges_not_enabled',
-      detail: 'Stripe Connect account is not yet able to accept charges. Finish onboarding in the portal.',
+      detail: 'Your connected Stripe account exists but isn\'t cleared to accept charges yet. Finish any pending verification in your Stripe Dashboard, then try again.',
+      account_id: stripeAccountId,
     });
   }
+  const account = { stripe_account_id: stripeAccountId, charges_enabled: true };
 
   // Insert pending order row up front so we have an id to thread into
   // Stripe metadata. The webhook will flip status -> 'paid' and write
@@ -510,22 +558,44 @@ async function handleConnectStatus(req, res) {
     return res.status(500).json({ success: false, error: 'supabase_env_missing' });
   }
 
-  const { data, error } = await supabase
-    .from('stripe_connect_accounts')
-    .select('stripe_account_id, charges_enabled, payouts_enabled, onboarding_complete')
-    .eq('client_id', client_id)
-    .maybeSingle();
+  // Read clients.stripe_connected_account_id first (current source of
+  // truth — written by the GoElev8 portal's OAuth callback). Fall
+  // back to the legacy stripe_connect_accounts table for projects
+  // that pre-date the OAuth flow.
+  let stripeAccountId = null;
+  const { data: clientRow } = await supabase
+    .from('clients').select('stripe_connected_account_id').eq('slug', client_id).maybeSingle();
+  if (clientRow?.stripe_connected_account_id) {
+    stripeAccountId = clientRow.stripe_connected_account_id;
+  } else {
+    const { data: legacy } = await supabase
+      .from('stripe_connect_accounts').select('stripe_account_id').eq('client_id', client_id).maybeSingle();
+    if (legacy?.stripe_account_id) stripeAccountId = legacy.stripe_account_id;
+  }
+  if (!stripeAccountId) return res.status(200).json({ connected: false });
 
-  if (error) {
-    return res.status(500).json({ success: false, error: error.message });
+  // Verify against Stripe so the response reflects the LIVE state of
+  // the account (charges_enabled can flip if Stripe restricts an
+  // account post-onboarding for a verification reason).
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return res.status(200).json({ connected: true, account_id: stripeAccountId, charges_enabled: false, payouts_enabled: false });
   }
-  if (!data) {
-    return res.status(200).json({ connected: false });
+  try {
+    const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+    const acct = await stripe.accounts.retrieve(stripeAccountId);
+    return res.status(200).json({
+      connected: true,
+      charges_enabled: !!acct.charges_enabled,
+      payouts_enabled: !!acct.payouts_enabled,
+      account_id: acct.id,
+    });
+  } catch (e) {
+    return res.status(200).json({
+      connected: true,
+      account_id: stripeAccountId,
+      charges_enabled: false,
+      payouts_enabled: false,
+      verify_error: e?.message
+    });
   }
-  return res.status(200).json({
-    connected: !!data.onboarding_complete,
-    charges_enabled: !!data.charges_enabled,
-    payouts_enabled: !!data.payouts_enabled,
-    account_id: data.stripe_account_id,
-  });
 }
