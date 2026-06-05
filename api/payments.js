@@ -38,8 +38,10 @@ const twilio = require('twilio');
 const {
   PRODUCTS: HARDCODED_PRODUCTS,
   PLATFORM_FEE_PCT,
+  PROCESSING_FEE_CENTS,
   calcTransactionFee,
   calcPlatformFee,
+  calcProcessingFee,
   calcCustomerTotal,
 } = require('../lib/platform-config');
 
@@ -182,6 +184,7 @@ async function handleCreateCheckout(req, res) {
   const listPrice = product.listPriceCents;
   const txFee = calcTransactionFee(listPrice);
   const platformFee = calcPlatformFee(listPrice);
+  const processingFee = calcProcessingFee(listPrice);
   const totalCharge = calcCustomerTotal(listPrice);
 
   const supabase = getSupabase();
@@ -266,29 +269,34 @@ async function handleCreateCheckout(req, res) {
 
   // Insert pending order row up front so we have an id to thread into
   // Stripe metadata. The webhook will flip status -> 'paid' and write
-  // the matching platform_fees row.
-  const { data: order, error: orderErr } = await supabase
-    .from('orders')
-    .insert({
-      client_id,
-      stripe_account_id: account.stripe_account_id,
-      product_type: product.type,
-      product_name: product.name,
-      list_price_cents: listPrice,
-      transaction_fee_cents: txFee,
-      customer_total_cents: totalCharge,
-      platform_fee_cents: platformFee,
-      platform_fee_pct: PLATFORM_FEE_PCT,
-      currency: 'usd',
-      customer_name,
-      customer_email,
-      customer_phone,
-      size: size || null,
-      color: color || null,
-      status: 'pending',
-    })
-    .select('id')
-    .single();
+  // the matching platform_fees row. Tolerant of a missing
+  // processing_fee_cents column (pre-migration) — retries without it.
+  const orderRow = {
+    client_id,
+    stripe_account_id: account.stripe_account_id,
+    product_type: product.type,
+    product_name: product.name,
+    list_price_cents: listPrice,
+    transaction_fee_cents: txFee,
+    processing_fee_cents: processingFee,
+    customer_total_cents: totalCharge,
+    platform_fee_cents: platformFee,
+    platform_fee_pct: PLATFORM_FEE_PCT,
+    currency: 'usd',
+    customer_name,
+    customer_email,
+    customer_phone,
+    size: size || null,
+    color: color || null,
+    status: 'pending',
+  };
+  let { data: order, error: orderErr } = await supabase
+    .from('orders').insert(orderRow).select('id').single();
+  if (orderErr && /column .*processing_fee_cents.* does not exist/i.test(orderErr.message || '')) {
+    const { processing_fee_cents: _drop, ...legacy } = orderRow;
+    const retry = await supabase.from('orders').insert(legacy).select('id').single();
+    order = retry.data; orderErr = retry.error;
+  }
 
   if (orderErr) {
     console.error('[payments] order insert failed:', orderErr);
@@ -300,11 +308,15 @@ async function handleCreateCheckout(req, res) {
   }
   const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
-  // application_fee_amount = transaction fee + platform fee. The
-  // transaction fee stays on the platform side to cover Stripe's
-  // processing fee; the platform fee is Go Elev8's 7% revenue.
-  // Net to Kenny = totalCharge - applicationFeeAmount = listPrice - platformFee.
-  const applicationFeeAmount = txFee + platformFee;
+  // application_fee_amount routes everything that should NOT hit Kenny's
+  // connected account to GoElev8:
+  //   txFee          → covers Stripe's processing cut
+  //   platformFee    → GoElev8's 7% revenue share
+  //   processingFee  → GoElev8's flat per-order fee ($3)
+  // Net to Kenny    = totalCharge - applicationFeeAmount
+  //                 = listPrice (unchanged from before — Kenny's payout
+  //                              is not affected by the new $3 fee)
+  const applicationFeeAmount = txFee + platformFee + processingFee;
 
   let session;
   try {
@@ -325,6 +337,14 @@ async function handleCreateCheckout(req, res) {
             currency: 'usd',
             product_data: { name: 'Transaction fee' },
             unit_amount: txFee,
+          },
+          quantity: 1,
+        },
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: { name: 'Processing fee' },
+            unit_amount: processingFee,
           },
           quantity: 1,
         },
@@ -524,11 +544,12 @@ async function syncOrderToPortal({ order, pi }) {
       quantity:    1,
       price_cents: order.list_price_cents,
     }],
-    subtotal_cents:     order.list_price_cents,
-    shipping_cents:     0,
-    platform_fee_cents: order.platform_fee_cents,
-    stripe_fee_cents:   order.transaction_fee_cents,
-    total_cents:        order.customer_total_cents,
+    subtotal_cents:       order.list_price_cents,
+    shipping_cents:       0,
+    platform_fee_cents:   order.platform_fee_cents,
+    processing_fee_cents: order.processing_fee_cents || 0,
+    stripe_fee_cents:     order.transaction_fee_cents,
+    total_cents:          order.customer_total_cents,
     stripe_payment_id:  pi.id,
     external_order_number: String(order.id),
   };
