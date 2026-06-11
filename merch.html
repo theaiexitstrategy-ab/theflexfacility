@@ -287,22 +287,65 @@
       '<div style="grid-column:1/-1;text-align:center;padding:48px 20px;color:var(--muted);">Loading products…</div>';
   }
 
-  // Generic product-modal opener — renderGrid wires every card's
+  // Generic product-Buy handler — renderGrid wires every card's
   // 'Order Now' button to this with the matching product_key.
-  function openProductModal(productKey, btn) {
+  //
+  // Migrated to the portal-hosted /api/external/checkout endpoint
+  // (same flow iSlay Studios and Will Power Fitness Factory use).
+  // Stripe Checkout collects name + email + phone + shipping address
+  // natively, so the storefront only needs to gather the variant
+  // (size) before redirecting. Order recording, the order-received
+  // SMS, push notifications, and the platform fee are all handled
+  // by the portal webhook → lib/merch-ingest.js path. Kenny's Stripe
+  // account (Connect direct charge) receives the funds.
+  const PORTAL_CHECKOUT_URL = (window.PORTAL_URL || 'https://portal.goelev8.ai') + '/api/external/checkout';
+  const PORTAL_CHECKOUT_SLUG = (window.PORTAL_SLUG || 'flex-facility');
+
+  async function openProductModal(productKey, btn) {
     const product = portalProductsByKey[productKey];
     if (!product) return;
     const card = btn.closest('.product-card');
     const selectedSizeBtn = card.querySelector('.size-pill.selected');
     const size = selectedSizeBtn ? selectedSizeBtn.dataset.size : '';
+    if (!size) {
+      // Inline size-required nudge — no modal, just a temporary
+      // glow on the size grid so the customer knows what's wrong.
+      const grid = card.querySelector('.size-grid');
+      if (grid) {
+        grid.style.outline = '2px solid var(--gold)';
+        grid.style.outlineOffset = '4px';
+        setTimeout(() => { grid.style.outline = ''; grid.style.outlineOffset = ''; }, 1800);
+      }
+      btn.textContent = 'Choose a size first';
+      setTimeout(() => { btn.textContent = 'Order Now'; }, 1800);
+      return;
+    }
 
-    modalCtx = { product_key: productKey, color: null };
-    document.getElementById('modalTitle').textContent = 'Order — ' + product.name;
-    document.getElementById('modalSub').textContent = 'Hassle-free returns within 14 days.';
-    document.getElementById('modalSizeField').style.display = '';
-    document.getElementById('customerSize').value = size;
-    renderModalSummary(productKey, size);
-    showModal();
+    btn.disabled = true;
+    const originalText = btn.textContent;
+    btn.textContent = 'Redirecting to checkout…';
+    try {
+      const r = await fetch(PORTAL_CHECKOUT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          slug:        PORTAL_CHECKOUT_SLUG,
+          product_key: productKey,
+          quantity:    1,
+          variant:     { size }
+        })
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok || !data.url) {
+        const reason = data.message || data.error || ('HTTP ' + r.status);
+        throw new Error(reason);
+      }
+      window.location.href = data.url;
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = originalText;
+      alert('Could not start checkout: ' + e.message);
+    }
   }
 
   function selectSize(btn) {
