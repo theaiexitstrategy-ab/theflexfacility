@@ -38,10 +38,9 @@ const twilio = require('twilio');
 const {
   PRODUCTS: HARDCODED_PRODUCTS,
   PLATFORM_FEE_PCT,
-  PROCESSING_FEE_CENTS,
+  SERVICE_FEE_CENTS,
   calcTransactionFee,
   calcPlatformFee,
-  calcProcessingFee,
   calcCustomerTotal,
 } = require('../lib/platform-config');
 
@@ -182,10 +181,9 @@ async function handleCreateCheckout(req, res) {
 
   const product = PRODUCTS[product_key];
   const listPrice = product.listPriceCents;
-  const txFee = calcTransactionFee(listPrice);
-  const platformFee = calcPlatformFee(listPrice);
-  const processingFee = calcProcessingFee(listPrice);
-  const totalCharge = calcCustomerTotal(listPrice);
+  const serviceFee = calcTransactionFee(listPrice); // flat $3
+  const platformFee = calcPlatformFee(listPrice);   // 10% of list
+  const totalCharge = calcCustomerTotal(listPrice); // list + service fee
 
   const supabase = getSupabase();
   if (!supabase) {
@@ -269,16 +267,20 @@ async function handleCreateCheckout(req, res) {
 
   // Insert pending order row up front so we have an id to thread into
   // Stripe metadata. The webhook will flip status -> 'paid' and write
-  // the matching platform_fees row. Tolerant of a missing
-  // processing_fee_cents column (pre-migration) — retries without it.
+  // the matching platform_fees row.
+  //
+  // transaction_fee_cents stores the customer-facing service fee.
+  // processing_fee_cents lives on for historical reporting accuracy
+  // but is set to 0 — there's only one customer fee now (the $3
+  // service fee, kept in transaction_fee_cents).
   const orderRow = {
     client_id,
     stripe_account_id: account.stripe_account_id,
     product_type: product.type,
     product_name: product.name,
     list_price_cents: listPrice,
-    transaction_fee_cents: txFee,
-    processing_fee_cents: processingFee,
+    transaction_fee_cents: serviceFee,
+    processing_fee_cents: 0,
     customer_total_cents: totalCharge,
     platform_fee_cents: platformFee,
     platform_fee_pct: PLATFORM_FEE_PCT,
@@ -310,13 +312,12 @@ async function handleCreateCheckout(req, res) {
 
   // application_fee_amount routes everything that should NOT hit Kenny's
   // connected account to GoElev8:
-  //   txFee          → covers Stripe's processing cut
-  //   platformFee    → GoElev8's 7% revenue share
-  //   processingFee  → GoElev8's flat per-order fee ($3)
-  // Net to Kenny    = totalCharge - applicationFeeAmount
-  //                 = listPrice (unchanged from before — Kenny's payout
-  //                              is not affected by the new $3 fee)
-  const applicationFeeAmount = txFee + platformFee + processingFee;
+  //   serviceFee   → flat $3 collected from the customer
+  //   platformFee  → GoElev8's 10% revenue share (list × 0.10)
+  // Net to Kenny  = totalCharge - applicationFeeAmount
+  //               = (list + serviceFee) - (serviceFee + platformFee)
+  //               = list - platformFee  (= 90% of list)
+  const applicationFeeAmount = serviceFee + platformFee;
 
   let session;
   try {
@@ -335,16 +336,8 @@ async function handleCreateCheckout(req, res) {
         {
           price_data: {
             currency: 'usd',
-            product_data: { name: 'Transaction fee' },
-            unit_amount: txFee,
-          },
-          quantity: 1,
-        },
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: { name: 'Processing fee' },
-            unit_amount: processingFee,
+            product_data: { name: SERVICE_FEE_LABEL },
+            unit_amount: serviceFee,
           },
           quantity: 1,
         },
