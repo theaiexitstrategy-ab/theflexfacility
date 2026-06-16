@@ -67,6 +67,13 @@
   .size-pill { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--white); padding: 8px 0; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.15s; border-radius: 6px; text-align: center; letter-spacing: 0.04em; }
   .size-pill:hover { border-color: var(--gold); }
   .size-pill.selected { background: var(--gold); color: var(--black); border-color: var(--gold); }
+  .color-block label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); margin-bottom: 8px; }
+  .color-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+  .color-pill { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--white); padding: 8px 12px; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.15s; border-radius: 6px; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 8px; }
+  .color-pill:hover { border-color: var(--gold); }
+  .color-pill.selected { background: var(--gold); color: var(--black); border-color: var(--gold); }
+  .color-swatch { display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); flex-shrink: 0; }
+  .color-pill.selected .color-swatch { border-color: rgba(0,0,0,0.3); }
   .order-btn { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: var(--black); border: none; border-radius: 10px; padding: 14px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 22px rgba(200,168,75,0.28); }
   .order-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(200,168,75,0.45); }
   .order-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
@@ -263,11 +270,18 @@
     grid.innerHTML = products.map((p, i) => {
       const svcFee = calcServiceFee();
       const total = calcCustomerTotal(p.listCents);
-      const imgSrc = p.image || '/assets/merch/hoodie-black-cyan.png';
+      const colors = Array.isArray(p.colors) ? p.colors : [];
+      // When the product has color variants, lead with the first
+      // color's image so the picker selection matches what the
+      // customer sees. Otherwise fall back to the main product image.
+      const initialImage =
+        (colors.length > 0 && colors[0].image_url)
+          ? colors[0].image_url
+          : (p.image || '/assets/merch/hoodie-black-cyan.png');
       return `
         <div class="product-card" data-product="${esc(p.key)}">
           <div class="product-image-wrap">
-            <img src="${esc(imgSrc)}" alt="${esc(p.name)}" loading="${i === 0 ? 'eager' : 'lazy'}">
+            <img src="${esc(initialImage)}" alt="${esc(p.name)}" loading="${i === 0 ? 'eager' : 'lazy'}">
           </div>
           <div class="product-body">
             <div>
@@ -279,6 +293,7 @@
               <div class="price-row"><span>Service fee</span><span>+ ${fmt(svcFee)}</span></div>
               <div class="price-row total"><span>Total</span><span class="gold">${fmt(total)}</span></div>
             </div>
+            ${renderColorBlock(colors)}
             <div class="size-block">
               <label>Size</label>
               <div class="size-grid" role="radiogroup">
@@ -331,6 +346,19 @@
       return;
     }
 
+    // Color is optional. Three cases:
+    //   - 0 colors                 → no color in variant
+    //   - 1 color, no picker shown → silently send that color name
+    //   - 2+ colors, picker shown  → send the selected pill's color
+    const colors = Array.isArray(product.colors) ? product.colors : [];
+    const selectedColorBtn = card.querySelector('.color-pill.selected');
+    let color = null;
+    if (selectedColorBtn) color = selectedColorBtn.dataset.color;
+    else if (colors.length === 1) color = colors[0].name;
+
+    const variant = { size };
+    if (color) variant.color = color;
+
     btn.disabled = true;
     const originalText = btn.textContent;
     btn.textContent = 'Redirecting to checkout…';
@@ -342,7 +370,7 @@
           slug:        PORTAL_CHECKOUT_SLUG,
           product_key: productKey,
           quantity:    1,
-          variant:     { size }
+          variant
         })
       });
       const data = await r.json().catch(() => ({}));
@@ -362,6 +390,59 @@
     const grid = btn.closest('.size-grid');
     grid.querySelectorAll('.size-pill').forEach(p => p.classList.remove('selected'));
     btn.classList.add('selected');
+  }
+
+  // ─── Color picker ────────────────────────────────────────────────
+  // Named-color match table for the small swatch dot next to the
+  // color name. Substring match so "Royal Blue" still finds "blue".
+  // Falls through to a neutral disc when nothing matches.
+  const COLOR_SWATCH_MAP = {
+    black:'#0a0a0a', white:'#fafafa', red:'#e8200a', cyan:'#00d4ff',
+    yellow:'#fbbf24', green:'#10b981', purple:'#7c3aed', pink:'#ec4899',
+    grey:'#6b7280', gray:'#6b7280', navy:'#1e3a8a', brown:'#92400e',
+    orange:'#f97316', gold:'#c8a84b', silver:'#cbd5e1', royal:'#1d4ed8',
+    blue:'#1d4ed8'
+  };
+  function colorSwatchCss(name) {
+    const lc = String(name || '').toLowerCase();
+    for (const key of Object.keys(COLOR_SWATCH_MAP)) {
+      if (lc.includes(key)) return COLOR_SWATCH_MAP[key];
+    }
+    return 'rgba(255,255,255,0.25)';
+  }
+
+  // Only render the picker when there's a real choice (≥ 2 colors).
+  // Single-color products still send that color name on checkout but
+  // don't show a picker — no meaningful action to take.
+  function renderColorBlock(colors) {
+    if (!Array.isArray(colors) || colors.length < 2) return '';
+    return `
+      <div class="color-block">
+        <label>Color</label>
+        <div class="color-grid" role="radiogroup">
+          ${colors.map((c, i) => `
+            <button class="color-pill${i === 0 ? ' selected' : ''}"
+                    data-color="${esc(c.name)}"
+                    data-image="${esc(c.image_url || '')}"
+                    onclick="selectColor(this)">
+              <span class="color-swatch" style="background:${colorSwatchCss(c.name)};"></span>
+              ${esc(c.name)}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function selectColor(btn) {
+    const grid = btn.closest('.color-grid');
+    grid.querySelectorAll('.color-pill').forEach(p => p.classList.remove('selected'));
+    btn.classList.add('selected');
+    // Swap the card image to the chosen color's photo.
+    const card = btn.closest('.product-card');
+    const img = card.querySelector('.product-image-wrap img');
+    const newSrc = btn.dataset.image;
+    if (img && newSrc) img.src = newSrc;
   }
 
   // ─── Modal ───
@@ -485,11 +566,13 @@
     // Normalize portal shape → the shape renderGrid expects, and
     // stash by key for the modal lookups.
     const normalized = products.map(p => ({
-      key:       p.key,
-      name:      p.name,
-      listCents: p.price_cents,
-      image:     p.image_url,
-      sortOrder: p.sort_order
+      key:         p.key,
+      name:        p.name,
+      description: p.description,
+      listCents:   p.price_cents,
+      image:       p.image_url,
+      colors:      Array.isArray(p.colors) ? p.colors : [],
+      sortOrder:   p.sort_order
     }));
     for (const p of normalized) portalProductsByKey[p.key] = p;
     renderGrid(normalized);
