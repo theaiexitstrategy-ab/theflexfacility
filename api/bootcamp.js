@@ -34,6 +34,10 @@
 //   application_fee_amount = $0.61 + $1.00 = $1.61 → GoElev8
 //   Kenny nets $9.00 (90% of list)
 //
+// on_behalf_of makes the connected account the settlement merchant, so
+// the customer sees "The Flex Facility" on the checkout page, receipt,
+// and card statement rather than the platform's name.
+//
 // REQUIRED ENV (Vercel):
 //   STRIPE_SECRET_KEY
 //   STRIPE_BOOTCAMP_WEBHOOK_SECRET  (falls back to STRIPE_WEBHOOK_SECRET)
@@ -287,6 +291,20 @@ async function handleCreateCheckout(req, res) {
       payment_intent_data: {
         application_fee_amount: applicationFeeAmount,
         transfer_data: { destination: stripeAccountId },
+        // Makes The Flex Facility the settlement merchant, so the Stripe
+        // Checkout page, the emailed receipt, and the customer's card
+        // statement all say "The Flex Facility" instead of GoElev8.AI.
+        // Without it a destination charge shows the PLATFORM as merchant
+        // of record, which reads as a stranger's name on the statement of
+        // someone who just signed up for a class at Kenny's gym — a
+        // dispute waiting to happen.
+        //
+        // Money movement is unchanged: the charge is still created on the
+        // platform account and Kenny still receives
+        // (total − application_fee) = $9.00. Webhook scope is unchanged
+        // too — events still fire on the platform account, so the
+        // existing "Your account" event destination keeps working.
+        on_behalf_of: stripeAccountId,
         metadata: { signup_id: signup.id, client_id: CLIENT_ID, event_key: BOOTCAMP_EVENT.key },
       },
       customer_email: email,
