@@ -109,8 +109,10 @@
 
   /* ── Waiver ── */
   .waiver { border: 1px solid var(--gold-border); border-radius: 12px; padding: 16px 18px; background: rgba(200,168,75,0.05); margin: 4px 0 18px; }
-  .waiver-flag { display: inline-block; background: var(--gold); color: var(--black); font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; padding: 3px 9px; border-radius: 4px; margin-bottom: 10px; }
-  .waiver-body { font-size: 12.5px; line-height: 1.65; color: var(--muted); max-height: 168px; overflow-y: auto; padding-right: 8px; }
+  .waiver-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  /* Scrolls rather than swallowing the page — the full text is present,
+     and the accept box below stays visible while reading it. */
+  .waiver-body { font-size: 12.5px; line-height: 1.65; color: var(--muted); max-height: 200px; overflow-y: auto; padding-right: 8px; }
   .waiver-body p { margin-bottom: 9px; }
   .waiver-body strong { color: #c9c9c9; }
   .waiver-check { display: flex; gap: 11px; align-items: flex-start; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); cursor: pointer; }
@@ -272,24 +274,31 @@
         </div>
 
         <!--
-          ⚠ PLACEHOLDER WAIVER — NOT FINAL LEGAL LANGUAGE.
-          This copy is a stand-in so the flow is testable end to end. It has
-          NOT been reviewed by a lawyer and must be replaced with Kenny's
-          approved liability release before launch. The banner below is
-          intentionally visible on the live page so nobody mistakes this
-          for the real release while it's still a draft.
+          Liability release shown to and accepted by every person who
+          reserves a seat. Acceptance is recorded on the signup row
+          (waiver_accepted) and enforced server-side and by a CHECK
+          constraint — a reservation cannot exist without it.
+
+          This is conventional release language, not attorney-drafted
+          copy. If counsel revises it, update this block and consider
+          versioning acceptances so it stays clear which text each
+          participant agreed to.
         -->
         <div class="waiver">
-          <div class="waiver-flag">⚠ Placeholder — pending legal review</div>
+          <div class="waiver-title">Liability Release &amp; Assumption of Risk</div>
           <div class="waiver-body">
-            <p><strong>Draft liability release &amp; assumption of risk.</strong> The language below is a placeholder for testing and will be replaced with the final release approved by Flex Training LLC before this event goes live.</p>
-            <p>I understand that participation in the ROQ N FLEX Bootcamp involves physical exercise and carries an inherent risk of injury. I confirm that I am physically able to participate and that I have consulted a physician if I have any condition that could be affected by strenuous activity.</p>
-            <p>I voluntarily assume all risks associated with participation, and release Flex Training LLC, its owners, trainers, employees, and the property owner from claims for injury, loss, or damage arising from my participation, except where caused by gross negligence or willful misconduct.</p>
-            <p>I agree to follow all staff instructions and safety rules, and I consent to receive event-related email and text messages about this reservation.</p>
+            <p>By reserving a seat and participating in the ROQ N FLEX Bootcamp (the "Event") hosted by Flex Training LLC d/b/a The Flex Facility, I agree to the following:</p>
+            <p><strong>Assumption of risk.</strong> I understand the Event involves strenuous physical activity — including resistance training, bodyweight exercise, and conditioning work — and that participation carries an inherent risk of physical injury, illness, aggravation of an existing condition, property damage, and in rare cases death. I knowingly and voluntarily assume all such risks, whether known or unknown.</p>
+            <p><strong>Physical condition.</strong> I represent that I am in sufficient physical condition to participate and have consulted a physician if I have any condition that could be affected by strenuous activity. I will participate within my own limits, follow the instructions of trainers and staff, and stop and notify staff immediately if I experience pain, dizziness, or distress.</p>
+            <p><strong>Release of liability.</strong> To the fullest extent permitted by Missouri law, I release, waive, and discharge Flex Training LLC, ROQ Body Academy, and their owners, trainers, employees, volunteers, contractors, and the owners of the premises from any and all claims, demands, or causes of action for injury, loss, or damage arising out of my participation in the Event, including claims arising from ordinary negligence. This release does not apply to gross negligence, recklessness, or willful misconduct.</p>
+            <p><strong>Medical treatment.</strong> I consent to first aid and emergency medical treatment if it becomes necessary, and I am responsible for any resulting medical costs.</p>
+            <p><strong>Participants under 18.</strong> A participant under 18 must be registered by a parent or legal guardian, who accepts this release on the minor's behalf.</p>
+            <p><strong>Communications.</strong> I consent to receive email and text messages about this reservation and the Event.</p>
+            <p>I have read this release, understand it, and accept it voluntarily. Questions? Email <a href="mailto:info@theflexfacility.com" style="color:var(--gold)">info@theflexfacility.com</a>.</p>
           </div>
           <label class="waiver-check">
             <input type="checkbox" id="waiver" required>
-            <span>I have read and accept the liability release above. <span style="color:var(--gold)">(Required)</span></span>
+            <span>I have read and accept the Liability Release &amp; Assumption of Risk above. <span style="color:var(--gold)">(Required)</span></span>
           </label>
         </div>
 
