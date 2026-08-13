@@ -16,7 +16,7 @@
 </script>
 <script src="https://portal.goelev8.ai/embed/track.js" async></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&family=Kaushan+Script&display=swap" rel="stylesheet">
 <!-- Vapi Widget -->
 <script
   src="https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js"
@@ -775,7 +775,10 @@ div[class*="vapi"] button {
   .bc-rule{height:2px;background:linear-gradient(90deg,transparent,#c8a84b,transparent);margin:16px 0;}
   .bc-when{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#fff;}
   .bc-where{color:#9a9a9a;font-size:13px;margin-top:6px;line-height:1.5;}
-  .bc-price{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:26px;color:#c8a84b;margin-top:16px;}
+  .bc-price{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:34px;color:#c8a84b;margin-top:14px;}
+  .bc-script{font-family:'Kaushan Script',cursive;font-weight:400;font-size:32px;text-transform:none;display:inline-block;color:#fff;}
+  .bc-incl{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:14px;letter-spacing:0.14em;text-transform:uppercase;color:#c8a84b;}
+  .bc-tag{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.09);font-family:'Barlow Condensed',sans-serif;font-style:italic;font-weight:800;font-size:14px;line-height:1.3;letter-spacing:0.02em;text-transform:uppercase;color:#cfcfcf;}
   .bc-cta{display:block;margin:0 22px 22px;background:#c8a84b;color:#0d0d0d;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;letter-spacing:0.1em;text-transform:uppercase;padding:14px;border-radius:10px;text-decoration:none;transition:background 0.2s;}
   .bc-cta:hover{background:#e0c068;}
   .bc-close{position:absolute;top:12px;right:14px;z-index:2;background:rgba(0,0,0,0.55);border:none;color:#ddd;font-size:22px;line-height:1;width:32px;height:32px;border-radius:50%;cursor:pointer;}
@@ -789,13 +792,17 @@ div[class*="vapi"] button {
       <img src="/assets/bootcamp/roq-n-flex-flyer.jpg" alt="ROQ N FLEX Bootcamp — August 15, 2026, 10:00 AM, 4132 Shoreline Dr Ste 1, Earth City, MO 63045"
            onerror="this.style.display='none';document.getElementById('bcFallback').style.display='block';">
       <div class="bc-fallback" id="bcFallback" style="display:none;">
-        <div class="bc-kicker">The Flex Facility Presents</div>
-        <div class="bc-title">ROQ N <span class="g">FLEX</span><br>Bootcamp</div>
+        <div class="bc-kicker">Flex Facility × ROQ Body Academy</div>
+        <div class="bc-title">ROQ N <span class="g">FLEX</span><br><span class="bc-script">Bootcamp</span></div>
         <div class="bc-rule"></div>
-        <div class="bc-when">Saturday, August 15, 2026 · 10:00 AM</div>
+        <div class="bc-when">August 15, 2026</div>
         <div class="bc-where">4132 Shoreline Dr Ste 1<br>Earth City, MO 63045</div>
-        <div class="bc-price">$10</div>
-        <div class="bc-where">at the door — or reserve ahead</div>
+        <div class="bc-when" style="margin-top:8px;">Saturday 10:00 A.M</div>
+        <div class="bc-price">$10 <span style="font-size:15px;color:#fff;">at the door</span></div>
+        <div class="bc-rule"></div>
+        <div class="bc-incl">Bootcamp includes:</div>
+        <div class="bc-where" style="margin-top:4px;">Full body workout · Post workout goodies</div>
+        <div class="bc-tag">We back with another one...<br><span class="g">For the fellas &amp; the ladies!</span></div>
       </div>
     </a>
     <a href="/bootcamp" class="bc-cta">Reserve My Seat →</a>
@@ -803,13 +810,26 @@ div[class*="vapi"] button {
 </div>
 
 <script>
+  // The popup self-retires at NOON CENTRAL ON EVENT DAY — Saturday
+  // Aug 15 2026, two hours after the 10:00 A.M start. Past that moment
+  // the whole node is removed from the DOM rather than just hidden, so
+  // it can't be reopened and leaves nothing behind. Nobody has to
+  // remember to take it down; deleting this block afterwards is
+  // cleanup, not a deadline.
+  var BC_POPUP_EXPIRES = new Date('2026-08-15T12:00:00-05:00').getTime();
+
   (function () {
+    var el = document.getElementById('bootcampPopup');
+    if (!el) return;
+    if (Date.now() >= BC_POPUP_EXPIRES) { el.parentNode.removeChild(el); return; }
     if (sessionStorage.getItem('bcPopupSeen')) return;
     setTimeout(function () {
-      var el = document.getElementById('bootcampPopup');
-      if (el) el.classList.add('open');
+      // Re-check on fire: a tab left open across noon shouldn't pop it.
+      if (Date.now() >= BC_POPUP_EXPIRES) { if (el.parentNode) el.parentNode.removeChild(el); return; }
+      el.classList.add('open');
     }, 2500);
   })();
+
   function closeBootcampPopup() {
     var el = document.getElementById('bootcampPopup');
     if (el) el.classList.remove('open');

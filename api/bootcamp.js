@@ -449,7 +449,7 @@ async function sendConfirmationEmail(signup) {
     `WHERE: ${e.venueLine1}, ${e.venueLine2}`,
     `MAP:   ${mapsUrl}`,
     '',
-    'Bring water, training shoes, and a towel. Show up 10 minutes early to check in.',
+    'Includes a full body workout and post workout goodies.',
     '',
     'Questions? Just reply to this email.',
     '',
@@ -480,7 +480,7 @@ async function sendConfirmationEmail(signup) {
             </td></tr>
           </table>
           <p style="margin:22px 0 0;font-size:14px;line-height:1.6;color:#ccc;">
-            Bring water, training shoes, and a towel. Show up 10 minutes early to check in.
+            Includes a <strong style="color:#f5f5f5;">full body workout</strong> and <strong style="color:#f5f5f5;">post workout goodies</strong>.
           </p>
           <p style="margin:18px 0 0;font-size:13px;color:#8a8a8a;">Questions? Just reply to this email.</p>
         </td></tr>
@@ -534,7 +534,7 @@ async function sendConfirmationSms(signup) {
       body:
         `You're in, ${firstName}! ${e.name} — ${e.dateLabel}, ${e.timeLabel}. ` +
         `${e.venueLine1}, ${e.venueLine2}. $10 reservation paid. ` +
-        `Bring water + training shoes. Reply STOP to opt out.`,
+        `Full body workout + post workout goodies. Reply STOP to opt out.`,
     }),
   ];
 

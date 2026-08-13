@@ -4,13 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ROQ N FLEX Bootcamp — The Flex Facility</title>
-<meta name="description" content="ROQ N FLEX Bootcamp — Saturday, August 15, 2026 at 10:00 AM. 4132 Shoreline Dr Ste 1, Earth City, MO 63045. $10 at the door or reserve your seat online.">
+<meta name="description" content="ROQ N FLEX Bootcamp — Saturday, August 15, 2026 at 10:00 A.M. 4132 Shoreline Dr Ste 1, Earth City, MO 63045. $10 at the door. Full body workout + post workout goodies. For the fellas & the ladies.">
+<meta property="og:title" content="ROQ N FLEX Bootcamp — August 15, 2026">
+<meta property="og:description" content="Saturday 10:00 A.M · 4132 Shoreline Dr Ste 1, Earth City, MO 63045 · $10 at the door. Full body workout + post workout goodies.">
+<meta property="og:image" content="https://theflexfacility.com/assets/bootcamp/roq-n-flex-flyer.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <script>
   window.GoElev8 = { slug: "flex-facility", secret: "REPLACE_WITH_GOELEV8_SECRET" };
 </script>
 <script src="https://portal.goelev8.ai/embed/track.js" async></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<!-- Kaushan Script stands in for the flyer's brush-script "Bootcamp" wordmark. -->
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&family=Kaushan+Script&display=swap" rel="stylesheet">
 <style>
   :root {
     --black: #0d0d0d;
@@ -41,24 +46,40 @@
   .eyebrow { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); position: relative; }
   .hero h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(44px, 9vw, 84px); line-height: 0.92; text-transform: uppercase; margin: 12px 0 16px; position: relative; }
   .hero h1 .gold { color: var(--gold); }
+  .hero h1 .script { font-family: 'Kaushan Script', cursive; font-weight: 400; font-size: 0.62em; text-transform: none; display: inline-block; margin-top: 6px; }
   .hero-sub { font-size: clamp(15px, 1.6vw, 17px); color: var(--muted); max-width: 620px; line-height: 1.7; margin: 0 auto; position: relative; }
 
   /* ── Layout: flyer left, signup right (stacks on mobile) ── */
   .event { max-width: 1080px; margin: 0 auto; padding: 8px 24px 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
 
-  /* Flyer. If assets/bootcamp/roq-n-flex-flyer.jpg is present it renders;
-     if the file is missing the onerror handler swaps in the styled
-     fallback below so the page never shows a broken image. */
-  .flyer-wrap { background: var(--navy); border: 1px solid var(--gold-border); border-radius: 18px; overflow: hidden; box-shadow: 0 0 60px rgba(200,168,75,0.06); }
+  /* Flyer. The real flyer JPG at assets/bootcamp/roq-n-flex-flyer.jpg is the
+     hero when present. Until it's added, the onerror handler swaps in the
+     .flyer-card recreation below — same content, same layout as the printed
+     flyer, so the page reads correctly either way and nothing renders broken. */
+  .flyer-wrap { background: #0a0a0a; border: 1px solid var(--gold-border); border-radius: 18px; overflow: hidden; box-shadow: 0 0 60px rgba(200,168,75,0.08); }
   .flyer-wrap img { width: 100%; display: block; }
-  .flyer-fallback { padding: 40px 32px; text-align: center; background: radial-gradient(ellipse 90% 60% at 50% 0%, rgba(200,168,75,0.14) 0%, transparent 70%), var(--navy); }
-  .flyer-fallback .fb-kicker { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); }
-  .flyer-fallback .fb-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(38px, 7vw, 60px); line-height: 0.9; text-transform: uppercase; margin: 12px 0; }
-  .flyer-fallback .fb-title .gold { color: var(--gold); }
-  .flyer-fallback .fb-rule { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 20px 0; }
-  .flyer-fallback .fb-line { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-  .flyer-fallback .fb-sub { color: var(--muted); font-size: 14px; margin-top: 4px; }
-  .flyer-fallback .fb-price { margin-top: 22px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 30px; color: var(--gold); letter-spacing: 0.04em; }
+
+  .flyer-card { padding: 36px 30px 30px; background: radial-gradient(ellipse 120% 70% at 50% 0%, rgba(200,168,75,0.13) 0%, transparent 68%), #0a0a0a; }
+  .fc-head { text-align: center; }
+  .fc-roq { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(46px, 9.5vw, 76px); line-height: 0.86; letter-spacing: 0.01em; text-transform: uppercase; color: #f2e6cd; text-shadow: 0 0 26px rgba(200,168,75,0.45); }
+  .fc-script { font-family: 'Kaushan Script', cursive; font-size: clamp(34px, 6.5vw, 52px); color: var(--white); line-height: 1; margin-top: -4px; }
+  .fc-badge-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 10px; }
+  .fc-badge-row img { height: 46px; width: 46px; object-fit: contain; }
+  .fc-rule { height: 3px; width: 74px; background: var(--gold); border-radius: 2px; margin: 18px 0 16px; }
+  .fc-date { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(30px, 5.5vw, 40px); letter-spacing: 0.02em; text-transform: uppercase; color: var(--gold); line-height: 1; }
+  .fc-addr { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: clamp(19px, 3.4vw, 25px); letter-spacing: 0.02em; text-transform: uppercase; color: var(--white); line-height: 1.2; margin-top: 12px; }
+  .fc-time { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(21px, 3.8vw, 28px); letter-spacing: 0.02em; text-transform: uppercase; color: var(--gold); margin-top: 12px; }
+  .fc-price-row { display: flex; align-items: flex-end; gap: 14px; margin-top: 6px; }
+  .fc-price { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(56px, 12vw, 84px); line-height: 0.85; color: var(--gold); }
+  .fc-door { font-family: 'Kaushan Script', cursive; font-size: clamp(20px, 3.6vw, 27px); color: var(--white); padding-bottom: 10px; }
+  .fc-inc-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(19px, 3.4vw, 24px); letter-spacing: 0.03em; text-transform: uppercase; color: var(--gold); }
+  .fc-inc { list-style: none; margin-top: 10px; }
+  .fc-inc li { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: clamp(16px, 2.9vw, 20px); letter-spacing: 0.04em; text-transform: uppercase; color: var(--white); padding-left: 18px; position: relative; margin-bottom: 6px; }
+  .fc-inc li::before { content: '•'; position: absolute; left: 0; color: var(--gold); }
+  .fc-roq-academy { margin-top: 24px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 30px; letter-spacing: 0.02em; color: var(--white); line-height: 1; }
+  .fc-roq-academy small { display: block; font-size: 10px; font-weight: 600; letter-spacing: 0.42em; color: var(--muted); margin-top: 3px; }
+  .fc-tagline { margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.09); font-family: 'Barlow Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: clamp(17px, 3.1vw, 22px); line-height: 1.25; letter-spacing: 0.02em; text-transform: uppercase; color: #cfcfcf; text-align: center; }
+  .fc-tagline .gold { color: var(--gold); display: block; }
 
   .detail-list { margin-top: 20px; display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
   .detail-row { background: var(--navy); padding: 16px 20px; display: flex; gap: 16px; align-items: flex-start; }
@@ -138,9 +159,9 @@
 </nav>
 
 <section class="hero">
-  <div class="eyebrow">Saturday · August 15, 2026 · 10:00 AM</div>
-  <h1>ROQ N <span class="gold">FLEX</span><br>Bootcamp</h1>
-  <p class="hero-sub">One morning. Full-body work. Everybody welcome — bring a friend. Pay $10 at the door, or lock your spot in below so we know to count you.</p>
+  <div class="eyebrow">Flex Facility × ROQ Body Academy</div>
+  <h1>ROQ N <span class="gold">FLEX</span><br><span class="script">Bootcamp</span></h1>
+  <p class="hero-sub">We back with another one — for the fellas &amp; the ladies. Saturday, August 15, 2026 at 10:00 A.M. Full body workout plus post workout goodies. $10 at the door, or reserve your seat below.</p>
 </section>
 
 <section class="event">
@@ -151,24 +172,42 @@
       <img id="flyerImg" src="/assets/bootcamp/roq-n-flex-flyer.jpg"
            alt="ROQ N FLEX Bootcamp — August 15, 2026, 10:00 AM, 4132 Shoreline Dr Ste 1, Earth City, MO 63045"
            onerror="this.style.display='none';document.getElementById('flyerFallback').style.display='block';">
-      <div class="flyer-fallback" id="flyerFallback" style="display:none;">
-        <div class="fb-kicker">The Flex Facility Presents</div>
-        <div class="fb-title">ROQ N <span class="gold">FLEX</span><br>Bootcamp</div>
-        <div class="fb-rule"></div>
-        <div class="fb-line">Saturday, August 15, 2026</div>
-        <div class="fb-sub">10:00 AM</div>
-        <div class="fb-rule"></div>
-        <div class="fb-line">4132 Shoreline Dr Ste 1</div>
-        <div class="fb-sub">Earth City, MO 63045</div>
-        <div class="fb-price">$10</div>
-        <div class="fb-sub">at the door — or reserve ahead</div>
+      <!-- Recreation of the printed flyer, shown until the JPG is added. -->
+      <div class="flyer-card" id="flyerFallback" style="display:none;">
+        <div class="fc-head">
+          <div class="fc-badge-row"><img src="/flex-logo.png" alt="The Flex Facility"></div>
+          <div class="fc-roq">ROQ N FLEX</div>
+          <div class="fc-script">Bootcamp</div>
+        </div>
+
+        <div class="fc-rule"></div>
+        <div class="fc-date">August 15, 2026</div>
+        <div class="fc-addr">4132 Shoreline Dr Ste 1<br>Earth City, MO 63045</div>
+        <div class="fc-time">Saturday 10:00 A.M</div>
+
+        <div class="fc-rule"></div>
+        <div class="fc-price-row">
+          <div class="fc-price">$10</div>
+          <div class="fc-door">at the door</div>
+        </div>
+
+        <div class="fc-rule"></div>
+        <div class="fc-inc-label">Bootcamp Includes:</div>
+        <ul class="fc-inc">
+          <li>Full body workout</li>
+          <li>Post workout goodies</li>
+        </ul>
+
+        <div class="fc-roq-academy">ROQ<small>Body Academy</small></div>
+
+        <div class="fc-tagline">We back with another one...<span class="gold">For the fellas &amp; the ladies!</span></div>
       </div>
     </div>
 
     <div class="detail-list">
       <div class="detail-row">
         <div class="label">When</div>
-        <div class="value">Saturday, August 15, 2026<small>10:00 AM · doors open 9:45 AM</small></div>
+        <div class="value">Saturday, August 15, 2026<small>10:00 A.M</small></div>
       </div>
       <div class="detail-row">
         <div class="label">Where</div>
@@ -179,11 +218,15 @@
       </div>
       <div class="detail-row">
         <div class="label">Price</div>
-        <div class="value">$10<small>Pay at the door, or reserve your seat here</small></div>
+        <div class="value">$10 at the door<small>Or reserve your seat here so Coach Kenny counts you in</small></div>
       </div>
       <div class="detail-row">
-        <div class="label">Bring</div>
-        <div class="value">Water, training shoes, a towel<small>Arrive 10 minutes early to check in</small></div>
+        <div class="label">Includes</div>
+        <div class="value">Full body workout<small>Post workout goodies</small></div>
+      </div>
+      <div class="detail-row">
+        <div class="label">Who</div>
+        <div class="value">For the fellas &amp; the ladies<small>All levels welcome — bring a friend</small></div>
       </div>
     </div>
   </div>
@@ -196,7 +239,7 @@
       <div class="tick">✓</div>
       <h2>You're in!</h2>
       <p>Your seat at the ROQ N FLEX Bootcamp is reserved. A confirmation is on its way to your email and phone with the address and details.</p>
-      <p><strong style="color:var(--white)">Saturday, August 15, 2026 · 10:00 AM</strong><br>4132 Shoreline Dr Ste 1, Earth City, MO 63045</p>
+      <p><strong style="color:var(--white)">Saturday, August 15, 2026 · 10:00 A.M</strong><br>4132 Shoreline Dr Ste 1, Earth City, MO 63045</p>
       <div class="paid-pill">$10 reservation paid</div>
     </div>
 
