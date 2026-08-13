@@ -8,6 +8,7 @@
     { "source": "/dl/r2s-program", "destination": "/road_to_the_stage.pdf" },
     { "source": "/trainers", "destination": "/trainers.html" },
     { "source": "/merch", "destination": "/merch.html" },
+    { "source": "/bootcamp", "destination": "/bootcamp.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/terms.html" }
   ],
