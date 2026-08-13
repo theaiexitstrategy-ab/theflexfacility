@@ -757,6 +757,66 @@ div[class*="vapi"] button {
   </div>
 </div>
 
+<!-- ROQ N FLEX BOOTCAMP POPUP -->
+<!-- The flyer is a link, not a static image: tapping it anywhere opens
+     /bootcamp so the reservation flow is one tap from the homepage.
+     Shows once per browser session; the ✕ and the backdrop both close it. -->
+<style>
+  .bc-overlay{display:none;position:fixed;inset:0;z-index:10002;background:rgba(0,0,0,0.82);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;}
+  .bc-overlay.open{display:flex;}
+  .bc-popup{position:relative;background:#141720;border:1px solid rgba(200,168,75,0.35);border-radius:20px;max-width:420px;width:100%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.7);animation:bcIn 0.28s ease;}
+  @keyframes bcIn{from{opacity:0;transform:scale(0.95) translateY(12px)}to{opacity:1;transform:none}}
+  .bc-link{display:block;text-decoration:none;color:inherit;cursor:pointer;}
+  .bc-link img{width:100%;display:block;}
+  .bc-fallback{padding:38px 28px 30px;text-align:center;background:radial-gradient(ellipse 90% 60% at 50% 0%,rgba(200,168,75,0.16) 0%,transparent 70%),#141720;}
+  .bc-kicker{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.32em;text-transform:uppercase;color:#c8a84b;}
+  .bc-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:44px;line-height:0.92;text-transform:uppercase;color:#fff;margin:10px 0 14px;}
+  .bc-title .g{color:#c8a84b;}
+  .bc-rule{height:2px;background:linear-gradient(90deg,transparent,#c8a84b,transparent);margin:16px 0;}
+  .bc-when{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#fff;}
+  .bc-where{color:#9a9a9a;font-size:13px;margin-top:6px;line-height:1.5;}
+  .bc-price{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:26px;color:#c8a84b;margin-top:16px;}
+  .bc-cta{display:block;margin:0 22px 22px;background:#c8a84b;color:#0d0d0d;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;letter-spacing:0.1em;text-transform:uppercase;padding:14px;border-radius:10px;text-decoration:none;transition:background 0.2s;}
+  .bc-cta:hover{background:#e0c068;}
+  .bc-close{position:absolute;top:12px;right:14px;z-index:2;background:rgba(0,0,0,0.55);border:none;color:#ddd;font-size:22px;line-height:1;width:32px;height:32px;border-radius:50%;cursor:pointer;}
+  .bc-close:hover{color:#fff;background:rgba(0,0,0,0.8);}
+</style>
+
+<div class="bc-overlay" id="bootcampPopup" onclick="if(event.target===this)closeBootcampPopup()">
+  <div class="bc-popup">
+    <button class="bc-close" onclick="closeBootcampPopup()" aria-label="Close">&times;</button>
+    <a href="/bootcamp" class="bc-link" aria-label="ROQ N FLEX Bootcamp — August 15, 2026. Reserve your seat.">
+      <img src="/assets/bootcamp/roq-n-flex-flyer.jpg" alt="ROQ N FLEX Bootcamp — August 15, 2026, 10:00 AM, 4132 Shoreline Dr Ste 1, Earth City, MO 63045"
+           onerror="this.style.display='none';document.getElementById('bcFallback').style.display='block';">
+      <div class="bc-fallback" id="bcFallback" style="display:none;">
+        <div class="bc-kicker">The Flex Facility Presents</div>
+        <div class="bc-title">ROQ N <span class="g">FLEX</span><br>Bootcamp</div>
+        <div class="bc-rule"></div>
+        <div class="bc-when">Saturday, August 15, 2026 · 10:00 AM</div>
+        <div class="bc-where">4132 Shoreline Dr Ste 1<br>Earth City, MO 63045</div>
+        <div class="bc-price">$10</div>
+        <div class="bc-where">at the door — or reserve ahead</div>
+      </div>
+    </a>
+    <a href="/bootcamp" class="bc-cta">Reserve My Seat →</a>
+  </div>
+</div>
+
+<script>
+  (function () {
+    if (sessionStorage.getItem('bcPopupSeen')) return;
+    setTimeout(function () {
+      var el = document.getElementById('bootcampPopup');
+      if (el) el.classList.add('open');
+    }, 2500);
+  })();
+  function closeBootcampPopup() {
+    var el = document.getElementById('bootcampPopup');
+    if (el) el.classList.remove('open');
+    try { sessionStorage.setItem('bcPopupSeen', '1'); } catch (e) {}
+  }
+</script>
+
 <!-- KINETIC KEN CHAT WIDGET -->
 <div class="kk-widget" id="kkWidget">
   <div class="kk-bubble" onclick="launchVapiFromKK()">
