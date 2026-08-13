@@ -57,7 +57,9 @@ const {
 } = require('../lib/platform-config');
 
 const CLIENT_ID = 'flex-facility';
-const SITE_URL = 'https://theflexfacility.com';
+// www, not the apex: the apex 307-redirects to www, and the redirect hop
+// is one more thing to fail on the post-payment return trip.
+const SITE_URL = 'https://www.theflexfacility.com';
 const FROM_EMAIL = 'info@theflexfacility.com';
 const FROM_NAME = 'The Flex Facility';
 
@@ -308,7 +310,10 @@ async function handleCreateCheckout(req, res) {
         metadata: { signup_id: signup.id, client_id: CLIENT_ID, event_key: BOOTCAMP_EVENT.key },
       },
       customer_email: email,
-      success_url: `${SITE_URL}/bootcamp?reserved=1&session_id={CHECKOUT_SESSION_ID}`,
+      // Dedicated confirmation page — gives a clean conversion URL to
+      // track and room for calendar/directions/share actions. It verifies
+      // the session through /api/verify-session before showing "paid".
+      success_url: `${SITE_URL}/bootcamp-thank-you?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${SITE_URL}/bootcamp?canceled=1`,
       metadata: { signup_id: signup.id, client_id: CLIENT_ID, event_key: BOOTCAMP_EVENT.key },
     });

@@ -9,6 +9,7 @@
     { "source": "/trainers", "destination": "/trainers.html" },
     { "source": "/merch", "destination": "/merch.html" },
     { "source": "/bootcamp", "destination": "/bootcamp.html" },
+    { "source": "/bootcamp-thank-you", "destination": "/bootcamp-thank-you.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/terms.html" }
   ],
