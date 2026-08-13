@@ -7,7 +7,7 @@
 <meta name="description" content="ROQ N FLEX Bootcamp — Saturday, August 15, 2026 at 10:00 A.M. 4132 Shoreline Dr Ste 1, Earth City, MO 63045. $10 at the door. Full body workout + post workout goodies. For the fellas & the ladies.">
 <meta property="og:title" content="ROQ N FLEX Bootcamp — August 15, 2026">
 <meta property="og:description" content="Saturday 10:00 A.M · 4132 Shoreline Dr Ste 1, Earth City, MO 63045 · $10 at the door. Full body workout + post workout goodies.">
-<meta property="og:image" content="https://theflexfacility.com/assets/bootcamp/roq-n-flex-flyer.jpg">
+<meta property="og:image" content="https://theflexfacility.com/bootcamp.webp">
 <meta name="twitter:card" content="summary_large_image">
 <script>
   window.GoElev8 = { slug: "flex-facility", secret: "REPLACE_WITH_GOELEV8_SECRET" };
@@ -52,12 +52,14 @@
   /* ── Layout: flyer left, signup right (stacks on mobile) ── */
   .event { max-width: 1080px; margin: 0 auto; padding: 8px 24px 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
 
-  /* Flyer. The real flyer JPG at assets/bootcamp/roq-n-flex-flyer.jpg is the
-     hero when present. Until it's added, the onerror handler swaps in the
-     .flyer-card recreation below — same content, same layout as the printed
-     flyer, so the page reads correctly either way and nothing renders broken. */
-  .flyer-wrap { background: #0a0a0a; border: 1px solid var(--gold-border); border-radius: 18px; overflow: hidden; box-shadow: 0 0 60px rgba(200,168,75,0.08); }
+  /* Flyer. /bootcamp.webp is the hero. The .flyer-card recreation below is
+     the onerror fallback — same content, same layout as the printed flyer —
+     so a missing or blocked image never leaves a broken page. */
+  .flyer-wrap { display: block; background: #0a0a0a; border: 1px solid var(--gold-border); border-radius: 18px; overflow: hidden; box-shadow: 0 0 60px rgba(200,168,75,0.08); }
   .flyer-wrap img { width: 100%; display: block; }
+  .flyer-link { text-decoration: none; color: inherit; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s; }
+  .flyer-link:hover { border-color: var(--gold); box-shadow: 0 0 70px rgba(200,168,75,0.18); transform: translateY(-2px); }
+  .flyer-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 
   .flyer-card { padding: 36px 30px 30px; background: radial-gradient(ellipse 120% 70% at 50% 0%, rgba(200,168,75,0.13) 0%, transparent 68%), #0a0a0a; }
   .fc-head { text-align: center; }
@@ -168,9 +170,11 @@
 
   <!-- ── Flyer + details ── -->
   <div>
-    <div class="flyer-wrap">
-      <img id="flyerImg" src="/assets/bootcamp/roq-n-flex-flyer.jpg"
-           alt="ROQ N FLEX Bootcamp — August 15, 2026, 10:00 AM, 4132 Shoreline Dr Ste 1, Earth City, MO 63045"
+    <!-- The whole flyer is a link to the signup form — on mobile the form
+         sits below the fold, so tapping the flyer anywhere jumps to it. -->
+    <a href="#reserve" class="flyer-wrap flyer-link" aria-label="Reserve your seat at the ROQ N FLEX Bootcamp">
+      <img id="flyerImg" src="/bootcamp.webp"
+           alt="ROQ N FLEX Bootcamp — Saturday August 15, 2026, 10:00 A.M, 4132 Shoreline Dr Ste 1, Earth City, MO 63045. $10 at the door. Bootcamp includes a full body workout and post workout goodies."
            onerror="this.style.display='none';document.getElementById('flyerFallback').style.display='block';">
       <!-- Recreation of the printed flyer, shown until the JPG is added. -->
       <div class="flyer-card" id="flyerFallback" style="display:none;">
@@ -202,7 +206,7 @@
 
         <div class="fc-tagline">We back with another one...<span class="gold">For the fellas &amp; the ladies!</span></div>
       </div>
-    </div>
+    </a>
 
     <div class="detail-list">
       <div class="detail-row">
