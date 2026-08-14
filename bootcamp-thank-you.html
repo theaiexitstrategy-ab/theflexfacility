@@ -211,9 +211,13 @@
 
     if (!sessionId) { show('stateUnverified'); return; }
 
-    fetch('/api/verify-session?session_id=' + encodeURIComponent(sessionId))
+    // ?action=confirm both verifies with Stripe AND fires the receipt
+    // email + SMS if the webhook hasn't already. It's idempotent, so
+    // racing the webhook is harmless — whichever arrives second updates
+    // zero rows and sends nothing.
+    fetch('/api/bootcamp?action=confirm&session_id=' + encodeURIComponent(sessionId))
       .then(function (r) { return r.json(); })
-      .then(function (j) { show(j && j.valid ? 'stateConfirmed' : 'stateUnverified'); })
+      .then(function (j) { show(j && j.confirmed ? 'stateConfirmed' : 'stateUnverified'); })
       .catch(function () {
         // Network hiccup shouldn't tell a paying customer their seat
         // failed — they got here from Stripe, so lean confirmed.

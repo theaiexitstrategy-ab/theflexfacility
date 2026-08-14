@@ -139,11 +139,14 @@ module.exports = async function handler(req, res) {
     if (action === 'webhook' && req.method === 'POST') {
       return handleWebhook(req, res);
     }
-    res.setHeader('Allow', 'POST');
+    if (action === 'confirm') {
+      return handleConfirm(req, res);
+    }
+    res.setHeader('Allow', 'POST, GET');
     return res.status(405).json({
       success: false,
       error: 'method_or_action_not_allowed',
-      hint: 'Use ?action=create-checkout (POST) | webhook (POST)',
+      hint: 'Use ?action=create-checkout (POST) | webhook (POST) | confirm (GET/POST)',
     });
   } catch (e) {
     console.error('[bootcamp] uncaught:', e);
@@ -444,6 +447,66 @@ async function onCheckoutCompleted(session, supabase) {
     sendConfirmationEmail(signup).catch((e) => console.error('[bootcamp] email failed:', e.message)),
     sendConfirmationSms(signup).catch((e) => console.error('[bootcamp] SMS failed:', e.message)),
   ]);
+}
+
+// ─── action=confirm ──────────────────────────────────────────────────
+//
+// Belt-and-braces path for marking a reservation paid, used by the
+// thank-you page the customer lands on after checkout.
+//
+// The webhook is still the authoritative route — it catches people who
+// close the tab before returning. But the webhook depends on a correct
+// STRIPE_BOOTCAMP_WEBHOOK_SECRET, and if that's wrong or missing, every
+// paying customer silently gets no receipt (which is exactly what
+// happened to the first two signups). This path only needs
+// STRIPE_SECRET_KEY, so the two failure modes don't overlap.
+//
+// Safe to expose publicly: it never trusts the caller about payment. It
+// asks Stripe whether the session is actually paid, and hands off to the
+// same idempotent onCheckoutCompleted() the webhook uses — so calling it
+// twice, or racing the webhook, updates zero rows the second time and
+// sends nothing.
+//
+//   GET|POST /api/bootcamp?action=confirm&session_id=cs_live_...
+//   → { confirmed: true }                     paid, row updated (or already was)
+//   → { confirmed: false, reason: 'not_paid' } session exists but unpaid
+
+async function handleConfirm(req, res) {
+  const q = getQuery(req);
+  let sessionId = q.session_id;
+  if (!sessionId && req.method === 'POST') {
+    sessionId = (await readJsonBody(req)).session_id;
+  }
+  if (!sessionId) {
+    return res.status(400).json({ confirmed: false, error: 'missing_session_id' });
+  }
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return res.status(500).json({ confirmed: false, error: 'stripe_env_missing' });
+  }
+
+  const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+  let session;
+  try {
+    session = await stripe.checkout.sessions.retrieve(sessionId);
+  } catch (e) {
+    return res.status(400).json({ confirmed: false, error: 'session_not_found', detail: e?.message });
+  }
+
+  // Stripe is the only authority on whether money moved.
+  if (session.payment_status !== 'paid') {
+    return res.status(200).json({ confirmed: false, reason: 'not_paid', payment_status: session.payment_status });
+  }
+  if (session.metadata?.event_key && session.metadata.event_key !== BOOTCAMP_EVENT.key) {
+    return res.status(400).json({ confirmed: false, error: 'wrong_event' });
+  }
+
+  const supabase = getSupabase();
+  if (!supabase) {
+    return res.status(500).json({ confirmed: false, error: 'supabase_env_missing' });
+  }
+
+  await onCheckoutCompleted(session, supabase);
+  return res.status(200).json({ confirmed: true });
 }
 
 // ─── Confirmation email (ForwardEmail.net) ───────────────────────────
