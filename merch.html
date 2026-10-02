@@ -9,6 +9,17 @@
   window.GoElev8 = { slug: "flex-facility", secret: "REPLACE_WITH_GOELEV8_SECRET" };
 </script>
 <script src="https://portal.goelev8.ai/embed/track.js" async></script>
+<!-- Seasonal theme: Halloween look runs Oct 1–31 (visitor's local date) and
+     switches itself off Nov 1. Preview any time with ?theme=halloween;
+     force it off with ?theme=off. Styles live under html.halloween below. -->
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search).get('theme');
+    if (q === 'halloween' || (q !== 'off' && new Date().getMonth() === 9)) {
+      document.documentElement.classList.add('halloween');
+    }
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
@@ -17,11 +28,12 @@
     --navy: #141720;
     --gold: #c8a84b;
     --gold-light: #e0c068;
+    --gold-rgb: 200,168,75; /* same as --gold; used for the rgba() tints */
     --white: #ffffff;
     --muted: #9a9a9a;
     --dim: #555;
     --border: rgba(255,255,255,0.08);
-    --gold-border: rgba(200,168,75,0.25);
+    --gold-border: rgba(var(--gold-rgb),0.25);
     --red: #ff6b6b;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -35,7 +47,7 @@
   .nav-cta { background: var(--gold); color: var(--black); border: none; border-radius: 6px; padding: 10px 20px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background 0.2s; }
   .nav-cta:hover { background: var(--gold-light); }
 
-  .hero { position: relative; padding: 80px 24px 56px; text-align: center; background: radial-gradient(ellipse 80% 55% at 50% 0%, rgba(200,168,75,0.12) 0%, transparent 65%), var(--black); overflow: hidden; }
+  .hero { position: relative; padding: 80px 24px 56px; text-align: center; background: radial-gradient(ellipse 80% 55% at 50% 0%, rgba(var(--gold-rgb),0.12) 0%, transparent 65%), var(--black); overflow: hidden; }
   .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,0.018) 60px), repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,0.018) 60px); pointer-events: none; }
   .hero-logo { height: 120px; width: 120px; object-fit: contain; margin: 0 auto 14px; display: block; position: relative; animation: heroLogoIn 0.6s ease both; }
   @keyframes heroLogoIn { from { opacity: 0; transform: translateY(-12px) scale(0.92); } to { opacity: 1; transform: none; } }
@@ -49,7 +61,15 @@
   .product-card { background: var(--navy); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s; }
   .product-card:hover { border-color: var(--gold-border); transform: translateY(-3px); }
   .product-image-wrap { aspect-ratio: 4/5; background: #1a1d28; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .product-image-wrap { position: relative; }
   .product-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* A photo much wider than the 4:5 frame (e.g. a front + back mockup)
+     is shown whole instead of cropped to its middle. */
+  .product-image-wrap img.fit-whole { object-fit: contain; }
+  .view-toggle { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); display: flex; gap: 4px; padding: 4px; background: rgba(13,13,13,0.72); backdrop-filter: blur(6px); border-radius: 999px; }
+  .view-toggle button { background: transparent; border: 0; color: var(--white); border-radius: 999px; padding: 6px 14px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; }
+  .view-toggle button[aria-pressed="true"] { background: var(--gold); color: var(--black); }
+  .view-toggle button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   .product-body { padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 14px; }
   .product-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 19px; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.1; }
   /* white-space:pre-wrap preserves the line breaks + spacing exactly
@@ -74,11 +94,11 @@
   .color-pill.selected { background: var(--gold); color: var(--black); border-color: var(--gold); }
   .color-swatch { display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); flex-shrink: 0; }
   .color-pill.selected .color-swatch { border-color: rgba(0,0,0,0.3); }
-  .order-btn { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: var(--black); border: none; border-radius: 10px; padding: 14px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 22px rgba(200,168,75,0.28); }
-  .order-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(200,168,75,0.45); }
+  .order-btn { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: var(--black); border: none; border-radius: 10px; padding: 14px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 22px rgba(var(--gold-rgb),0.28); }
+  .order-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(var(--gold-rgb),0.45); }
   .order-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-  .ebook-cta { margin-top: 56px; background: var(--navy); border: 1px solid var(--gold-border); border-radius: 18px; padding: 36px 32px; display: flex; flex-direction: column; sm:flex-direction: row; align-items: center; justify-content: space-between; gap: 22px; box-shadow: 0 0 60px rgba(200,168,75,0.06); }
+  .ebook-cta { margin-top: 56px; background: var(--navy); border: 1px solid var(--gold-border); border-radius: 18px; padding: 36px 32px; display: flex; flex-direction: column; sm:flex-direction: row; align-items: center; justify-content: space-between; gap: 22px; box-shadow: 0 0 60px rgba(var(--gold-rgb),0.06); }
   .ebook-text h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 26px; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 4px; }
   .ebook-text p { color: var(--muted); font-size: 14px; max-width: 540px; line-height: 1.6; }
   .ebook-btn { background: var(--gold); color: var(--black); border: none; border-radius: 10px; padding: 16px 28px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
@@ -95,13 +115,13 @@
   .modal-field { margin-bottom: 14px; }
   .modal-field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 5px; }
   .modal-field input, .modal-field select { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px 14px; color: var(--white); font-family: 'Barlow', sans-serif; font-size: 14px; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none; }
-  .modal-field input:focus, .modal-field select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(200,168,75,0.15); }
+  .modal-field input:focus, .modal-field select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(var(--gold-rgb),0.15); }
   .modal-field select option { background: #1a1a1a; }
-  .modal-summary { background: rgba(200,168,75,0.06); border: 1px solid var(--gold-border); border-radius: 10px; padding: 12px 14px; margin-bottom: 18px; font-size: 13px; color: var(--muted); }
+  .modal-summary { background: rgba(var(--gold-rgb),0.06); border: 1px solid var(--gold-border); border-radius: 10px; padding: 12px 14px; margin-bottom: 18px; font-size: 13px; color: var(--muted); }
   .modal-summary .summary-row { display: flex; justify-content: space-between; padding: 2px 0; }
   .modal-summary .summary-row.total { color: var(--gold); font-weight: 700; font-size: 14px; padding-top: 6px; border-top: 1px dashed var(--gold-border); margin-top: 4px; }
-  .modal-submit { width: 100%; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: var(--black); border: none; border-radius: 10px; padding: 15px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 17px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 22px rgba(200,168,75,0.32); }
-  .modal-submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(200,168,75,0.45); }
+  .modal-submit { width: 100%; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: var(--black); border: none; border-radius: 10px; padding: 15px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 17px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 22px rgba(var(--gold-rgb),0.32); }
+  .modal-submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(var(--gold-rgb),0.45); }
   .modal-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
   .modal-error { display: none; background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.35); color: var(--red); padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-top: 14px; }
   .modal-error.show { display: block; }
@@ -132,6 +152,41 @@
     .ebook-cta { padding: 26px 22px; text-align: center; }
     footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; }
   }
+  /* ── Halloween (October) theme — active only when <html> has .halloween ── */
+  .hw-only, .hw-badge { display: none; }
+  html.halloween {
+    --gold: #ff6a00;
+    --gold-light: #ff8c33;
+    --gold-rgb: 255,106,0;
+    --gold-border: rgba(255,106,0,0.3);
+    --navy: #17111f;
+    --hw-purple-rgb: 123,47,191;
+  }
+  html.halloween body { background: #0b0810; }
+  html.halloween .hero { background: radial-gradient(ellipse 80% 55% at 50% 0%, rgba(var(--gold-rgb),0.12) 0%, transparent 65%), radial-gradient(ellipse 60% 70% at 85% 10%, rgba(var(--hw-purple-rgb),0.24) 0%, transparent 60%), #0b0810; }
+  html.halloween .hw-only { display: block; }
+  html.halloween .hw-badge { display: inline-flex; }
+  html.halloween .product-image-wrap { background: #221a2b; }
+  .hw-sky { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .hw-moon { position: absolute; top: 34px; right: 9%; width: clamp(64px, 9vw, 112px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 38% 36%, #fff8dc 0%, #eadcab 55%, #c9b57a 100%); box-shadow: 0 0 60px 18px rgba(243,233,198,0.12), 0 0 140px 60px rgba(var(--hw-purple-rgb),0.2); opacity: 0.55; }
+  .hw-bat { position: absolute; color: rgba(var(--hw-purple-rgb),0.8); animation: hwDrift 9s ease-in-out infinite; }
+  .hw-bat svg { display: block; width: 100%; height: auto; animation: hwFlap 0.35s ease-in-out infinite alternate; transform-origin: 50% 40%; }
+  .hw-bat.b1 { top: 60px; right: 22%; width: 44px; }
+  .hw-bat.b2 { top: 150px; right: 5%; width: 30px; animation-delay: -3s; animation-duration: 11s; }
+  .hw-bat.b3 { top: 90px; left: 10%; width: 34px; animation-delay: -6s; animation-duration: 13s; }
+  .hw-bat.b2 svg { animation-duration: 0.28s; }
+  .hw-bat.b3 svg { animation-duration: 0.42s; }
+  @keyframes hwDrift { 0%,100% { transform: translate(0,0); } 33% { transform: translate(-36px,-14px); } 66% { transform: translate(18px,10px); } }
+  @keyframes hwFlap { from { transform: scaleY(1); } to { transform: scaleY(0.55); } }
+  .hw-badge { align-items: center; gap: 10px; margin: 0 auto 16px; padding: 7px 14px 7px 10px; border: 1px solid rgba(var(--gold-rgb),0.4); border-radius: 999px; background: rgba(var(--hw-purple-rgb),0.2); font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #f3e9c6; position: relative; }
+  .hw-badge svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--gold); }
+  .hw-badge b { color: var(--gold); font-weight: 800; }
+  @media (max-width: 640px) {
+    .hw-bat.b3 { display: none; }
+    .hw-moon { top: 18px; right: 6%; }
+    .hw-badge { font-size: 11px; letter-spacing: 0.12em; }
+  }
+  @media (prefers-reduced-motion: reduce) { .hw-bat, .hw-bat svg { animation: none; } }
 </style>
 </head>
 <body>
@@ -147,7 +202,9 @@
 <div class="success-banner" id="successBanner">✅ Order received! Coach Kenny's team will be in touch.</div>
 
 <section class="hero">
+  <div class="hw-sky hw-only" aria-hidden="true"><div class="hw-moon"></div><div class="hw-bat b1"><svg viewBox="0 0 64 32" aria-hidden="true"><path fill="currentColor" d="M32 12L30 12L28.5 8L27.5 13Q18 6 4 8Q9 11 8 15Q4 16 3 19Q10 16 13 20Q14 22 13 25Q18 20 23 22Q25 24 25 27Q29 24 32 26Q35 24 39 27Q39 24 41 22Q46 20 51 25Q50 22 51 20Q54 16 61 19Q60 16 56 15Q55 11 60 8Q46 6 36.5 13L35.5 8L34 12Z"/></svg></div><div class="hw-bat b2"><svg viewBox="0 0 64 32" aria-hidden="true"><path fill="currentColor" d="M32 12L30 12L28.5 8L27.5 13Q18 6 4 8Q9 11 8 15Q4 16 3 19Q10 16 13 20Q14 22 13 25Q18 20 23 22Q25 24 25 27Q29 24 32 26Q35 24 39 27Q39 24 41 22Q46 20 51 25Q50 22 51 20Q54 16 61 19Q60 16 56 15Q55 11 60 8Q46 6 36.5 13L35.5 8L34 12Z"/></svg></div><div class="hw-bat b3"><svg viewBox="0 0 64 32" aria-hidden="true"><path fill="currentColor" d="M32 12L30 12L28.5 8L27.5 13Q18 6 4 8Q9 11 8 15Q4 16 3 19Q10 16 13 20Q14 22 13 25Q18 20 23 22Q25 24 25 27Q29 24 32 26Q35 24 39 27Q39 24 41 22Q46 20 51 25Q50 22 51 20Q54 16 61 19Q60 16 56 15Q55 11 60 8Q46 6 36.5 13L35.5 8L34 12Z"/></svg></div></div>
   <img src="/flex-logo.png" alt="The Flex Facility" class="hero-logo">
+  <div class="hw-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.2 2.5h2.4l-.6 4.2h-1.6z" fill="#5E8C31"/><ellipse cx="7.6" cy="14.2" rx="5.2" ry="7" fill="currentColor"/><ellipse cx="16.4" cy="14.2" rx="5.2" ry="7" fill="currentColor"/><ellipse cx="12" cy="14.2" rx="4.6" ry="7.6" fill="#FF8C33"/></svg><span><b>October</b> drop · No tricks. Just gear.</span></div>
   <div class="eyebrow">Flex Training Gear</div>
   <h1>Built for <span class="gold">Strength.</span></h1>
   <p class="hero-sub">Sleeveless hoodies built for the way we train. Premium comfort, maximum flexibility, moisture wicking, durable for the toughest sessions.</p>
@@ -281,7 +338,12 @@
       return `
         <div class="product-card" data-product="${esc(p.key)}">
           <div class="product-image-wrap">
-            <img src="${esc(initialImage)}" alt="${esc(p.name)}" loading="${i === 0 ? 'eager' : 'lazy'}">
+            <img src="${esc(initialImage)}" alt="${esc(p.name)}, front" loading="${i === 0 ? 'eager' : 'lazy'}" onload="fitWideImage(this)">
+            ${p.backImage && colors.length < 2 ? `
+              <div class="view-toggle" role="group" aria-label="Choose a view">
+                <button aria-pressed="true" data-src="${esc(initialImage)}" data-alt="${esc(p.name)}, front" onclick="showView(this)">Front</button>
+                <button aria-pressed="false" data-src="${esc(p.backImage)}" data-alt="${esc(p.name)}, back" onclick="showView(this)">Back</button>
+              </div>` : ''}
           </div>
           <div class="product-body">
             <div>
@@ -434,6 +496,39 @@
     `;
   }
 
+  // Kenny's portal mockups show front and back side by side with a label
+  // banner on top, which the 4:5 card frame crops badly. When a product's
+  // portal image is one of these mockups, use the cleaned-up front/back
+  // crops in /assets/merch/flex-gear/ instead. Matching on the uploaded
+  // file name means a new upload in the portal shows as-is.
+  const CLEAN_PHOTOS = {
+    'IMG_4625': { front: 'long-sleeve-tee-front' },
+    'IMG_4631': { front: 'hoodie-front', back: 'hoodie-back' },
+    'IMG_4632': { front: 'classic-tee-front', back: 'classic-tee-back' },
+    'IMG_4633': { front: 'crop-tee-front', back: 'crop-tee-back' },
+  };
+  function cleanPhotos(imageUrl) {
+    const file = String(imageUrl || '').split('/').pop();
+    const hit = Object.keys(CLEAN_PHOTOS).find(stem => file.includes(stem));
+    if (!hit) return null;
+    const c = CLEAN_PHOTOS[hit];
+    const url = name => '/assets/merch/flex-gear/' + name + '.webp';
+    return { front: url(c.front), back: c.back ? url(c.back) : null };
+  }
+
+  // Any other photo that's much wider than tall gets shown whole.
+  function fitWideImage(img) {
+    img.classList.toggle('fit-whole', img.naturalWidth > img.naturalHeight * 1.1);
+  }
+
+  function showView(btn) {
+    const wrap = btn.closest('.product-image-wrap');
+    const img = wrap.querySelector('img');
+    img.src = btn.dataset.src;
+    img.alt = btn.dataset.alt;
+    wrap.querySelectorAll('.view-toggle button').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+  }
+
   function selectColor(btn) {
     const grid = btn.closest('.color-grid');
     grid.querySelectorAll('.color-pill').forEach(p => p.classList.remove('selected'));
@@ -570,7 +665,8 @@
       name:        p.name,
       description: p.description,
       listCents:   p.price_cents,
-      image:       p.image_url,
+      image:       cleanPhotos(p.image_url)?.front || p.image_url,
+      backImage:   cleanPhotos(p.image_url)?.back || null,
       colors:      Array.isArray(p.colors) ? p.colors : [],
       sortOrder:   p.sort_order
     }));
