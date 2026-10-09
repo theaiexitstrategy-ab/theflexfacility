@@ -4,6 +4,7 @@
   "private": true,
   "description": "Marketing site + serverless API for theflexfacility.com",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
     "@supabase/supabase-js": "^2.45.0",
     "stripe": "^14.25.0",
     "twilio": "^5.3.0"

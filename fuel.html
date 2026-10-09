@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<!-- © 2026 GoElev8.ai | Aaron Bryant. All rights reserved. Unauthorized use prohibited. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flex Fuel — The Flex Facility</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="manifest" href="/assets/fuel/manifest.webmanifest">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/fuel/icon-192.png">
+<link rel="apple-touch-icon" href="/assets/fuel/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Flex Fuel">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ECEDEA; --card:#FFFFFF; --ink:#000000; --mute:#5E636B; --line:#D3D5D1;
+  --plate:#E8431C; --plate-soft:#FBE3DB; --ok:#1F7A4D; --warn:#A35D00;
+  --display:"Barlow Condensed","Arial Narrow",Impact,sans-serif;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--paper:#000000;--card:#16171A;--ink:#F4F4F2;--mute:#9DA2AA;--line:#2C2E33;--plate:#FF5A2E;--plate-soft:#3A1A10;--ok:#4CC38A;--warn:#F0A43A}
+}
+:root[data-theme="dark"]{--paper:#000000;--card:#16171A;--ink:#F4F4F2;--mute:#9DA2AA;--line:#2C2E33;--plate:#FF5A2E;--plate-soft:#3A1A10;--ok:#4CC38A;--warn:#F0A43A}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font:400 16px/1.5 var(--body)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--plate);outline-offset:2px}
+.app{max-width:460px;margin:0 auto;padding:16px 16px 96px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.emblem{display:flex;align-items:center;gap:10px}
+.badge{width:40px;height:40px;border-radius:50%;background:#000;color:#fff;display:grid;place-items:center;font:800 15px/1 var(--display);letter-spacing:.02em;border:2px solid #fff;box-shadow:0 0 0 1px var(--line)}
+.emblem b{font:800 24px/1 var(--display)}
+.emblem small{display:block;color:var(--mute);font-size:12px}
+.role{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;cursor:pointer}
+h1,h2,h3{font-family:var(--display);font-weight:800;line-height:1.05;margin:0}
+h1{font-size:44px} h2{font-size:28px} h3{font-size:20px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}
+.muted{color:var(--mute)} .small{font-size:13px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:14px;padding:14px 18px;font-weight:700;cursor:pointer;background:var(--ink);color:var(--paper)}
+.btn.plate{background:var(--plate);color:#fff}
+.btn.ghost{background:transparent;border:1.5px solid var(--ink);color:var(--ink)}
+.btn.wide{width:100%}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:10px;align-items:center}
+.row.wrap{flex-wrap:wrap}
+.grow{flex:1}
+input[type=text],input[type=number],input[type=email]{width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--paper)}
+/* chat */
+.chat{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.msg{max-width:85%;padding:11px 14px;border-radius:16px;white-space:pre-wrap}
+.msg.ai{background:var(--card);border:1px solid var(--line);border-bottom-left-radius:4px;align-self:flex-start}
+.msg.me{background:var(--ink);color:var(--paper);border-bottom-right-radius:4px;align-self:flex-end}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 12px}
+.chip{border:1.5px solid var(--ink);background:transparent;border-radius:999px;padding:9px 14px;font-weight:600;cursor:pointer}
+.chip:hover{background:var(--ink);color:var(--paper)}
+/* intake wizard */
+.wiz h2{margin:2px 0 6px}
+.steps{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--mute)}
+.link{border:0;background:none;padding:6px 0;font-weight:700;color:var(--ink);cursor:pointer}
+.opts{display:grid;gap:10px;margin-top:16px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{display:block;width:100%;text-align:left;padding:16px;border:1.5px solid var(--line);border-radius:14px;background:var(--card);font-weight:700;cursor:pointer}
+.opt:hover{border-color:var(--ink)}
+.opt.on{border-color:var(--plate);box-shadow:inset 0 0 0 1.5px var(--plate)}
+.dial{text-align:center;margin:18px 0 6px}
+.dial .big{display:inline-block;min-width:3ch}
+.dial .unit{font:600 20px/1 var(--display);color:var(--mute);margin-left:6px}
+.stepper{display:flex;align-items:center;gap:12px}
+.stepper button{flex:none;width:48px;height:48px;border-radius:50%;border:1.5px solid var(--ink);background:transparent;font-size:22px;font-weight:700;cursor:pointer}
+input[type=range]{flex:1;accent-color:var(--plate);height:32px}
+select{width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--paper);font-weight:700}
+.wiz-foot{margin-top:18px}
+/* today */
+.fuel{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.gauge{width:132px;height:132px}
+.big{font:800 52px/0.9 var(--display)}
+.bar{height:10px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--ink)}
+.meal{display:flex;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.meal:first-child{border-top:0}
+.thumb{width:52px;height:52px;border-radius:12px;background:var(--paper);object-fit:cover;flex:none;display:grid;place-items:center;font-size:22px}
+.affirm{background:var(--ink);color:var(--paper);border:0}
+.affirm p{font:600 26px/1.1 var(--display);margin:6px 0 0}
+.pending{background:var(--plate-soft);border-color:transparent}
+/* log sheet */
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center;z-index:20}
+.sheet.open{display:flex}
+.sheet .inner{background:var(--paper);width:100%;max-width:460px;max-height:92%;overflow:auto;border-radius:22px 22px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom,0px))}
+.preview{width:100%;border-radius:14px;max-height:260px;object-fit:cover;display:block;margin-bottom:12px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:7px 4px;border-bottom:1px solid var(--line);text-align:right}
+td:first-child,th:first-child{text-align:left}
+th{color:var(--mute);font-weight:600}
+.seg{display:flex;border:1.5px solid var(--ink);border-radius:12px;overflow:hidden}
+.seg button{flex:1;border:0;background:transparent;padding:9px 0;font-weight:700;cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--paper)}
+/* nav */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:10}
+nav.tabs div{max-width:460px;margin:0 auto;display:flex}
+nav.tabs button{flex:1;border:0;background:transparent;padding:12px 0 14px;font-weight:700;font-size:13px;color:var(--mute);cursor:pointer}
+nav.tabs button.on{color:var(--ink);box-shadow:inset 0 3px 0 var(--plate)}
+.notif{display:flex;gap:10px;padding:12px;border-radius:14px;background:var(--paper);margin-top:10px}
+.notif .badge{width:32px;height:32px;font-size:11px}
+.flag{display:inline-block;font-size:12px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--plate-soft);color:var(--plate)}
+.flag.ok{background:transparent;color:var(--ok);border:1px solid var(--ok)}
+.chartwrap{overflow-x:auto}
+footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
+footer a{color:inherit}
+@media (prefers-reduced-motion:no-preference){.msg{animation:pop .18s ease-out}@keyframes pop{from{transform:translateY(4px);opacity:0}}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="emblem"><div class="badge" aria-hidden="true">FLEX</div><div><b>Flex Fuel</b><small>The Flex Facility</small></div></div>
+    <button class="role" id="roleBtn" type="button">Coach view</button>
+  </header>
+  <main id="view"></main>
+  <footer>Prototype · built by <a href="https://goelev8.ai">GoElev8.ai</a></footer>
+</div>
+
+<nav class="tabs" id="tabs" hidden><div>
+  <button type="button" data-tab="today" class="on">Today</button>
+  <button type="button" data-tab="progress">Progress</button>
+  <button type="button" data-tab="reminders">Reminders</button>
+</div></nav>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Log a meal"><div class="inner" id="sheetInner"></div></div>
+<input type="file" id="cam" accept="image/*" capture="environment" hidden>
+
+<script>
+/* ---------- state ---------- */
+const KEY="flexfuel:v1";
+const blank=()=>({profile:null,meals:[],weights:[],approved:false,role:"client"});
+let S=load();
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||blank()}catch(e){return blank()}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+let tab="today";
+
+/* ---------- server AI (POST /api/fuel/estimate) ---------- */
+const CODE_KEY="flexfuel:code";
+let code=(()=>{try{return localStorage.getItem(CODE_KEY)||""}catch(e){return ""}})();
+function setCode(v){code=v;try{v?localStorage.setItem(CODE_KEY,v):localStorage.removeItem(CODE_KEY)}catch(e){}}
+async function api(body){
+  let r;
+  try{r=await fetch("/api/fuel/estimate",{method:"POST",headers:{"Content-Type":"application/json","x-flex-code":code},body:JSON.stringify(body)})}
+  catch(e){throw{code:"network",message:"No connection. Check your signal and try again."}}
+  const data=await r.json().catch(()=>({}));
+  if(!r.ok){
+    if((data.error==="invalid_code"||data.error==="missing_code")&&!body.check){setCode("");setTimeout(()=>{if(L)closeSheet();render()},0)}
+    throw{code:data.error||"http_"+r.status,message:data.message};
+  }
+  return data;
+}
+// Phone photos are far bigger than a serverless request allows: shrink to
+// 1280px on the long side, JPEG at 0.8, and send the base64 only.
+async function shrink(file){
+  const b=await createImageBitmap(file),s=Math.min(1,1280/Math.max(b.width,b.height));
+  const c=document.createElement("canvas");c.width=Math.round(b.width*s);c.height=Math.round(b.height*s);
+  c.getContext("2d").drawImage(b,0,0,c.width,c.height);b.close&&b.close();
+  return c.toDataURL("image/jpeg",.8).split(",")[1];
+}
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const dayKey=t=>new Date(t).toDateString();
+const todayMeals=()=>S.meals.filter(m=>dayKey(m.ts)===dayKey(Date.now()));
+const sum=(a,k)=>a.reduce((n,m)=>n+(+m[k]||0),0);
+
+/* ---------- intake (tap-through wizard) ---------- */
+const AGES=[["Under 18",16],["18–24",21],["25–34",30],["35–44",40],["45–54",50],["55–64",60],["65+",68]];
+const FOODS=["Dairy","Gluten","Eggs","Nuts","Shellfish","Pork","Red meat","Vegetarian","Vegan"];
+const Q=[
+ {k:"name",q:"What should I call you?",sub:"Welcome to Flex Fuel 💪🏾 I'm your nutrition coach between sessions with Kenny.",type:"text"},
+ {k:"age",q:"How old are you?",type:"age"},
+ {k:"sex",q:"Sex?",sub:"I use it to estimate your energy needs.",chips:["Male","Female"],two:1},
+ {k:"height",q:"How tall are you?",type:"height"},
+ {k:"weight",q:"Current weight?",type:"slider",min:80,max:450,def:180},
+ {k:"goal",q:"What's the main goal right now?",chips:["Lose fat","Build muscle","Recomp","Perform better"]},
+ {k:"goalWeight",q:"Got a goal weight?",type:"slider",min:80,max:450,from:"weight",skip:true},
+ {k:"days",q:"How many days a week are you training?",chips:["1–2","3–4","5–6","7"],two:1},
+ {k:"job",q:"What's your day job like?",chips:["Desk","On my feet","Physical labor"]},
+ {k:"foods",q:"Any allergies or foods you don't eat?",sub:"Tap all that apply.",type:"multi"},
+ {k:"meals",q:"When do you usually eat?",sub:"I'll time your reminders around it.",chips:["Early (7a · 12p · 6p)","Standard (8a · 1p · 7p)","Late (10a · 3p · 9p)"]},
+ {k:"health",q:"Anything Kenny should know health-wise?",chips:["Nothing","Pregnant or breastfeeding","Diabetes","Another condition"]},
+ {k:"nudge",q:"How much should I check on you?",chips:["Light","Normal","Hold me accountable"]},
+ {k:"style",q:"Pick your daily motivation style.",chips:["Hype","Calm","Faith-based","Tough love"],two:1},
+ {k:"email",q:"Last one: where should your monthly progress report go?",type:"email"}
+];
+let intake={i:0,a:{},draft:{}};
+
+function renderIntake(){
+  const q=Q[intake.i],n=Q.length,prev=intake.a[q.k];
+  let h=`<div class="panel wiz"><div class="steps"><span class="grow">Step ${intake.i+1} of ${n}</span>${intake.i?`<button type="button" class="link" id="back">← Back</button>`:""}</div>
+   <div class="bar" style="margin:8px 0 18px"><i style="width:${intake.i/n*100}%;background:var(--plate)"></i></div>
+   ${intake.i===0?`<h1 style="margin-bottom:6px">Let's set you up</h1><p class="muted small" style="margin:0 0 14px">About 2 minutes. Kenny reviews your targets before they're final.</p>`:""}
+   <h2>${esc(q.q)}</h2>${q.sub?`<p class="${intake.i?"muted ":""}small" style="margin:0">${esc(q.sub)}</p>`:""}`;
+  if(q.chips) h+=`<div class="opts${q.two?" two":""}">${q.chips.map(c=>`<button type="button" class="opt${prev===c?" on":""}" data-a="${esc(c)}">${esc(c)}</button>`).join("")}</div>`;
+  else if(q.type==="age") h+=`<div class="opts two">${AGES.map(([l])=>`<button type="button" class="opt${intake.a.ageBand===l?" on":""}" data-a="${esc(l)}">${esc(l)}</button>`).join("")}</div>`;
+  else if(q.type==="height"){
+    const cur=parseHeight(prev||"")||68;
+    h+=`<div class="row" style="margin-top:16px"><select id="hf" aria-label="Feet">${[4,5,6,7].map(f=>`<option value="${f}" ${Math.floor(cur/12)===f?"selected":""}>${f} ft</option>`).join("")}</select>
+     <select id="hi" aria-label="Inches">${[...Array(12).keys()].map(i=>`<option value="${i}" ${cur%12===i?"selected":""}>${i} in</option>`).join("")}</select></div>
+     <div class="wiz-foot"><button class="btn plate wide" id="next" type="button">Next</button></div>`;
+  }
+  else if(q.type==="slider"){
+    const v=intake.draft[q.k]??(+prev||(q.from?+intake.a[q.from]:0)||q.def);
+    intake.draft[q.k]=v;
+    h+=`<div class="dial"><span class="big" id="sv">${v}</span><span class="unit">lbs</span></div>
+     <div class="stepper"><button type="button" data-step="-1" aria-label="Down 1 pound">−</button><input id="sr" type="range" min="${q.min}" max="${q.max}" step="1" value="${v}" aria-label="${esc(q.q)}"><button type="button" data-step="1" aria-label="Up 1 pound">+</button></div>
+     <div class="wiz-foot"><button class="btn plate wide" id="next" type="button">Next</button>${q.skip?`<button class="btn ghost wide" id="skip" type="button" style="margin-top:10px">Skip</button>`:""}</div>`;
+  }
+  else if(q.type==="multi"){
+    const sel=new Set(intake.draft.foods??(prev&&prev!=="None"?prev.split(", "):[]));
+    intake.draft.foods=[...sel];
+    h+=`<div class="opts two">${FOODS.map(f=>`<button type="button" class="opt${sel.has(f)?" on":""}" data-f="${esc(f)}" aria-pressed="${sel.has(f)}">${esc(f)}</button>`).join("")}</div>
+     <div class="wiz-foot"><button class="btn plate wide" id="next" type="button">${sel.size?"Next":"None — next"}</button></div>`;
+  }
+  else h+=`<form id="af" style="margin-top:16px"><input id="ai" type="${q.type}" autocomplete="${q.type==="email"?"email":"given-name"}" value="${esc(prev||"")}" required aria-label="${esc(q.q)}" placeholder="${q.type==="email"?"you@example.com":"First name"}">
+     <button class="btn plate wide" style="margin-top:12px">${intake.i===n-1?"Finish":"Next"}</button></form>`;
+  h+=`</div>`;
+  $("#view").innerHTML=h;
+  window.scrollTo(0,0);
+
+  $("#back")&&($("#back").onclick=()=>{intake.i--;renderIntake()});
+  document.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>answer(b.dataset.a));
+  if(q.type==="height") $("#next").onclick=()=>answer(`${$("#hf").value}'${$("#hi").value}`);
+  if(q.type==="slider"){
+    const set=v=>{v=Math.min(q.max,Math.max(q.min,Math.round(v)));intake.draft[q.k]=v;$("#sv").textContent=v;$("#sr").value=v};
+    $("#sr").oninput=e=>set(+e.target.value);
+    document.querySelectorAll("[data-step]").forEach(b=>b.onclick=()=>set(intake.draft[q.k]+ +b.dataset.step));
+    $("#next").onclick=()=>answer(String(intake.draft[q.k]));
+    $("#skip")&&($("#skip").onclick=()=>answer(""));
+  }
+  if(q.type==="multi"){
+    document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{const f=b.dataset.f,cur=new Set(intake.draft.foods);cur.has(f)?cur.delete(f):cur.add(f);intake.draft.foods=[...cur];renderIntake()});
+    $("#next").onclick=()=>answer(intake.draft.foods.length?FOODS.filter(f=>intake.draft.foods.includes(f)).join(", "):"None");
+  }
+  const f=$("#af"); if(f){f.onsubmit=e=>{e.preventDefault();const v=$("#ai").value.trim();if(v)answer(v)}}
+}
+function answer(v){
+  const q=Q[intake.i];
+  if(q.type==="age"){const band=AGES.find(x=>x[0]===v);intake.a.ageBand=v;v=String(band[1])}
+  intake.a[q.k]=v; intake.i++;
+  if(intake.i>=Q.length) return finishIntake();
+  renderIntake();
+}
+function parseHeight(v){const m=String(v).match(/(\d)\s*['’ft ]+\s*(\d{1,2})?/);if(m)return(+m[1])*12+(+(m[2]||0));const n=+v;return n>48&&n<90?n:0}
+function computeTargets(a){
+  const kg=a.weight*0.4536, cm=parseHeight(a.height)*2.54, age=+a.age, male=a.sex==="Male";
+  const bmr=10*kg+6.25*cm-5*age+(male?5:-161);
+  const act=1.2+({"1–2":.15,"3–4":.3,"5–6":.45,"7":.55}[a.days]||.3)+({"Desk":0,"On my feet":.1,"Physical labor":.2}[a.job]||0);
+  const tdee=bmr*act; let cal=tdee;
+  if(a.goal==="Lose fat")cal=Math.max(tdee*.8,tdee-500); if(a.goal==="Build muscle")cal=tdee+250; if(a.goal==="Recomp")cal=tdee-150;
+  const floor=male?1500:1200; cal=Math.max(floor,Math.round(cal/50)*50);
+  const ref=Math.min(+a.weight,+a.goalWeight>0?Math.max(+a.goalWeight,a.weight*.85):+a.weight);
+  return{cal,protein:Math.round(Math.min(ref*.8,200)/5)*5,floor};
+}
+function finishIntake(){
+  const a={...intake.a}; a.weight=+a.weight; a.age=+a.age;
+  const flags=[]; if(a.age<18)flags.push("Under 18"); if(a.health&&a.health!=="Nothing")flags.push(a.health);
+  const t=flags.length?null:computeTargets(a);
+  S.profile={...a,targets:t,flags,created:Date.now()}; S.approved=false;
+  S.weights=[{ts:Date.now(),lb:a.weight}]; save(); intake={i:0,a:{},draft:{}}; showApp();
+}
+
+/* ---------- client app ---------- */
+const AFF={
+ "Hype":["You didn't come this far to only come this far.","Every rep, every plate, every choice. Stack the wins.","Today's effort is next month's proof."],
+ "Calm":["Small steps, done daily, add up to big change.","Progress over perfection. Just log the next meal.","Your body hears everything your habits say."],
+ "Faith-based":["Your body is a gift. Take care of it today.","Strength and discipline grow one faithful day at a time.","Be steadfast. The harvest comes to those who keep showing up."],
+ "Tough love":["Nobody's coming to do the work for you. Get after it.","Excuses don't burn calories. Log it and move.","You know what to do. Do it."]
+};
+function affirmation(){const l=AFF[S.profile.style]||AFF.Hype;return l[new Date().getDate()%l.length]}
+
+function renderGate(err){
+  $("#tabs").hidden=true; $("#roleBtn").hidden=true;
+  $("#view").innerHTML=`<div class="panel"><h1>Flex Fuel</h1><p class="muted small" style="margin:6px 0 14px">Test version. Enter the access code from Coach Kenny.</p>
+   <form id="gf"><input id="gc" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Access code" aria-label="Access code" required>
+   <button class="btn plate wide" style="margin-top:10px">Continue</button></form>${err?`<p style="color:var(--plate);margin:12px 0 0">${esc(err)}</p>`:""}</div>`;
+  $("#gc").focus();
+  $("#gf").onsubmit=async e=>{e.preventDefault();const v=$("#gc").value.trim();if(!v)return;
+    const b=e.target.querySelector("button");b.disabled=true;b.textContent="Checking…";
+    setCode(v);try{await api({check:true});$("#roleBtn").hidden=false;showApp()}catch(x){setCode("");renderGate(x.message||"Couldn't check that code. Try again.")}};
+}
+function showApp(){ if(!code)return renderGate(); $("#tabs").hidden=S.role!=="client"||!S.profile; render(); }
+function render(){
+  if(!code) return renderGate();
+  $("#roleBtn").hidden=false;
+  $("#roleBtn").textContent=S.role==="client"?"Coach view":"Client view";
+  if(S.role==="coach") return renderCoach();
+  if(!S.profile) return renderIntake();
+  $("#tabs").hidden=false;
+  document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.tab===tab));
+  ({today:renderToday,progress:renderProgress,reminders:renderReminders})[tab]();
+}
+
+function gauge(pct){const r=56,c=2*Math.PI*r,o=c*(1-Math.min(pct,1));
+  return `<svg class="gauge" viewBox="0 0 132 132" aria-hidden="true"><circle cx="66" cy="66" r="${r}" fill="none" stroke="var(--line)" stroke-width="14"/><circle cx="66" cy="66" r="${r}" fill="none" stroke="${pct>1.1?"var(--warn)":"var(--plate)"}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${o}" transform="rotate(-90 66 66)"/></svg>`}
+
+function renderToday(){
+  const p=S.profile, t=p.targets, m=todayMeals(), cal=sum(m,"cal"), pro=sum(m,"p");
+  let h="";
+  if(!t) h+=`<div class="panel pending"><h3>Kenny is setting your targets</h3><p class="small" style="margin:6px 0 0">Based on what you shared, Kenny will set your numbers personally. You can start logging meals now.</p></div>`;
+  else if(!S.approved) h+=`<div class="panel pending"><p class="small" style="margin:0"><b>Starting targets are waiting on Kenny's approval.</b> Log away in the meantime.</p></div>`;
+  h+=`<div class="panel"><p class="muted small" style="margin:0 0 10px">${new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"})}</p>
+   <div class="fuel">${gauge(t?cal/t.cal:0)}<div><div class="big">${cal.toLocaleString()}</div><div class="muted small">${t?`of ${t.cal.toLocaleString()} calories · ${Math.max(t.cal-cal,0).toLocaleString()} left`:"calories logged today"}</div>
+   <div style="margin-top:12px" class="small"><b>${pro}g</b> protein${t?` of ${t.protein}g`:""}</div><div class="bar"><i style="width:${t?Math.min(pro/t.protein*100,100):0}%"></i></div></div></div></div>
+   <div class="row" style="margin-bottom:14px"><button class="btn plate grow" id="snap" type="button">📸 Snap a meal</button><button class="btn ghost" id="type" type="button">Type it</button></div>
+   <div class="panel affirm"><span class="small" style="opacity:.7">Today's mindset</span><p>${esc(affirmation())}</p></div>
+   <div class="panel"><div class="row"><h3 class="grow">Today's meals</h3><span class="muted small">${m.length} logged</span></div>`;
+  h+=m.length?m.slice().reverse().map(x=>`<div class="meal">${x.thumb?`<img class="thumb" src="${x.thumb}" alt="">`:`<div class="thumb">🍽️</div>`}<div class="grow"><b>${esc(x.name)}</b><div class="muted small">${new Date(x.ts).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"})} · ${x.p}g protein</div></div><b>${x.cal}</b></div>`).join("")
+   :`<p class="muted" style="margin:10px 0 0">Nothing yet. Snap your next meal before you eat it.</p>`;
+  const lastW=S.weights.length?S.weights[S.weights.length-1].lb:p.weight;
+  h+=`</div><div class="panel"><h3>Weigh-in</h3><form id="wf" style="margin-top:10px"><div class="stepper"><button type="button" data-w="-0.5" aria-label="Down half a pound">−</button><input id="wv" type="number" step="0.1" inputmode="decimal" value="${lastW}" aria-label="Weight in pounds" style="text-align:center;font-weight:700"><button type="button" data-w="0.5" aria-label="Up half a pound">+</button></div><button class="btn wide" style="margin-top:10px">Save weight</button></form></div>`;
+  $("#view").innerHTML=h;
+  $("#snap").onclick=()=>$("#cam").click(); $("#type").onclick=()=>openSheet({mode:"text"});
+  document.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>{const i=$("#wv");i.value=Math.round(((+i.value||0)+ +b.dataset.w)*10)/10});
+  $("#wf").onsubmit=e=>{e.preventDefault();const v=+$("#wv").value;if(v>50){S.weights.push({ts:Date.now(),lb:v});save();tab="progress";render()}};
+}
+
+/* ---------- logging ---------- */
+let L=null;
+$("#cam").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(!f)return;openSheet({mode:"photo",file:f,url:URL.createObjectURL(f)})};
+function openSheet(o){L={...o,est:null,mult:1,busy:false,err:"",failed:false};$("#sheet").classList.add("open");drawSheet();if(o.mode==="photo")estimate()}
+function closeSheet(){$("#sheet").classList.remove("open");if(L?.url)URL.revokeObjectURL(L.url);L=null}
+$("#sheet").onclick=e=>{if(e.target.id==="sheet")closeSheet()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&L)closeSheet()});
+
+function drawSheet(){
+  let h=`<div class="row" style="margin-bottom:12px"><h2 class="grow">${L.mode==="photo"?"Your meal":"Log a meal"}</h2><button class="btn ghost" type="button" id="x" aria-label="Close">✕</button></div>`;
+  if(L.url)h+=`<img class="preview" src="${L.url}" alt="Your meal photo">`;
+  if(L.mode==="text"&&!L.est&&!L.busy) h+=`<form id="tf"><input id="tv" type="text" placeholder="e.g. 2 eggs, wheat toast, OJ" aria-label="What did you eat" required><button class="btn plate wide" style="margin-top:10px">Estimate it</button></form>`;
+  if(L.busy) h+=`<p class="muted">Reading your plate…</p>`;
+  if(L.err) h+=`<p style="color:var(--plate)">${esc(L.err)}</p>`;
+  if(L.failed && !L.est && !L.busy) h+=manualForm();
+  if(L.est){
+    const k=L.mult,e=L.est;
+    h+=`<div class="panel"><table><tr><th>Item</th><th>Cal</th><th>Protein</th></tr>${e.items.map(i=>`<tr><td>${esc(i.name)}<div class="muted small">${esc(i.portion||"")}</div></td><td>${Math.round(i.cal*k)}</td><td>${Math.round(i.p*k)}g</td></tr>`).join("")}
+     <tr><th>Total</th><th>${Math.round(e.total.cal*k)}</th><th>${Math.round(e.total.p*k)}g</th></tr></table>
+     <p class="small muted" style="margin:10px 0 0">Estimate · ${esc(e.confidence)} confidence</p></div>
+     <p class="small" style="margin:0 0 6px"><b>Portion</b></p><div class="seg" style="margin-bottom:12px">${[.5,1,1.5,2].map(m=>`<button type="button" data-m="${m}" class="${m===k?"on":""}">${m===.5?"½":m}×</button>`).join("")}</div>
+     ${e.note?`<div class="msg ai" style="max-width:100%;margin-bottom:12px">${esc(e.note)}</div>`:""}
+     <form id="fx" class="row" style="margin-bottom:12px"><input id="fxv" type="text" placeholder="Fix it: 'that's brown rice, 2 cups'" aria-label="Correct the estimate"><button class="btn ghost">Fix</button></form>
+     <button class="btn plate wide" id="logit" type="button">Log meal</button>`;
+  }
+  $("#sheetInner").innerHTML=h;
+  $("#x").onclick=closeSheet;
+  $("#tf")&&( $("#tf").onsubmit=e=>{e.preventDefault();L.text=$("#tv").value.trim();if(L.text)estimate()} );
+  $("#mf")&&( $("#mf").onsubmit=e=>{e.preventDefault();const n=$("#mn").value.trim()||"Meal",c=+$("#mc").value||0,p=+$("#mp").value||0;L.est={items:[{name:n,cal:c,p}],total:{cal:c,p},confidence:"your entry",note:""};drawSheet()} );
+  document.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{L.mult=+b.dataset.m;drawSheet()});
+  $("#fx")&&( $("#fx").onsubmit=e=>{e.preventDefault();const v=$("#fxv").value.trim();if(v)estimate(v)} );
+  $("#logit")&&( $("#logit").onclick=logMeal );
+}
+function manualForm(){return `<p class="small muted">Or enter it yourself:</p><form id="mf"><input id="mn" type="text" placeholder="What you ate" aria-label="Meal name"><div class="row" style="margin:10px 0"><input id="mc" type="number" placeholder="Calories" aria-label="Calories"><input id="mp" type="number" placeholder="Protein g" aria-label="Protein grams"></div><button class="btn plate wide">Use these numbers</button></form>`}
+
+async function estimate(fix){
+  const p=S.profile,t=p.targets,eaten=sum(todayMeals(),"cal");
+  const prompt=`You are Flex Fuel, the nutrition assistant for clients of Coach Kenny at The Flex Facility gym in St. Louis.
+Client: ${p.name}, goal "${p.goal}". ${t?`Daily target ${t.cal} cal, ${t.protein}g protein. Already eaten today: ${eaten} cal.`:"Coach is still setting targets."} Foods they avoid: ${p.foods||"none"}.
+${L.mode==="photo"?"The attached photo is a meal they are about to eat or just ate.":`They typed: "${L.text}"`}
+${fix?`Your previous estimate was: ${JSON.stringify(L.est)}. The client corrected you: "${fix}". Revise accordingly.`:""}
+Identify each food, estimate a realistic portion, and estimate calories, protein, carbs and fat. Be honest that photo estimates are approximate.
+Then write "note": one or two short encouraging sentences in a coach's voice about this meal and the rest of the day. Never shame, never suggest skipping meals, fasting, purging or exercising to "burn it off". If they're over target, keep it light and forward-looking. If the photo isn't food, say so in note and return empty items.
+Reply with only JSON: {"items":[{"name":"","portion":"","cal":0,"p":0,"c":0,"f":0}],"total":{"cal":0,"p":0,"c":0,"f":0},"confidence":"low|medium|high","note":"","title":"short meal name"}`;
+  L.busy=true;L.err="";L.failed=false;drawSheet();
+  try{
+    const body={prompt};
+    if(L.mode==="photo"&&!fix){try{body.image=await shrink(L.file)}catch(e){throw{code:"image_unreadable",message:"That photo couldn't be opened. Try another one or type it."}}}
+    const r=await api(body);
+    if(!r||!Array.isArray(r.items)||!r.total)throw{code:"invalid_json"};
+    r.items=r.items.map(i=>({...i,cal:+i.cal||0,p:+i.p||0}));r.total.cal=+r.total.cal||0;r.total.p=+r.total.p||0;
+    L.est=r;L.mult=1;
+  }catch(e){
+    if(!L)return; // sheet was closed while waiting
+    L.err=e.message||"Couldn't read that one. Try again or type it.";
+    L.failed=!L.est; // keep the current estimate if a fix failed
+  }
+  if(!L)return;
+  L.busy=false;drawSheet();
+}
+async function thumbOf(file){if(!file)return null;try{const b=await createImageBitmap(file);const c=document.createElement("canvas"),s=120,r=Math.max(s/b.width,s/b.height);c.width=c.height=s;c.getContext("2d").drawImage(b,(s-b.width*r)/2,(s-b.height*r)/2,b.width*r,b.height*r);return c.toDataURL("image/jpeg",.7)}catch(e){return null}}
+async function logMeal(){
+  const e=L.est,k=L.mult;
+  S.meals.push({ts:Date.now(),name:e.title||e.items.map(i=>i.name).join(", ")||"Meal",cal:Math.round(e.total.cal*k),p:Math.round(e.total.p*k),thumb:await thumbOf(L.file)});
+  save();closeSheet();tab="today";render();
+}
+
+/* ---------- progress ---------- */
+function renderProgress(){
+  const p=S.profile,w=S.weights,start=w[0].lb,now=w[w.length-1].lb,diff=+(now-start).toFixed(1);
+  const days=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);const ms=S.meals.filter(m=>dayKey(m.ts)===d.toDateString());return{l:d.toLocaleDateString(undefined,{weekday:"short"}),c:sum(ms,"cal")}});
+  const max=Math.max(p.targets?.cal||0,...days.map(d=>d.c),1);
+  const loggedDays=new Set(S.meals.map(m=>dayKey(m.ts))).size;
+  let h=`<div class="panel"><h1>${diff>0?"+":""}${diff} lbs</h1><p class="muted small" style="margin:4px 0 0">since you started at ${start} lbs${p.goalWeight&&+p.goalWeight>0?` · goal ${p.goalWeight}`:""}</p>${lineChart(w)}</div>
+  <div class="panel"><h3>Last 7 days</h3><div class="chartwrap"><svg viewBox="0 0 320 150" width="100%" role="img" aria-label="Calories per day for the last 7 days">
+  ${p.targets?`<line x1="0" x2="320" y1="${120-p.targets.cal/max*100}" y2="${120-p.targets.cal/max*100}" stroke="var(--plate)" stroke-dasharray="4 4"/>`:""}
+  ${days.map((d,i)=>`<rect x="${i*46+6}" y="${120-d.c/max*100}" width="32" height="${d.c/max*100}" rx="5" fill="var(--ink)"/><text x="${i*46+22}" y="140" text-anchor="middle" font-size="11" fill="var(--mute)">${d.l}</text>`).join("")}
+  </svg></div>${p.targets?`<p class="small muted" style="margin:6px 0 0">Dashed line is your daily target.</p>`:""}</div>
+  <div class="panel"><h3>Your monthly report</h3><p class="small muted">Goes to you and Kenny on the 1st.</p>${report()}</div>`;
+  $("#view").innerHTML=h;
+}
+function lineChart(w){if(w.length<2)return`<p class="small muted" style="margin-top:12px">Log another weigh-in to see your trend.</p>`;
+  const ls=w.map(x=>x.lb),mn=Math.min(...ls)-2,mx=Math.max(...ls)+2,pts=w.map((x,i)=>`${i/(w.length-1)*300+10},${100-(x.lb-mn)/(mx-mn)*90}`).join(" ");
+  return`<svg viewBox="0 0 320 110" width="100%" style="margin-top:12px" role="img" aria-label="Weight trend"><polyline points="${pts}" fill="none" stroke="var(--plate)" stroke-width="3" stroke-linejoin="round"/></svg>`}
+function report(){const p=S.profile,n=S.meals.length,days=new Set(S.meals.map(m=>dayKey(m.ts))).size,avg=days?Math.round(sum(S.meals,"cal")/days):0,ap=days?Math.round(sum(S.meals,"p")/days):0,w=S.weights,d=+(w[w.length-1].lb-w[0].lb).toFixed(1);
+  return`<table><tr><td>Meals logged</td><td><b>${n}</b></td></tr><tr><td>Days logged</td><td><b>${days}</b></td></tr><tr><td>Avg calories / day</td><td><b>${avg.toLocaleString()}</b></td></tr><tr><td>Avg protein / day</td><td><b>${ap}g</b></td></tr><tr><td>Weight change</td><td><b>${d>0?"+":""}${d} lbs</b></td></tr></table>`}
+
+/* ---------- reminders ---------- */
+function renderReminders(){
+  const p=S.profile,times=(p.meals.match(/\d+[ap]/g)||["8a","1p","7p"]),lvl=p.nudge;
+  const list=[];
+  list.push({t:"6:30a",m:affirmation()});
+  if(lvl!=="Light")times.forEach((x,i)=>list.push({t:x.replace(/([ap])/,":15$1"),m:["Breakfast check 📸 Snap it before you eat.","Lunch time. Snap your plate and stay on track 💪🏾","Dinner's up. Log it and close out the day strong."][i]}));
+  else list.push({t:times[2].replace(/([ap])/,":30$1"),m:"Quick check: anything from today you haven't logged yet?"});
+  if(lvl==="Hold me accountable")list.push({t:"9:30p",m:"Day's almost done. Every meal logged? Kenny sees your streak."});
+  list.push({t:"Mon",m:"Weekly weigh-in. Same scale, same time, before breakfast."});
+  $("#view").innerHTML=`<div class="panel"><h2>Your reminders</h2><p class="small muted" style="margin:6px 0 0">${esc(lvl)} · timed to your ${esc(p.meals.split(" (")[0].toLowerCase())} meal schedule. Delivered as phone notifications once Flex Fuel is on your home screen.</p>
+  ${list.map(x=>`<div class="notif"><div class="badge" aria-hidden="true">FLEX</div><div><b class="small">${esc(x.t)}</b><div>${esc(x.m)}</div></div></div>`).join("")}</div>
+  <div class="panel"><h3>Profile</h3><table>${[["Goal",p.goal],["Training",p.days+" days/wk"],["Avoids",p.foods],["Motivation",p.style],["Report email",p.email]].map(r=>`<tr><td>${r[0]}</td><td>${esc(r[1])}</td></tr>`).join("")}</table>
+  <button class="btn ghost wide" id="reset" type="button" style="margin-top:14px">Start over</button></div>`;
+  $("#reset").onclick=()=>{if(confirm("Erase this demo profile and start intake again?")){S=blank();save();tab="today";$("#tabs").hidden=true;render()}};
+}
+
+/* ---------- coach view ---------- */
+const DEMO=[{name:"Marcus T.",goal:"Lose fat",days:6,last:"2h ago",chg:-5.2,flag:""},{name:"Tasha R.",goal:"Build muscle",days:4,last:"Yesterday",chg:+1.8,flag:""},{name:"Devin K.",goal:"Recomp",days:1,last:"5 days ago",chg:-0.4,flag:"Quiet 5 days"},{name:"Brianna W.",goal:"Lose fat",days:7,last:"1h ago",chg:-9.6,flag:"Fast loss — check in"}];
+function renderCoach(){
+  $("#tabs").hidden=true;
+  const p=S.profile;
+  let h=`<div class="panel"><h1>Roster</h1><p class="muted small" style="margin:4px 0 0">Coach Kenny · ${DEMO.length+(p?1:0)} clients · monthly reports send on the 1st</p></div>`;
+  if(p){h+=`<div class="panel ${S.approved?"":"pending"}"><div class="row"><h3 class="grow">${esc(p.name)} <span class="small muted">new</span></h3>${S.approved?`<span class="flag ok">Approved</span>`:`<span class="flag">Needs you</span>`}</div>
+   <p class="small" style="margin:8px 0">${esc(p.goal)} · ${esc(p.ageBand||p.age)} · ${p.weight} lbs · trains ${esc(p.days)}/wk · ${esc(p.job)}</p>
+   ${p.flags.length?`<p class="small"><b>Flagged:</b> ${p.flags.map(esc).join(", ")}. No automatic target was set.</p>`:`<p class="small">Suggested start: <b>${p.targets.cal} cal</b>, <b>${p.targets.protein}g protein</b> (floor ${p.targets.floor})</p>`}
+   ${S.approved?"":`<form id="ap" class="row wrap"><input id="apc" type="number" class="grow" style="min-width:110px" value="${p.targets?.cal||""}" aria-label="Calories"><input id="app" type="number" class="grow" style="min-width:110px" value="${p.targets?.protein||""}" aria-label="Protein grams"><button class="btn plate">Approve targets</button></form>`}</div>`}
+  h+=DEMO.map(c=>`<div class="panel"><div class="row"><b class="grow">${c.name}</b>${c.flag?`<span class="flag">${c.flag}</span>`:""}</div><p class="small muted" style="margin:6px 0 0">${c.goal} · logged ${c.days}/7 days · last meal ${c.last} · ${c.chg>0?"+":""}${c.chg} lbs this month</p></div>`).join("");
+  $("#view").innerHTML=h;
+  $("#ap")&&( $("#ap").onsubmit=e=>{e.preventDefault();const c=+$("#apc").value,pr=+$("#app").value;if(c>0){S.profile.targets={cal:c,protein:pr||Math.round(p.weight*.7),floor:S.profile.targets?.floor||1200};S.profile.flags=[];S.approved=true;save();render()}} );
+}
+
+/* ---------- wiring ---------- */
+$("#roleBtn").onclick=()=>{S.role=S.role==="client"?"coach":"client";save();render()};
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render();window.scrollTo(0,0)});
+showApp();
+</script>
+</body>
+</html>
