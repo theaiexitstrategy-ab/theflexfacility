@@ -11,8 +11,12 @@
     { "source": "/bootcamp", "destination": "/bootcamp.html" },
     { "source": "/bootcamp-thank-you", "destination": "/bootcamp-thank-you.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
-    { "source": "/terms", "destination": "/terms.html" }
+    { "source": "/terms", "destination": "/terms.html" },
+    { "source": "/fuel", "destination": "/fuel.html" }
   ],
+  "functions": {
+    "api/fuel/estimate.js": { "maxDuration": 60 }
+  },
   "redirects": [
     {
       "source": "/:path*",
