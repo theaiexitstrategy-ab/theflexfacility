@@ -249,9 +249,14 @@
   .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); }
   .footer-logo span { color: var(--red); }
   .footer-links { display: flex; gap: 24px; }
-  .footer-links a { font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: #555; text-decoration: none; transition: color 0.2s; }
+  .footer-links a { font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: #8a8a8a; text-decoration: none; transition: color 0.2s; }
   .footer-links a:hover { color: var(--red); }
-  .footer-copy { font-size: 0.6rem; color: #333; letter-spacing: 1px; }
+  .footer-copy { font-size: 0.6rem; color: #8a8a8a; letter-spacing: 1px; }
+  .footer-copy a { color: inherit; }
+  .footer-copy a:hover { color: var(--red); }
+  .testi-more { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px 28px; margin-top: 36px; }
+  .testi-more a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--white); text-decoration: none; border-bottom: 2px solid var(--red); padding: 6px 0; transition: color 0.2s; }
+  .testi-more a:hover { color: var(--red-light); }
 
   /* FORM SUCCESS STATE */
   .form-success { text-align: center; padding: 20px 0 10px; }
@@ -682,6 +687,10 @@ div[class*="vapi"] button {
         <div class="testi-author"><div class="testi-avatar">KR</div><div><div class="testi-name">Kyle R.</div><div class="testi-meta">Athlete · 17 yrs old</div></div></div>
       </div>
     </div>
+    <div class="testi-more reveal">
+      <a href="/reviews#reviews">Read more reviews &rarr;</a>
+      <a href="/reviews">Leave a review &rarr;</a>
+    </div>
   </div>
 </section>
 
@@ -749,12 +758,13 @@ div[class*="vapi"] button {
   <div class="footer-links">
     <a href="https://www.flextraining.co" target="_blank">Full Website</a>
     <a href="https://www.instagram.com/flextraining2013" target="_blank">Instagram</a>
+    <a href="/reviews">Reviews</a>
     <a href="/trainers">Join Our Team</a>
     <a href="/privacy">Privacy</a>
     <a href="/terms">Terms</a>
-    <a href="/cdn-cgi/l/email-protection#58333d363621183e343d202c2a39313631363f763b37">Contact</a>
+    <a href="mailto:kenny@flextraining.co">Contact</a>
   </div>
-  <div class="footer-copy">© 2025 Flex Training LLC · Earth City, MO 63045</div>
+  <div class="footer-copy">© 2026 Flex Training LLC · Earth City, MO 63045 · Powered by <a href="https://goelev8.ai" target="_blank" rel="noopener">GoElev8.ai</a></div>
 </footer>
 
 <!-- FLEX CALL MODAL -->

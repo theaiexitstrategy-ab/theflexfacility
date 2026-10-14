@@ -12,7 +12,9 @@
     { "source": "/bootcamp-thank-you", "destination": "/bootcamp-thank-you.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/terms.html" },
-    { "source": "/fuel", "destination": "/fuel.html" }
+    { "source": "/fuel", "destination": "/fuel.html" },
+    { "source": "/reviews", "destination": "/reviews.html" },
+    { "source": "/about", "destination": "/about.html" }
   ],
   "functions": {
     "api/fuel/estimate.js": { "maxDuration": 60 }
