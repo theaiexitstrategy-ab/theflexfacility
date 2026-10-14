@@ -1,0 +1,864 @@
+<!-- © 2026 GoElev8.ai | Aaron Bryant. All rights reserved. Unauthorized use prohibited. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviews | The Flex Facility</title>
+<meta name="description" content="Read reviews from athletes and parents who train with Coach Kenny at The Flex Facility in Earth City, MO — and share your own experience.">
+<link rel="canonical" href="https://www.theflexfacility.com/reviews">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Flex Facility">
+<meta property="og:url" content="https://www.theflexfacility.com/reviews">
+<meta property="og:title" content="Reviews | The Flex Facility">
+<meta property="og:description" content="Real reviews from athletes and parents who train at The Flex Facility in Earth City, MO. Trained with us? Leave a review.">
+<meta property="og:image" content="https://www.theflexfacility.com/flex-logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/flex-logo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "The Flex Facility",
+  "url": "https://www.theflexfacility.com/",
+  "logo": "https://www.theflexfacility.com/flex-logo.png",
+  "image": "https://www.theflexfacility.com/flex-logo.png",
+  "telephone": "+1-877-515-3539",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "4132 Shore Line Dr",
+    "addressLocality": "Earth City",
+    "addressRegion": "MO",
+    "postalCode": "63045",
+    "addressCountry": "US"
+  },
+  "sameAs": ["https://www.instagram.com/flextraining2013"]
+}
+</script>
+<script>
+  window.GoElev8 = { slug: "flex-facility", secret: "REPLACE_WITH_GOELEV8_SECRET" };
+</script>
+<script src="https://portal.goelev8.ai/embed/track.js" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #E8200A;
+    --red-light: #FF3D24;
+    --red-rgb: 232,32,10;
+    --star: #e0c068;
+    --black: #080808;
+    --dark: #111;
+    --card: #141414;
+    --white: #ffffff;
+    --text: #e8e8e8;
+    --muted: #a0a0a0;
+    --dim: #8a8a8a;
+    --border: rgba(255,255,255,0.1);
+    --ok: #3ddc84;
+    --err: #ff8a7a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--text); font-family: 'Barlow', sans-serif; overflow-x: hidden; line-height: 1.55; }
+  .sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  a { color: var(--red-light); }
+  :focus-visible { outline: 3px solid var(--star); outline-offset: 3px; }
+  [hidden] { display: none !important; }
+
+  /* NAV — same shape as /trainers */
+  nav.top { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 40px; background: rgba(8,8,8,0.94); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-brand { display: flex; align-items: center; gap: 12px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 20px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: var(--white); }
+  .nav-brand span { color: var(--red-light); }
+  .nav-brand .brand-word { color: var(--white); }
+  .nav-logo { height: 48px; width: 48px; object-fit: contain; }
+  .nav-cta { background: var(--red); color: var(--white); padding: 10px 20px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--red-light); }
+
+  /* HERO */
+  .hero { position: relative; padding: 72px 24px 40px; text-align: center; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(var(--red-rgb),0.12) 0%, transparent 65%), var(--black); }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--red-light); }
+  .eyebrow::before, .eyebrow::after { content: ''; width: 22px; height: 2px; background: var(--red); }
+  .hero h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(36px, 7vw, 68px); line-height: 0.98; text-transform: uppercase; color: var(--white); margin: 16px auto 18px; max-width: 900px; letter-spacing: -0.5px; }
+  .hero h1 .accent { color: var(--red-light); }
+  .hero-sub { font-size: clamp(15px, 1.8vw, 18px); color: var(--muted); max-width: 580px; margin: 0 auto; }
+  .test-badge { display: inline-block; margin-top: 18px; padding: 4px 12px; border: 1px dashed var(--star); color: var(--star); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; letter-spacing: 0.2em; font-size: 12px; text-transform: uppercase; }
+
+  /* FORM CARD */
+  .form-wrap { padding: 8px 24px 72px; }
+  .form-card { max-width: 680px; margin: 0 auto; background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--red); padding: 36px 36px 32px; }
+  .minor-note { display: flex; gap: 10px; align-items: flex-start; background: rgba(var(--red-rgb),0.08); border: 1px solid rgba(var(--red-rgb),0.3); padding: 12px 14px; font-size: 14px; color: var(--text); margin-bottom: 24px; }
+  .field { margin-bottom: 22px; }
+  .field > label, .field legend { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); margin-bottom: 8px; }
+  .req { color: var(--red-light); }
+  .opt { color: var(--muted); font-weight: 600; letter-spacing: 0.06em; text-transform: none; font-family: 'Barlow', sans-serif; font-size: 13px; }
+  fieldset { border: 0; min-width: 0; }
+  .help { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .field-error { font-size: 14px; color: var(--err); margin-top: 6px; font-weight: 500; }
+  .field-error:empty { display: none; }
+  input[type=text], input[type=email], input[type=tel], select, textarea {
+    width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.18); border-radius: 0; padding: 13px 15px; min-height: 48px;
+    color: var(--white); font-family: 'Barlow', sans-serif; font-size: 16px; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input::placeholder, textarea::placeholder { color: #8a8a8a; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--red-light); box-shadow: 0 0 0 3px rgba(var(--red-rgb),0.35); }
+  [aria-invalid="true"] { border-color: var(--err) !important; }
+  select { appearance: none; -webkit-appearance: none; cursor: pointer; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 40px; }
+  select option { background: #1a1a1a; color: var(--white); }
+  textarea { min-height: 150px; resize: vertical; line-height: 1.55; }
+  .counter-row { display: flex; justify-content: space-between; gap: 12px; margin-top: 6px; font-size: 13px; color: var(--muted); }
+  .counter.warn { color: var(--star); }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  .grid-2:has(> [hidden]) { grid-template-columns: 1fr; }
+
+  /* STAR RATING — a real radio group; the inputs stay focusable, the SVGs are decoration */
+  .stars { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .star { position: relative; display: inline-flex; cursor: pointer; }
+  .star input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .star svg { width: 48px; height: 48px; padding: 4px; display: block; fill: transparent; stroke: #9a9a9a; stroke-width: 1.5; transition: fill 0.12s, stroke 0.12s, transform 0.12s; }
+  .star.on svg { fill: var(--star); stroke: var(--star); }
+  .star:hover svg { transform: scale(1.08); }
+  .star input:focus-visible + svg { outline: 3px solid var(--star); outline-offset: 0; border-radius: 6px; }
+  .star-word { margin-left: 10px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--star); min-height: 1em; }
+
+  /* CHECKBOXES */
+  .check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; font-size: 15px; color: var(--text); padding: 6px 0; }
+  .check input { flex-shrink: 0; width: 24px; height: 24px; margin-top: 1px; accent-color: var(--red); cursor: pointer; }
+  .check-group { margin-bottom: 18px; }
+
+  /* HONEYPOT — off-screen for humans, still in the DOM for bots */
+  .hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+  /* SUBMIT */
+  .form-alert { background: rgba(255,80,80,0.08); border: 1px solid rgba(255,120,110,0.5); color: var(--err); padding: 12px 14px; font-size: 15px; margin-bottom: 16px; }
+  .form-alert:empty { display: none; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 14px 24px; border: 2px solid transparent; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: background 0.2s, transform 0.2s, box-shadow 0.2s; }
+  .btn-primary { background: var(--red); color: var(--white); }
+  .btn-primary:hover:not(:disabled) { background: var(--red-light); transform: translateY(-1px); box-shadow: 0 10px 30px rgba(var(--red-rgb),0.35); }
+  .btn-secondary { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.4); }
+  .btn-secondary:hover { border-color: var(--white); background: rgba(255,255,255,0.06); }
+  .btn-block { width: 100%; }
+  .btn:disabled { opacity: 0.7; cursor: progress; transform: none; }
+  .spinner { width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.35); border-top-color: var(--white); border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .fine { font-size: 13px; color: var(--muted); text-align: center; margin-top: 12px; }
+
+  /* THANK-YOU PANEL */
+  .thanks { text-align: center; }
+  .thanks h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(30px, 6vw, 44px); text-transform: uppercase; color: var(--white); line-height: 1; margin-bottom: 12px; }
+  .thanks h2:focus { outline: none; }
+  .thanks .lead { color: var(--text); font-size: 17px; margin: 0 auto 22px; max-width: 480px; }
+  .copied { display: inline-flex; align-items: center; gap: 8px; color: var(--ok); font-weight: 600; font-size: 15px; margin-bottom: 10px; }
+  .copied.no { color: var(--star); }
+  .copy-box { text-align: left; margin: 0 auto 22px; }
+  .copy-box label { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .copy-box textarea { min-height: 110px; font-size: 15px; color: var(--text); background: rgba(255,255,255,0.03); }
+  .copy-again { margin-top: 10px; min-height: 44px; font-size: 15px; padding: 8px 18px; }
+  .owner-note { background: rgba(224,192,104,0.08); border: 1px solid rgba(224,192,104,0.35); color: var(--text); padding: 12px 14px; font-size: 15px; margin: 0 auto 18px; text-align: left; }
+  .share-btns { display: flex; flex-direction: column; gap: 12px; }
+
+  /* REVIEWS WALL */
+  .wall { background: var(--dark); border-top: 1px solid var(--border); padding: 72px 24px 80px; }
+  .wall-inner { max-width: 1100px; margin: 0 auto; }
+  .section-tag { display: inline-flex; align-items: center; gap: 10px; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--red-light); margin-bottom: 10px; }
+  .section-tag::before { content: ''; width: 22px; height: 2px; background: var(--red); }
+  .wall h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(32px, 5vw, 52px); text-transform: uppercase; line-height: 1; color: var(--white); margin-bottom: 14px; }
+  .wall h2 .accent { color: var(--red-light); }
+  .summary { display: flex; align-items: center; gap: 12px; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 32px; min-height: 30px; }
+  .summary .s-stars svg { width: 22px; height: 22px; }
+  .wall-status { color: var(--muted); font-size: 16px; padding: 12px 0 24px; }
+  .review-list { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .review-card { background: var(--card); border: 1px solid rgba(255,255,255,0.06); padding: 26px 24px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .s-stars { display: inline-flex; gap: 2px; }
+  .s-stars svg { width: 18px; height: 18px; fill: #3a3a3a; }
+  .s-stars svg.on { fill: var(--star); }
+  .review-text { font-size: 15px; color: var(--text); line-height: 1.7; white-space: pre-line; overflow-wrap: anywhere; flex: 1; }
+  .review-meta { display: flex; align-items: center; gap: 12px; }
+  .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--red); color: var(--white); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 15px; flex-shrink: 0; }
+  .r-name { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--white); overflow-wrap: anywhere; }
+  .r-sub { font-size: 13px; color: var(--muted); }
+  .more-wrap { text-align: center; margin-top: 28px; }
+
+  /* FOOTER — homepage pattern + GoElev8 credit */
+  footer { border-top: 1px solid var(--border); padding: 36px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+  .footer-logo { display: flex; align-items: center; gap: 12px; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); }
+  .footer-logo img { height: 38px; width: 38px; object-fit: contain; }
+  .footer-logo span span { color: var(--red-light); }
+  .footer-links { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+  .footer-links a { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); text-decoration: none; padding: 6px 0; transition: color 0.2s; }
+  .footer-links a:hover, .footer-links a[aria-current] { color: var(--red-light); }
+  .footer-copy { font-size: 0.72rem; color: var(--dim); letter-spacing: 1px; line-height: 1.8; }
+  .footer-copy a { color: var(--dim); }
+  .footer-copy a:hover { color: var(--red-light); }
+
+  @media (max-width: 900px) {
+    .review-list { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    nav.top { padding: 10px 16px; }
+    .nav-brand { font-size: 17px; gap: 8px; }
+    .nav-logo { height: 40px; width: 40px; }
+    .nav-cta { padding: 9px 12px; font-size: 0.72rem; letter-spacing: 1.5px; }
+    .hero { padding: 48px 16px 28px; }
+    .form-wrap { padding: 0 16px 56px; }
+    .form-card { padding: 26px 18px 24px; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .star svg { width: 46px; height: 46px; }
+    .star-word { flex-basis: 100%; margin: 4px 0 0; }
+    .wall { padding: 56px 16px 64px; }
+    .review-list { grid-template-columns: 1fr; }
+    footer { padding: 28px 16px; flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 360px) {
+    .nav-brand .brand-word { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation-duration: 1.5s !important; }
+  }
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6T75SN79LV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6T75SN79LV');
+</script>
+</head>
+<body>
+
+<nav class="top" aria-label="Main">
+  <a href="/" class="nav-brand">
+    <img src="/flex-logo.png" alt="" class="nav-logo" width="48" height="48">
+    <span class="brand-word">FLEX</span> <span>FACILITY</span>
+    <span class="sr-only">The Flex Facility home</span>
+  </a>
+  <a href="/#assessment" class="nav-cta">Free Assessment</a>
+</nav>
+
+<main>
+  <section class="hero">
+    <p class="eyebrow">Reviews</p>
+    <h1>How was your experience at <span class="accent">The Flex Facility?</span></h1>
+    <p class="hero-sub">Tell us how training went. It takes about a minute, and it helps the next athlete find us.</p>
+    <p class="test-badge" id="testBadge" hidden>Test mode — submissions are flagged as tests</p>
+  </section>
+
+  <section class="form-wrap" aria-labelledby="formHeading">
+    <div class="form-card">
+      <h2 id="formHeading" class="sr-only">Leave a review</h2>
+
+      <form id="reviewForm" novalidate>
+        <p class="minor-note"><span aria-hidden="true">👋🏾</span><span><strong>Under 18?</strong> Ask a parent or guardian to leave the review.</span></p>
+
+        <div class="check-group">
+          <label class="check" for="ageOk">
+            <input type="checkbox" id="ageOk" name="age_ok" required aria-describedby="err-age">
+            <span>I'm 18 or older, or a parent/guardian submitting for my athlete. <span class="req" aria-hidden="true">*</span></span>
+          </label>
+          <p class="field-error" id="err-age"></p>
+        </div>
+
+        <fieldset class="field" id="ratingGroup" aria-describedby="err-rating">
+          <legend>Your rating <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></legend>
+          <div class="stars" id="stars">
+            <!-- star inputs are built by the script below (keeps the 5 copies of the SVG out of the markup) -->
+          </div>
+          <p class="field-error" id="err-rating"></p>
+        </fieldset>
+
+        <div class="field">
+          <label for="eventType">Which program? <span class="opt">(optional)</span></label>
+          <select id="eventType" name="event_type">
+            <option value="">Choose one…</option>
+            <option>Small-Group Performance Training</option>
+            <option>Personal Training (1-on-1)</option>
+            <option>Virtual Training</option>
+            <option>Sports Performance</option>
+            <option>Combine &amp; Tryout Prep</option>
+            <option>NIL Training</option>
+            <option>Nutrition Plans</option>
+            <option>Fitness &amp; Bodybuilding</option>
+            <option>Competition Prep</option>
+            <option>ROQ N FLEX Bootcamp</option>
+            <option value="__none">Prefer not to say</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="reviewText">Your review <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+          <textarea id="reviewText" name="review_text" required minlength="10" maxlength="1500" placeholder="What was training like? What changed for you or your athlete?" aria-describedby="counter err-text"></textarea>
+          <div class="counter-row">
+            <span class="counter" id="counter">0 / 1500 characters (10 minimum)</span>
+          </div>
+          <p class="sr-only" id="counterLive" aria-live="polite"></p>
+          <p class="field-error" id="err-text"></p>
+        </div>
+
+        <div class="field">
+          <label for="guestName">Name <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+          <input type="text" id="guestName" name="guest_name" required maxlength="60" autocomplete="name" placeholder="First name + last initial" aria-describedby="help-name err-name">
+          <p class="help" id="help-name">This is shown with your review.</p>
+          <p class="field-error" id="err-name"></p>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="email">Email <span class="opt">(optional)</span></label>
+            <input type="email" id="email" name="email" maxlength="200" autocomplete="email" inputmode="email" placeholder="you@example.com" aria-describedby="help-email err-email">
+            <p class="help" id="help-email">Only used if we need to follow up. Never shown publicly.</p>
+            <p class="field-error" id="err-email"></p>
+          </div>
+
+          <div class="field" id="phoneField" hidden>
+            <label for="phone">Phone <span class="opt">(optional)</span></label>
+            <input type="tel" id="phone" name="phone" maxlength="20" autocomplete="tel" inputmode="tel" placeholder="(314) 555-0123" aria-describedby="err-phone">
+            <p class="field-error" id="err-phone"></p>
+          </div>
+        </div>
+
+        <div class="check-group">
+          <label class="check" for="featureConsent">
+            <input type="checkbox" id="featureConsent" name="feature_consent">
+            <span>OK for The Flex Facility to feature my review on its website and social media.</span>
+          </label>
+          <label class="check" for="smsConsent" id="smsWrap" hidden>
+            <input type="checkbox" id="smsConsent" name="sms_consent">
+            <span id="smsConsentText">Text me one reminder to share my review on Google. Msg &amp; data rates may apply. Reply STOP to opt out.</span>
+          </label>
+        </div>
+
+        <div class="hp" aria-hidden="true">
+          <label for="website">Leave this field empty</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="form-alert" id="formAlert" role="alert" aria-live="assertive"></div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+          <span class="spinner" id="spinner" aria-hidden="true" hidden></span>
+          <span id="submitLabel">Submit my review</span>
+        </button>
+        <p class="fine">Reviews are checked for spam and offensive language before they appear.</p>
+      </form>
+
+      <div id="thanksRegion" aria-live="polite">
+        <div class="thanks" id="thanks" hidden>
+          <h2 id="thanksHeading" tabindex="-1">Thank you!</h2>
+          <p class="copied" id="copiedMsg"></p>
+          <div class="copy-box">
+            <label for="copyBox">Your review</label>
+            <textarea id="copyBox" readonly></textarea>
+            <button type="button" class="btn btn-secondary copy-again" id="copyAgain">Copy again</button>
+          </div>
+          <p class="lead" id="shareLead" hidden></p>
+          <p class="owner-note" id="ownerNote" hidden></p>
+          <div class="share-btns" id="shareBtns" hidden>
+            <a class="btn btn-block" id="googleBtn" target="_blank" rel="noopener" hidden>Post on Google<span class="sr-only"> (opens in a new tab)</span></a>
+            <a class="btn btn-block" id="facebookBtn" target="_blank" rel="noopener" hidden>Recommend us on Facebook<span class="sr-only"> (opens in a new tab)</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wall" id="reviews" aria-labelledby="wallHeading">
+    <div class="wall-inner">
+      <p class="section-tag">Results That Speak</p>
+      <h2 id="wallHeading">What Athletes <span class="accent">Are Saying</span></h2>
+      <p class="summary" id="summary" hidden></p>
+      <p class="wall-status" id="wallStatus" role="status">Loading reviews…</p>
+      <ul class="review-list" id="reviewList" aria-busy="true"></ul>
+      <div class="more-wrap">
+        <button type="button" class="btn btn-secondary" id="moreBtn" hidden>Show more</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-logo">
+    <img src="/flex-logo.png" alt="" width="38" height="38">
+    <span>FLEX <span>FACILITY</span></span>
+  </div>
+  <nav class="footer-links" aria-label="Footer">
+    <a href="/">Home</a>
+    <a href="/fit">Fitness &amp; Bodybuilding</a>
+    <a href="/reviews" aria-current="page">Reviews</a>
+    <a href="/trainers">Join Our Team</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/terms">Terms</a>
+    <a href="https://www.instagram.com/flextraining2013" target="_blank" rel="noopener">Instagram</a>
+  </nav>
+  <div class="footer-copy">
+    <a href="tel:18775153539">1-877-515-FLEX (3539)</a> · Earth City, MO 63045<br>
+    © 2026 Flex Training LLC · Powered by <a href="https://goelev8.ai" target="_blank" rel="noopener">GoElev8.ai</a>
+  </div>
+</footer>
+
+<script>
+const REVIEW_CONFIG = {
+  endpoint: "https://bnkoqybkmwtrlorhowyv.supabase.co/functions/v1/review-intake",
+  clientSlug: "flex-facility",
+  businessName: "The Flex Facility",
+  googleReviewUrl: "https://search.google.com/local/writereview?placeid=ChIJn4XGyZgv34cRjyFZybsJbYg",
+  facebookReviewUrl: "",
+  ownerLabel: "Coach Kenny"
+};
+
+(function () {
+  'use strict';
+
+  const params = new URLSearchParams(location.search);
+  // ?test=1 marks submissions as tests on the backend.
+  const TEST = params.get('test') === '1';
+  // Local preview only: ?dev=1 (sample reviews) or ?dev=empty, plus &share=google|facebook|both|none
+  // to try each thank-you layout. Never active on a real host.
+  const DEV = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && params.has('dev');
+  const PAGE_SIZE = 12;
+  const MIN_LEN = 10, MAX_LEN = 1500;
+  const RATING_WORDS = { 1: 'Poor', 2: 'Fair', 3: 'Good', 4: 'Great', 5: 'Amazing' };
+  const STAR_PATH = 'M12 2.5l2.94 5.96 6.56.95-4.75 4.63 1.12 6.54L12 17.5l-5.87 3.08 1.12-6.54L2.5 9.41l6.56-.95z';
+
+  const $ = (id) => document.getElementById(id);
+  if (TEST) $('testBadge').hidden = false;
+  if (DEV && params.has('share')) {
+    // Let the stub control both sources of share links, so every thank-you layout can be previewed.
+    const s = params.get('share');
+    if (s !== 'google' && s !== 'both') REVIEW_CONFIG.googleReviewUrl = '';
+    if (s !== 'facebook' && s !== 'both') REVIEW_CONFIG.facebookReviewUrl = '';
+  }
+
+  // ── API ──────────────────────────────────────────────
+  async function api(body) {
+    if (DEV) return devStub(body);
+    const res = await fetch(REVIEW_CONFIG.endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.ok) {
+      const err = new Error(data.error || 'Request failed (' + res.status + ')');
+      err.friendly = typeof data.error === 'string' ? data.error : '';
+      throw err;
+    }
+    return data;
+  }
+
+  function devStub(body) {
+    const mode = params.get('dev');
+    const share = params.get('share') || 'both';
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    if (body.action === 'submit') {
+      console.info('[reviews DEV] submit', body);
+      return wait(700).then(() => ({
+        ok: true, review_id: 'dev-' + Date.now(),
+        google_review_url: share === 'google' || share === 'both' ? REVIEW_CONFIG.googleReviewUrl : '',
+        facebook_review_url: share === 'facebook' || share === 'both' ? 'https://www.facebook.com/' : ''
+      }));
+    }
+    if (body.action === 'share_click') { console.info('[reviews DEV] share_click', body); return Promise.resolve({ ok: true }); }
+    if (mode === 'empty') return wait(300).then(() => ({ ok: true, reviews: [], summary: { count: 0, average: null } }));
+    const names = ['Michelle J.', 'David T.', 'Kyle R.', 'Deja M.', 'Marcus T.', 'Rashida K.', 'Tony B.', 'Aaliyah W.', 'Chris P.', 'Jordan S.', 'Nia L.', 'Brandon H.', 'Keisha D.', 'Sam O.', 'Eric V.', 'Tasha G.', 'Mike N.', 'Ari F.'];
+    const programs = ['Small-Group Performance Training', 'Combine & Tryout Prep', 'Virtual Training', null, 'NIL Training', 'Nutrition Plans'];
+    const all = names.map((n, i) => ({
+      guest_name: n, rating: i % 7 === 3 ? 4 : 5,
+      review_text: i % 4 === 0
+        ? 'My son went from one of the slowest on the team to one of the fastest. Coach Kenny pushes them hard but he really cares.\n\nWorth every minute. <b>not bold</b>'
+        : 'Great coaching and a great group of athletes. Saw results in a few weeks.',
+      event_type: programs[i % programs.length],
+      created_at: new Date(2026, 9 - (i % 5), 3).toISOString()
+    }));
+    const page = all.slice(body.offset || 0, (body.offset || 0) + body.limit);
+    return wait(400).then(() => ({ ok: true, reviews: page, summary: { count: all.length, average: 4.9 } }));
+  }
+
+  // Only https links from config/backend become hrefs.
+  function safeUrl(u) {
+    if (typeof u !== 'string' || !u.trim()) return '';
+    try { const x = new URL(u.trim()); return x.protocol === 'https:' ? x.href : ''; } catch (e) { return ''; }
+  }
+
+  function starSvg(cls) {
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    if (cls) svg.setAttribute('class', cls);
+    const p = document.createElementNS(ns, 'path');
+    p.setAttribute('d', STAR_PATH);
+    p.setAttribute('stroke-linejoin', 'round');
+    svg.appendChild(p);
+    return svg;
+  }
+
+  // ── Clipboard ────────────────────────────────────────
+  function legacyCopy(text) {
+    const prev = document.activeElement;
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none;';
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, text.length);
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    ta.remove();
+    if (prev && prev.focus) prev.focus({ preventScroll: true });
+    return ok;
+  }
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).then(() => true, () => legacyCopy(text));
+    }
+    return Promise.resolve(legacyCopy(text));
+  }
+
+  // ── Star rating ──────────────────────────────────────
+  const starsEl = $('stars');
+  const starWord = document.createElement('span');
+  starWord.className = 'star-word';
+  starWord.setAttribute('aria-hidden', 'true');
+  const starLabels = [];
+  for (let v = 1; v <= 5; v++) {
+    const label = document.createElement('label');
+    label.className = 'star';
+    label.dataset.value = v;
+    const input = document.createElement('input');
+    input.type = 'radio';
+    input.name = 'rating';
+    input.value = v;
+    input.required = true;
+    const sr = document.createElement('span');
+    sr.className = 'sr-only';
+    sr.textContent = v + (v === 1 ? ' star' : ' stars') + ' – ' + RATING_WORDS[v];
+    label.append(input, starSvg(), sr);
+    starsEl.appendChild(label);
+    starLabels.push(label);
+  }
+  starsEl.appendChild(starWord);
+
+  function paintStars(n) {
+    starLabels.forEach((l, i) => l.classList.toggle('on', i < n));
+    starWord.textContent = n ? RATING_WORDS[n] : '';
+  }
+  function currentRating() {
+    const c = starsEl.querySelector('input:checked');
+    return c ? Number(c.value) : 0;
+  }
+  starsEl.addEventListener('change', () => { paintStars(currentRating()); setFieldError('rating', ''); });
+  starLabels.forEach((l) => l.addEventListener('mouseenter', () => paintStars(Number(l.dataset.value))));
+  starsEl.addEventListener('mouseleave', () => paintStars(currentRating()));
+
+  // ── Form wiring ──────────────────────────────────────
+  const form = $('reviewForm');
+  const ageOk = $('ageOk'), phoneField = $('phoneField'), phone = $('phone');
+  const smsWrap = $('smsWrap'), smsConsent = $('smsConsent');
+  const text = $('reviewText'), counter = $('counter'), counterLive = $('counterLive');
+
+  function syncPhoneVisibility() {
+    phoneField.hidden = !ageOk.checked;
+    if (!ageOk.checked) { phone.value = ''; setFieldError('phone', ''); }
+    const hasPhone = !phoneField.hidden && phone.value.trim() !== '';
+    smsWrap.hidden = !hasPhone;
+    if (!hasPhone) smsConsent.checked = false;
+  }
+  ageOk.addEventListener('change', () => { syncPhoneVisibility(); if (ageOk.checked) setFieldError('age', ''); });
+  phone.addEventListener('input', syncPhoneVisibility);
+
+  let lastAnnounced = '';
+  function updateCounter() {
+    const n = text.value.length;
+    counter.textContent = n + ' / ' + MAX_LEN + ' characters' + (n < MIN_LEN ? ' (' + MIN_LEN + ' minimum)' : '');
+    counter.classList.toggle('warn', n >= MAX_LEN - 100);
+    // Announce only at thresholds so screen readers aren't spammed per keystroke.
+    let msg = '';
+    if (n >= MAX_LEN) msg = 'Character limit reached.';
+    else if (n >= MAX_LEN - 100) msg = (MAX_LEN - n) + ' characters left.';
+    else if (n >= MIN_LEN) msg = 'Minimum length reached.';
+    const bucket = n >= MAX_LEN ? 'max' : n >= MAX_LEN - 100 ? 'near' : n >= MIN_LEN ? 'min' : '';
+    if (bucket !== lastAnnounced) { counterLive.textContent = msg; lastAnnounced = bucket; }
+  }
+  text.addEventListener('input', () => { updateCounter(); if (text.value.trim().length >= MIN_LEN) setFieldError('text', ''); });
+
+  const fieldInputs = { age: ageOk, rating: null, text: text, name: $('guestName'), email: $('email'), phone: phone };
+  function setFieldError(key, msg) {
+    $('err-' + key).textContent = msg;
+    const el = fieldInputs[key];
+    if (el) el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+  }
+  ['guestName', 'email', 'phone'].forEach((id) => $(id).addEventListener('input', () => {
+    setFieldError(id === 'guestName' ? 'name' : id, '');
+  }));
+  updateCounter();
+  syncPhoneVisibility();
+
+  function collect() {
+    const ev = $('eventType').value;
+    const phoneVal = phoneField.hidden ? '' : phone.value.trim();
+    const sms = !smsWrap.hidden && smsConsent.checked;
+    const body = {
+      action: 'submit',
+      client_slug: REVIEW_CONFIG.clientSlug,
+      rating: currentRating(),
+      review_text: text.value.trim(),
+      guest_name: $('guestName').value.trim().replace(/\s+/g, ' '),
+      email: $('email').value.trim() || null,
+      phone: phoneVal || null,
+      event_type: ev && ev !== '__none' ? ev : null,
+      feature_consent: $('featureConsent').checked,
+      sms_consent: sms,
+      sms_consent_text: sms ? $('smsConsentText').textContent.trim() : null,
+      source_url: location.href,
+      website: $('website').value
+    };
+    if (TEST) body.test = true;
+    return body;
+  }
+
+  function validate(b) {
+    const errs = [];
+    if (!ageOk.checked) errs.push(['age', "Please confirm you're 18 or older, or a parent/guardian submitting for your athlete."]);
+    if (!b.rating) errs.push(['rating', 'Please pick a star rating from 1 to 5.']);
+    if (b.review_text.length < MIN_LEN) errs.push(['text', 'Please write at least ' + MIN_LEN + ' characters about your experience.']);
+    else if (b.review_text.length > MAX_LEN) errs.push(['text', 'Please keep your review under ' + MAX_LEN + ' characters.']);
+    if (b.guest_name.length < 2) errs.push(['name', 'Please enter your name (first name + last initial is fine).']);
+    if (b.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email)) errs.push(['email', 'That email doesn’t look right. Check it, or leave it blank.']);
+    if (b.phone && b.phone.replace(/\D/g, '').length < 10) errs.push(['phone', 'Please enter a 10-digit phone number, or leave it blank.']);
+    return errs;
+  }
+
+  const alertEl = $('formAlert'), submitBtn = $('submitBtn');
+  let sending = false;
+
+  function setSending(on) {
+    sending = on;
+    submitBtn.disabled = on;
+    submitBtn.setAttribute('aria-busy', on ? 'true' : 'false');
+    $('spinner').hidden = !on;
+    $('submitLabel').textContent = on ? 'Sending…' : 'Submit my review';
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (sending) return;
+    alertEl.textContent = '';
+    ['age', 'rating', 'text', 'name', 'email', 'phone'].forEach((k) => setFieldError(k, ''));
+
+    const body = collect();
+    const errs = validate(body);
+    if (errs.length) {
+      errs.forEach(([k, m]) => setFieldError(k, m));
+      alertEl.textContent = errs.length === 1 ? errs[0][1] : 'Please fix the ' + errs.length + ' highlighted fields.';
+      const first = errs[0][0];
+      const target = first === 'rating' ? starsEl.querySelector('input') : fieldInputs[first];
+      if (target) target.focus();
+      return;
+    }
+
+    // Copy while we still have the click's user activation (Safari drops it after an await).
+    const copyAttempt = copyText(body.review_text);
+    send(body, copyAttempt);
+  });
+
+  async function send(body, copyAttempt) {
+    setSending(true);
+    try {
+      const data = await api(body);
+      let copied = await copyAttempt;
+      if (!copied) copied = await copyText(body.review_text);
+      showThanks(body, data, copied);
+    } catch (err) {
+      setSending(false);
+      alertEl.textContent = err.friendly ||
+        (err instanceof TypeError
+          ? 'We couldn’t reach the server. Check your connection and try again.'
+          : 'Something went wrong sending your review. Please try again, or call 1-877-515-FLEX.');
+    }
+  }
+
+  // ── Thank-you panel (same for every rating) ──────────
+  let reviewId = null;
+
+  function showThanks(body, data, copied) {
+    reviewId = data.review_id || null;
+    const firstName = body.guest_name.split(' ')[0];
+    $('thanksHeading').textContent = 'Thank you, ' + firstName + '!';
+    $('copyBox').value = body.review_text;
+    setCopiedMsg(copied);
+
+    // Backend links win so they can be changed from the portal without a redeploy.
+    const g = safeUrl(data.google_review_url) || safeUrl(REVIEW_CONFIG.googleReviewUrl);
+    const f = safeUrl(data.facebook_review_url) || safeUrl(REVIEW_CONFIG.facebookReviewUrl);
+    const gBtn = $('googleBtn'), fBtn = $('facebookBtn');
+    gBtn.hidden = !g; fBtn.hidden = !f;
+    if (g) { gBtn.href = g; gBtn.className = 'btn btn-block btn-primary'; }
+    if (f) { fBtn.href = f; fBtn.className = 'btn btn-block ' + (g ? 'btn-secondary' : 'btn-primary'); }
+    $('shareBtns').hidden = !(g || f);
+
+    const lead = $('shareLead');
+    lead.hidden = !(g || f);
+    lead.textContent = g
+      ? 'Would you share it on Google too? It takes 10 seconds — just paste and post.'
+      : 'Would you share it on Facebook too? It takes 10 seconds — just paste and post.';
+
+    const note = $('ownerNote');
+    note.hidden = !(body.rating <= 3);
+    note.textContent = 'Thanks for the honest feedback — ' + REVIEW_CONFIG.ownerLabel + ' has been notified and may reach out to make it right.';
+
+    form.hidden = true;
+    $('thanks').hidden = false;
+    $('thanksHeading').focus({ preventScroll: true });
+    $('thanksHeading').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function setCopiedMsg(ok) {
+    const m = $('copiedMsg');
+    m.classList.toggle('no', !ok);
+    m.textContent = ok ? 'Your review is copied ✓' : 'Tap “Copy again” to copy your review.';
+  }
+
+  $('copyAgain').addEventListener('click', () => {
+    copyText($('copyBox').value).then((ok) => {
+      setCopiedMsg(ok);
+      if (!ok) { $('copyBox').focus(); $('copyBox').select(); }
+    });
+  });
+
+  function trackShare(platform) {
+    if (!reviewId) return;
+    const body = { action: 'share_click', review_id: reviewId, platform: platform };
+    if (DEV) { devStub(body); return; }
+    try {
+      fetch(REVIEW_CONFIG.endpoint, {
+        method: 'POST', keepalive: true,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      }).catch(() => {});
+    } catch (e) { /* fire-and-forget */ }
+  }
+  $('googleBtn').addEventListener('click', () => trackShare('google'));
+  $('facebookBtn').addEventListener('click', () => trackShare('facebook'));
+
+  // ── Reviews wall ─────────────────────────────────────
+  const list = $('reviewList'), wallStatus = $('wallStatus'), moreBtn = $('moreBtn'), summaryEl = $('summary');
+  let offset = 0, total = 0;
+
+  function starsRow(rating) {
+    const wrap = document.createElement('span');
+    wrap.className = 's-stars';
+    wrap.setAttribute('role', 'img');
+    wrap.setAttribute('aria-label', 'Rated ' + rating + ' out of 5');
+    for (let i = 1; i <= 5; i++) wrap.appendChild(starSvg(i <= rating ? 'on' : ''));
+    return wrap;
+  }
+
+  function initials(name) {
+    return name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '★';
+  }
+
+  function monthYear(iso) {
+    const d = new Date(iso);
+    return isNaN(d) ? '' : d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  }
+
+  function renderReview(r) {
+    const rating = Math.max(1, Math.min(5, Math.round(Number(r.rating) || 0)));
+    const name = String(r.guest_name || 'Flex athlete');
+    const li = document.createElement('li');
+    li.className = 'review-card';
+
+    const quote = document.createElement('blockquote');
+    quote.className = 'review-text';
+    quote.textContent = String(r.review_text || '');
+
+    const meta = document.createElement('div');
+    meta.className = 'review-meta';
+    const av = document.createElement('div');
+    av.className = 'avatar';
+    av.setAttribute('aria-hidden', 'true');
+    av.textContent = initials(name);
+    const who = document.createElement('div');
+    const n = document.createElement('div');
+    n.className = 'r-name';
+    n.textContent = name;
+    const sub = document.createElement('div');
+    sub.className = 'r-sub';
+    const ev = r.event_type && r.event_type !== 'Prefer not to say' ? String(r.event_type) : '';
+    sub.textContent = [ev, monthYear(r.created_at)].filter(Boolean).join(' · ');
+    who.append(n, sub);
+    meta.append(av, who);
+
+    li.append(starsRow(rating), quote, meta);
+    return li;
+  }
+
+  function renderSummary(s) {
+    const count = Number(s && s.count) || 0;
+    const avg = Number(s && s.average);
+    if (!count || !isFinite(avg) || avg <= 0) { summaryEl.hidden = true; return; }
+    summaryEl.textContent = '';
+    const label = avg.toFixed(1) + ' · ' + count + (count === 1 ? ' review' : ' reviews');
+    const row = starsRow(Math.round(avg));
+    row.setAttribute('aria-hidden', 'true');
+    row.removeAttribute('role');
+    row.removeAttribute('aria-label');
+    const t = document.createElement('span');
+    t.textContent = label;
+    const sr = document.createElement('span');
+    sr.className = 'sr-only';
+    sr.textContent = ' (average rating out of 5)';
+    summaryEl.append(row, t, sr);
+    summaryEl.hidden = false;
+  }
+
+  async function loadReviews() {
+    list.setAttribute('aria-busy', 'true');
+    moreBtn.disabled = true;
+    const firstPage = offset === 0;
+    if (!firstPage) moreBtn.textContent = 'Loading…';
+    try {
+      const data = await api({ action: 'list', client_slug: REVIEW_CONFIG.clientSlug, limit: PAGE_SIZE, offset: offset });
+      const reviews = Array.isArray(data.reviews) ? data.reviews : [];
+      if (firstPage) renderSummary(data.summary);
+      total = Number(data.summary && data.summary.count) || 0;
+      const frag = document.createDocumentFragment();
+      reviews.forEach((r) => frag.appendChild(renderReview(r)));
+      list.appendChild(frag);
+      offset += reviews.length;
+
+      if (firstPage && !reviews.length) {
+        wallStatus.textContent = 'Be the first to leave a review.';
+        wallStatus.hidden = false;
+      } else {
+        wallStatus.hidden = true;
+        wallStatus.textContent = '';
+      }
+      moreBtn.hidden = reviews.length < PAGE_SIZE || (total > 0 && offset >= total);
+      // Move keyboard users to the first newly loaded review.
+      if (!firstPage && reviews.length) {
+        const firstNew = list.children[offset - reviews.length];
+        firstNew.setAttribute('tabindex', '-1');
+        firstNew.focus();
+      }
+    } catch (e) {
+      wallStatus.hidden = false;
+      wallStatus.textContent = firstPage
+        ? 'Reviews couldn’t load right now. Please refresh to try again.'
+        : 'Couldn’t load more reviews. Please try again.';
+    } finally {
+      list.setAttribute('aria-busy', 'false');
+      moreBtn.disabled = false;
+      moreBtn.textContent = 'Show more';
+    }
+  }
+  moreBtn.addEventListener('click', loadReviews);
+  loadReviews();
+})();
+</script>
+</body>
+</html>
