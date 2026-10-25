@@ -1,0 +1,143 @@
+<!-- © 2026 GoElev8.ai | Aaron Bryant. All rights reserved. Unauthorized use prohibited. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>My Challenge · Flex Fuel Agent</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="icon" href="/flex-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fuel-agent/agent.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6T75SN79LV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  // The private link carries ?t= until agent.js strips it; never send it to GA.
+  gtag('config', 'G-6T75SN79LV', { page_location: location.origin + location.pathname });
+</script>
+</head>
+<body data-slug="november-stair-steps-2026">
+
+<header class="topbar">
+  <a href="/fuel/agent" class="brand"><span class="emblem"><img src="/flex-logo.png" alt="" width="44" height="44"></span>Flex Fuel</a>
+  <a href="/fuel/agent" class="link">Leaderboard</a>
+</header>
+
+<main class="wrap" id="app">
+  <section><div class="placeholder"><b>Loading…</b></div></section>
+</main>
+
+<footer class="site">
+  <nav aria-label="Footer">
+    <a href="/fuel/agent">Fuel Agent</a>
+    <a href="/fuel/agent/rules">Challenge Rules</a>
+    <a href="/privacy">Privacy</a>
+  </nav>
+  <a class="powered" href="https://goelev8.ai" target="_blank" rel="noopener">Powered by ⚡ Go Elev8.AI</a>
+</footer>
+
+<script src="/assets/fuel-agent/agent.js"></script>
+<script>
+(function () {
+  'use strict';
+  const FA = window.FuelAgent;
+  const app = document.getElementById('app');
+  const SOURCE_LABEL = {
+    stair_machine_photo: 'Stair machine photo',
+    watch_screenshot: 'Watch screenshot',
+    phone_app_screenshot: 'Phone app screenshot',
+    coach_manual: 'Added by coach',
+  };
+  const STATUS_LABEL = { counted: 'Counted', checking: 'Being checked', not_counted: "Didn't count" };
+
+  function signedOut() {
+    app.innerHTML = '<section><div class="card" style="text-align:center">' +
+      '<span class="emblem lg" style="margin:0 auto 16px"><img src="/flex-logo.png" alt=""></span>' +
+      '<h2>My Challenge</h2><p class="muted">This page opens from your private link. Lost it? We\'ll email you a new one.</p>' +
+      '<div class="cta-stack"><button class="btn primary wide" type="button" data-fa="link">Email my link</button>' +
+      '<button class="btn ghost wide" type="button" data-fa="join">Join the challenge</button></div></div></section>';
+  }
+
+  function day(d) {
+    return new Date(d + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
+  }
+
+  function render(me) {
+    const ch = me.challenge;
+    const c = ch.hero_copy || {};
+    const coach = c.coach_name || 'the coach';
+    const st = me.standing || { total: 0, rank: null, days_logged: 0 };
+    let gapLine = '';
+    if (me.participant.is_coach) {
+      gapLine = 'You\'re the number to beat. Every step you log raises the bar.';
+    } else if (st.coach_total != null) {
+      gapLine = st.beats_coach
+        ? 'You\'re <b class="gold">' + FA.fmt(-st.gap_to_coach) + '</b> steps ahead of ' + FA.esc(coach) + ' 🔥 Keep it there.'
+        : st.gap_to_coach === 0
+          ? 'You\'re tied with ' + FA.esc(coach) + '. One more step to pass him.'
+          : FA.esc(coach) + '\'s at ' + FA.fmt(st.coach_total) + '. You\'re <b class="gold">' + FA.fmt(st.gap_to_coach) + '</b> steps behind.';
+    }
+    const canLog = ch.status === 'live' || ch.status === 'judging';
+    const disq = me.participant.status !== 'active';
+
+    app.innerHTML =
+      '<section style="padding-top:10px">' +
+        '<p class="eyebrow">' + FA.esc(ch.title) + '</p>' +
+        '<h1 style="font-size:40px;margin-top:6px">Hey ' + FA.esc(me.participant.first_name) + ' 💪🏾</h1>' +
+        '<p class="muted small">On the board as <b>' + FA.esc(me.participant.display_name) + '</b></p>' +
+        (disq ? '<div class="card" style="margin-top:12px"><p style="margin:0">Your account can\'t log steps in this challenge. Questions? Reply to your welcome email.</p></div>' : '') +
+        '<div class="card gold" style="margin-top:14px">' +
+          '<div class="stat-grid" style="margin-top:0">' +
+            '<div class="stat"><b>' + FA.fmt(st.total) + '</b><span>Counted steps</span></div>' +
+            '<div class="stat"><b>' + (me.participant.is_coach ? '—' : (st.rank ? '#' + st.rank : '–')) + '</b><span>' + (me.participant.is_coach ? 'Benchmark' : 'Rank') + '</span></div>' +
+            '<div class="stat"><b>' + (st.days_logged || 0) + '</b><span>Days logged</span></div>' +
+            '<div class="stat"><b>' + (st.coach_total != null ? FA.fmt(st.coach_total) : '–') + '</b><span>' + FA.esc(coach) + '</span></div>' +
+          '</div>' +
+          (gapLine ? '<p style="margin:14px 0 0">' + gapLine + '</p>' : '') +
+        '</div>' +
+        (!disq ? '<div class="cta-stack" style="margin-top:14px">' +
+          (canLog ? '<button class="btn primary wide" type="button" data-fa="log">Log steps</button>'
+            : ch.status === 'upcoming' ? '<p class="muted small" style="text-align:center">Logging opens ' + FA.esc(FA.shortRange(ch.start_date, ch.end_date).split(' – ')[0]) + '. You\'re all set.</p>' : '') +
+        '</div>' : '') +
+      '</section>' +
+      '<section aria-labelledby="entries-title" style="padding-top:6px">' +
+        '<div class="section-head"><h2 id="entries-title" style="font-size:24px">My entries</h2></div>' +
+        '<div class="card">' +
+          (me.entries.length
+            ? '<ul class="entries">' + me.entries.map((e) =>
+                '<li><span class="d">' + FA.esc(day(e.entry_date)) + '<small>' + FA.esc(SOURCE_LABEL[e.source] || '') + '</small></span>' +
+                '<span class="s">' + FA.fmt(e.counted_steps != null ? e.counted_steps : e.claimed_steps) +
+                '<br><span class="badge ' + e.status + '">' + STATUS_LABEL[e.status] + '</span></span></li>').join('') + '</ul>'
+            : '<div class="placeholder" style="padding:14px"><b>No entries yet</b>' + (canLog ? 'Log your first workout to get on the board.' : 'Your uploads will show up here.') + '</div>') +
+          '<p class="small muted" style="margin:12px 0 0">Only your best counted entry per day goes toward your total. Entries marked "Being checked" get a second look from ' + FA.esc(coach) + '\'s team.</p>' +
+        '</div>' +
+      '</section>' +
+      '<p class="small muted" style="text-align:center">Using a shared phone? <button type="button" class="linkbtn" id="signout">Sign out</button></p>';
+
+    document.getElementById('signout').addEventListener('click', () => { FA.signOut(); signedOut(); });
+  }
+
+  async function load() {
+    if (!FA.token) return signedOut();
+    try {
+      render(await FA.api('me', { query: { t: FA.token } }));
+    } catch (ex) {
+      if (ex.code === 'signed_out') { FA.signOut(); return signedOut(); }
+      app.innerHTML = '<section><div class="card"><p>' + FA.esc(ex.message) + '</p><button class="btn ghost" type="button" onclick="location.reload()">Try again</button></div></section>';
+    }
+  }
+
+  FA.init().then(load);
+  document.addEventListener('fuelagent:logged', load);
+  document.addEventListener('fuelagent:signedin', load);
+})();
+</script>
+</body>
+</html>

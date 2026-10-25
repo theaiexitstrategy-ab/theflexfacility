@@ -12,8 +12,20 @@
     { "source": "/bootcamp-thank-you", "destination": "/bootcamp-thank-you.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/terms.html" },
+    { "source": "/fuel/agent", "destination": "/fuel-agent.html" },
+    { "source": "/fuel/agent/me", "destination": "/fuel-agent-me.html" },
+    { "source": "/fuel/agent/rules", "destination": "/fuel-agent-rules.html" },
     { "source": "/reviews", "destination": "/reviews.html" },
     { "source": "/about", "destination": "/about.html" }
+  ],
+  "functions": {
+    "api/fuel-challenge.js": {
+      "maxDuration": 60,
+      "includeFiles": "node_modules/@contentauth/c2pa-node/dist/index.node"
+    }
+  },
+  "crons": [
+    { "path": "/api/fuel-challenge?action=cron-daily", "schedule": "0 6 * * *" }
   ],
   "redirects": [
     {

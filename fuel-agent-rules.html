@@ -1,0 +1,104 @@
+<!-- © 2026 GoElev8.ai | Aaron Bryant. All rights reserved. Unauthorized use prohibited. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Challenge Rules · Flex Fuel Agent | The Flex Facility</title>
+<meta name="description" content="Official rules for Coach Kenny's November Stair-Step Challenge, run by the Flex Fuel Agent.">
+<link rel="canonical" href="https://www.theflexfacility.com/fuel/agent/rules">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Flex Facility">
+<meta property="og:url" content="https://www.theflexfacility.com/fuel/agent/rules">
+<meta property="og:title" content="November Stair-Step Challenge · Rules">
+<meta property="og:description" content="How to log, what counts, and how to beat Coach Kenny.">
+<meta property="og:image" content="https://www.theflexfacility.com/flex-logo.png">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="icon" href="/flex-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fuel-agent/agent.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6T75SN79LV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6T75SN79LV');
+</script>
+</head>
+<body data-slug="november-stair-steps-2026">
+
+<header class="topbar">
+  <a href="/fuel/agent" class="brand"><span class="emblem"><img src="/flex-logo.png" alt="" width="44" height="44"></span>Flex Fuel</a>
+  <a href="/fuel/agent/me" class="link">My Challenge</a>
+</header>
+
+<main class="wrap">
+  <section style="padding-top:10px">
+    <p class="eyebrow">Official rules</p>
+    <h1 style="font-size:40px;margin-top:6px" id="r-title">November Stair-Step Challenge</h1>
+    <p class="muted" id="r-dates">Nov 1 – Nov 24, 2026 · Central Time</p>
+    <div class="card gold" style="margin-top:16px"><p style="margin:0" id="r-summary">Log your steps every day from Nov 1 to Nov 24. Finish with more total steps than Coach Kenny and you earn a free pass to his Thanksgiving Boot Camp.</p></div>
+  </section>
+  <section style="padding-top:0">
+    <div class="card">
+      <ol class="rules" id="r-items">
+        <li>Log each day with a photo of the stair machine display after your workout, or a screenshot from your watch or phone health app (Apple Fitness/Health, Garmin, Fitbit, Samsung and others).</li>
+        <li>One number counts per day: your best approved entry for that date. Logging the same day from two sources does not stack, because your watch already counts your stair steps.</li>
+        <li>You can log a day until 36 hours after it ends. The last chance for every day is Wed Nov 25 at 12:00 PM Central.</li>
+        <li>Show the full screen. No crops, no filters, no edits.</li>
+        <li>Every photo is checked. Edited, reused or AI-made images do not count, and repeat offenders are removed from the challenge.</li>
+        <li>Entries over 60,000 steps in a day, or far above your normal, are checked by hand before they count.</li>
+        <li>Anyone in the Top 10 or ahead of Coach Kenny has every entry re-confirmed by Coach Kenny before a reward is issued.</li>
+        <li>You must finish with MORE total steps than Coach Kenny (a tie does not win). Coach Kenny's total is public all month.</li>
+        <li>The leaderboard shows first name and last initial only. Photos, emails and phone numbers are never public.</li>
+      </ol>
+    </div>
+  </section>
+  <section style="padding-top:0">
+    <div class="card fair">
+      <span class="shield" aria-hidden="true">🛡️</span>
+      <div><h3>Fair play</h3><p class="muted" style="margin:6px 0 0">The Fuel Agent checks every photo. Edited, reused or AI-made images don't count, and repeat offenders are removed. Coach Kenny has the final say on every entry.</p></div>
+    </div>
+    <div class="cta-stack" style="margin-top:18px"><a href="/fuel/agent" class="btn primary wide">Back to the challenge</a></div>
+  </section>
+</main>
+
+<footer class="site">
+  <nav aria-label="Footer">
+    <a href="/">Home</a>
+    <a href="/fuel/agent">Fuel Agent</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/terms">Terms</a>
+  </nav>
+  <div>© 2026 Flex Training LLC · Earth City, MO</div>
+  <a class="powered" href="https://goelev8.ai" target="_blank" rel="noopener">Powered by ⚡ Go Elev8.AI</a>
+</footer>
+
+<script src="/assets/fuel-agent/agent.js"></script>
+<script>
+(function () {
+  'use strict';
+  const FA = window.FuelAgent;
+  FA.init().then((ch) => {
+    if (!ch) return;
+    const year = ch.end_date.slice(0, 4);
+    document.getElementById('r-title').textContent = ch.title;
+    let zone = ch.timezone;
+    try {
+      zone = new Intl.DateTimeFormat('en-US', { timeZone: ch.timezone, timeZoneName: 'longGeneric' })
+        .formatToParts(new Date()).find((p) => p.type === 'timeZoneName').value;
+    } catch { /* older browsers: keep the IANA name */ }
+    document.getElementById('r-dates').textContent = FA.shortRange(ch.start_date, ch.end_date) + ', ' + year + ' · ' + zone;
+    const rules = ch.rules || {};
+    if (rules.summary) document.getElementById('r-summary').textContent = rules.summary;
+    if (Array.isArray(rules.items) && rules.items.length) {
+      document.getElementById('r-items').innerHTML = rules.items.map((r) => '<li>' + FA.esc(r) + '</li>').join('');
+    }
+  });
+})();
+</script>
+</body>
+</html>
