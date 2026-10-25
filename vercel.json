@@ -22,7 +22,8 @@
       "destination": "https://portal.goelev8.ai/:path*",
       "permanent": true
     },
-    { "source": "/fuel(/.*)?", "destination": "https://fuel.theflexfacility.com", "permanent": true },
+    { "source": "/fuel", "destination": "https://fuel.theflexfacility.com", "permanent": true },
+    { "source": "/fuel/:path((?!agent(?:/|$)).*)", "destination": "https://fuel.theflexfacility.com", "permanent": true },
     { "source": "/fuel.html", "destination": "https://fuel.theflexfacility.com", "permanent": true }
   ]
 }
