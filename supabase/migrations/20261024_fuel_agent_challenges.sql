@@ -336,10 +336,23 @@ insert into public.fuel_challenges (
 -- The benchmark participant. The coach logs through the same flow; his
 -- "My Challenge" link is emailed to this address with ?action=resend-link.
 insert into public.fuel_challenge_participants (client_id, challenge_id, first_name, last_name, email, display_name, is_coach)
-select 'flex-facility', ch.id, 'Kenny', 'Coach', 'info@theflexfacility.com', 'Coach Kenny', true
+select 'flex-facility', ch.id, 'Kenny', 'Coach', 'kenny@flextraining.co', 'Coach Kenny', true
 from public.fuel_challenges ch
 where ch.client_id = 'flex-facility' and ch.slug = 'november-stair-steps-2026'
 on conflict (challenge_id, (lower(email))) do nothing;
+
+-- The first run of this file seeded the coach as info@theflexfacility.com.
+-- Re-running it moves that row to Kenny's own address.
+update public.fuel_challenge_participants p
+set email = 'kenny@flextraining.co'
+from public.fuel_challenges ch
+where ch.client_id = 'flex-facility' and ch.slug = 'november-stair-steps-2026'
+  and p.client_id = ch.client_id and p.challenge_id = ch.id and p.is_coach
+  and lower(p.email) = 'info@theflexfacility.com'
+  and not exists (
+    select 1 from public.fuel_challenge_participants q
+    where q.challenge_id = ch.id and lower(q.email) = 'kenny@flextraining.co'
+  );
 
 update public.fuel_challenges ch
 set coach_participant_id = p.id
