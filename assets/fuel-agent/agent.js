@@ -16,9 +16,9 @@
   const CHAT_KEY = 'fuelAgent:chat:' + SLUG;
   const MAX_UPLOAD = 25 * 1024 * 1024;
   const SOURCES = [
-    { id: 'stair_machine_photo', label: 'Stair machine photo', hint: 'Snap the display right after your workout', camera: true },
-    { id: 'watch_screenshot', label: 'Watch screenshot', hint: 'Apple Watch, Garmin, Fitbit, Samsung…' },
-    { id: 'phone_app_screenshot', label: 'Phone app screenshot', hint: 'Apple Health/Fitness, Samsung Health, Google Fit…' },
+    { id: 'stair_machine_photo', label: 'Stair machine photo', hint: 'Switch the screen to TOTAL STEPS, then snap it', camera: true },
+    { id: 'watch_screenshot', label: 'Watch screenshot', hint: "Today's step total from your watch app" },
+    { id: 'phone_app_screenshot', label: 'Phone app screenshot', hint: "Today's Steps in Apple Health, Samsung Health, Google Fit…" },
   ];
 
   const state = { challenge: null, token: null, standing: null };
@@ -275,7 +275,7 @@
         <div class="field">
           <label class="drop" for="g-file"><span>📸</span><b>Take or choose a photo</b><span class="small">JPG, PNG or HEIC</span><img alt="" hidden></label>
           <input id="g-file" class="sr-only" type="file" accept="image/*" capture="environment">
-          <ul class="tips"><li>Show the full screen with the step number</li><li>No crops, no filters, no edits</li><li>Take it right after your workout</li></ul>
+          <ul class="tips"><li>The photo must show your <b>total steps</b>. Steps per minute, time, calories or distance don't count.</li><li>Stair machine: before you step off, switch the display to total steps.</li><li>Watch or phone: screenshot today's <b>Steps</b> in your health app. A workout summary (time, distance, pace) won't work.</li><li>Full screen. No crops, no filters, no edits.</li></ul>
         </div>
         <div class="progress" hidden><i></i></div>
         <p class="error" role="alert"></p>
