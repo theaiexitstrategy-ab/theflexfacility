@@ -1,0 +1,277 @@
+<!-- © 2026 GoElev8.ai | Aaron Bryant. All rights reserved. Unauthorized use prohibited. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Flex Fuel Agent · November Stair-Step Challenge | The Flex Facility</title>
+<meta name="description" content="Meet the Flex Fuel Agent. Join Coach Kenny's November Stair-Step Challenge, log your steps with a photo, climb the live leaderboard, and out-step Kenny for a free pass to his Thanksgiving Boot Camp.">
+<link rel="canonical" href="https://www.theflexfacility.com/fuel/agent">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Flex Facility">
+<meta property="og:url" content="https://www.theflexfacility.com/fuel/agent">
+<meta property="og:title" content="Can you out-step Coach Kenny? 🔥">
+<meta property="og:description" content="The November Stair-Step Challenge is on. Log your steps, climb the leaderboard, and beat Kenny's total for a free pass to his Thanksgiving Boot Camp.">
+<meta property="og:image" content="https://www.theflexfacility.com/flex-logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Can you out-step Coach Kenny? 🔥">
+<meta name="twitter:description" content="November Stair-Step Challenge · Flex Fuel Agent">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="icon" href="/flex-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fuel-agent/agent.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6T75SN79LV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6T75SN79LV');
+</script>
+</head>
+<body data-slug="november-stair-steps-2026">
+
+<header class="topbar">
+  <a href="/" class="brand"><span class="emblem"><img src="/flex-logo.png" alt="" width="44" height="44"></span>Flex Fuel</a>
+  <a href="/fuel/agent/me" class="link" id="me-link">My Challenge</a>
+</header>
+
+<main>
+  <!-- 1. Hero -->
+  <section class="hero wrap">
+    <span class="emblem lg"><img src="/flex-logo.png" alt="The Flex Facility" width="88" height="88"></span>
+    <p class="eyebrow">New · AI coach</p>
+    <h1 id="hero-headline">Meet Your <span>Flex Fuel Agent</span></h1>
+    <p class="lede" id="hero-tagline">Your AI coach that tracks your fuel, runs Coach Kenny's challenges, and keeps every leaderboard honest.</p>
+    <div class="cta-stack">
+      <a href="#join" class="btn primary wide" data-fa="join" id="cta-primary">Join the November Step Challenge</a>
+      <a href="#log" class="btn ghost wide" data-fa="log" id="cta-secondary">Already in? Log today's steps</a>
+    </div>
+  </section>
+
+  <!-- 2. Live challenge -->
+  <section class="wrap" id="challenge" aria-labelledby="ch-title">
+    <div class="card gold">
+      <p class="eyebrow">Live challenge</p>
+      <h2 id="ch-title" style="margin-top:6px">November Stair-Step Challenge</h2>
+      <div class="challenge-meta"><span class="pill" id="ch-status">Starts Nov 1</span><span class="pill" id="ch-dates">Nov 1 – Nov 24</span></div>
+      <div id="ch-countdown"></div>
+      <div class="reward"><span class="ico" aria-hidden="true">🏆</span><div><strong id="ch-reward">Out-step Coach Kenny → free pass to his Thanksgiving Boot Camp.</strong><span class="small muted" id="ch-reward-sub">Finish with more total steps than Kenny. Every winner gets in.</span></div></div>
+    </div>
+  </section>
+
+  <!-- 3. The number to beat -->
+  <section class="wrap" id="beat" aria-labelledby="beat-title">
+    <div class="section-head"><p class="eyebrow" id="beat-eyebrow">The Number to Beat</p><h2 id="beat-title">Coach Kenny's total</h2></div>
+    <div class="card">
+      <div class="beat-total" id="coach-total">0</div>
+      <p class="muted small" id="coach-sub">steps so far. Beat this number by Nov 24 to earn the reward.</p>
+      <div class="beat-bar" aria-hidden="true"><i></i></div>
+      <ul class="beaters" id="beaters"></ul>
+    </div>
+  </section>
+
+  <!-- 4. Leaderboard -->
+  <section class="wrap" id="leaderboard" aria-labelledby="lb-title">
+    <div class="section-head"><p class="eyebrow">Top 10</p><h2 id="lb-title">Leaderboard</h2></div>
+    <div class="card">
+      <div id="lb-body"><div class="placeholder"><b>Leaderboard opens Nov 1</b>Join now so you're on the board from day one.</div></div>
+      <div id="lb-mine"></div>
+      <div class="board-foot"><span id="lb-count"></span><span id="lb-updated">Updates every minute</span></div>
+    </div>
+  </section>
+
+  <!-- 5. How it works -->
+  <section class="wrap" id="how" aria-labelledby="how-title">
+    <div class="section-head"><p class="eyebrow">How it works</p><h2 id="how-title">Three steps</h2></div>
+    <ol class="steps">
+      <li><b>Join</b><span>Name and email. You get a private link that keeps you signed in.</span></li>
+      <li><b>Upload after every workout</b><span>A photo of the stair machine display, or a screenshot from your watch or phone health app.</span></li>
+      <li><b>Climb the board</b><span>The Fuel Agent reads your steps, checks your photo, and moves you up the leaderboard.</span></li>
+    </ol>
+    <div class="cta-stack" style="margin-top:16px"><a href="#join" class="btn primary wide" data-fa="join">Join the challenge</a></div>
+  </section>
+
+  <!-- 7. Fair play -->
+  <section class="wrap" id="fair" aria-labelledby="fair-title">
+    <div class="card fair">
+      <span class="shield" aria-hidden="true">🛡️</span>
+      <div>
+        <h3 id="fair-title">Fair play</h3>
+        <p class="muted" style="margin:6px 0 8px">The Fuel Agent checks every photo. Edited, reused or AI-made images don't count, and repeat offenders are removed.</p>
+        <a href="/fuel/agent/rules">Read the full rules →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. FAQ -->
+  <section class="wrap" id="faq" aria-labelledby="faq-title">
+    <div class="section-head"><p class="eyebrow">FAQ</p><h2 id="faq-title">Questions</h2></div>
+    <details><summary>Who can join?</summary><p>Anyone training with Coach Kenny, or anyone up for the challenge. It's free.</p></details>
+    <details><summary>What counts as proof?</summary><p>A photo of the stair machine display right after your workout, or a screenshot from your watch or phone health app (Apple Fitness/Health, Garmin, Fitbit, Samsung and others). Show the full screen, with no crops or filters.</p></details>
+    <details><summary>Can I log the same day twice?</summary><p>Yes, but only your best entry for each day counts. A stair machine photo and a watch screenshot for the same day don't add together, because your watch already counts your stair steps.</p></details>
+    <details><summary>I forgot to log yesterday. Can I still?</summary><p>Yes. Each day stays open for 36 hours after it ends. The last chance for every day is Wednesday, Nov 25 at 12:00 PM Central.</p></details>
+    <details><summary>Why does my entry say "being checked"?</summary><p>Some photos get a second look from Coach Kenny's team before they count. You'll see the result on your My Challenge page.</p></details>
+    <details><summary>How do I win?</summary><p>Finish Nov 24 with more total steps than Coach Kenny. A tie doesn't win. Everyone who beats him earns a free pass to his Thanksgiving Boot Camp. Final counts are confirmed by Kenny before passes go out.</p></details>
+    <details><summary>Is my info public?</summary><p>No. The leaderboard shows your first name and last initial only. Photos, last names, emails and phone numbers are never shown.</p></details>
+  </section>
+</main>
+
+<footer class="site">
+  <nav aria-label="Footer">
+    <a href="/">Home</a>
+    <a href="/fuel">Flex Fuel</a>
+    <a href="/fuel/agent/rules">Challenge Rules</a>
+    <a href="/reviews">Reviews</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/terms">Terms</a>
+  </nav>
+  <div>© 2026 Flex Training LLC · Earth City, MO</div>
+  <a class="powered" href="https://goelev8.ai" target="_blank" rel="noopener">Powered by ⚡ Go Elev8.AI</a>
+</footer>
+
+<script src="/assets/fuel-agent/agent.js"></script>
+<script>
+(function () {
+  'use strict';
+  const FA = window.FuelAgent;
+  const $ = (s) => document.querySelector(s);
+  let ch = null;
+  let leaderboardViewed = false;
+
+  function setText(sel, v) { const el = $(sel); if (el && v) el.textContent = v; }
+
+  function applyCopy() {
+    const c = ch.hero_copy || {};
+    if (c.headline) {
+      // Gold-highlight the agent's name inside the headline.
+      const name = c.agent_name || '';
+      const i = name ? c.headline.indexOf(name) : -1;
+      $('#hero-headline').innerHTML = i >= 0
+        ? FA.esc(c.headline.slice(0, i)) + '<span>' + FA.esc(name) + '</span>' + FA.esc(c.headline.slice(i + name.length))
+        : FA.esc(c.headline);
+    }
+    setText('#hero-tagline', c.tagline);
+    setText('#cta-primary', c.primary_cta);
+    setText('#cta-secondary', c.secondary_cta);
+    setText('#ch-title', ch.title);
+    setText('#ch-dates', FA.shortRange(ch.start_date, ch.end_date));
+    setText('#ch-reward', c.reward_line || ch.reward_title);
+    setText('#beat-eyebrow', c.benchmark_label);
+    if (c.coach_name) setText('#beat-title', c.coach_name + "'s total");
+    const end = new Date(ch.end_date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+    setText('#coach-sub', 'steps so far. Beat this number by ' + end + ' to earn the reward.');
+    if (FA.token) {
+      setText('#cta-primary', "Log today's steps");
+      $('#cta-primary').dataset.fa = 'log';
+      setText('#cta-secondary', 'My Challenge');
+      $('#cta-secondary').removeAttribute('data-fa');
+      $('#cta-secondary').href = '/fuel/agent/me';
+    }
+  }
+
+  function renderCountdown() {
+    const el = $('#ch-countdown');
+    const pill = $('#ch-status');
+    const now = Date.now();
+    pill.className = 'pill';
+    if (ch.status === 'upcoming') {
+      const ms = Math.max(0, new Date(ch.starts_at).getTime() - now);
+      const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60;
+      pill.textContent = 'Upcoming';
+      el.innerHTML = '<p class="small muted" style="margin:0 0 8px">Starts in…</p><div class="countdown">' +
+        [[d, 'days'], [h, 'hrs'], [m, 'min'], [s, 'sec']].map(([v, l]) => '<div><b>' + v + '</b><span>' + l + '</span></div>').join('') + '</div>';
+      if (ms === 0) location.reload();
+    } else if (ch.status === 'live') {
+      const ms = Math.max(0, new Date(ch.ends_at).getTime() - now);
+      const days = Math.ceil(ms / 864e5);
+      pill.textContent = 'Live now';
+      pill.className = 'pill live';
+      el.innerHTML = '<div class="countdown-line">' + days + (days === 1 ? ' day left' : ' days left') + '</div>';
+    } else if (ch.status === 'judging') {
+      pill.textContent = 'Judging';
+      el.innerHTML = '<div class="countdown-line">Final counts being verified</div>';
+    } else {
+      pill.textContent = 'Complete';
+      el.innerHTML = '<div class="countdown-line">Final results are in</div>';
+    }
+  }
+
+  function boardRow(r, mine) {
+    const c = ch.hero_copy || {};
+    return '<li class="' + (r.beats_coach ? 'beats ' : '') + (mine ? 'me' : '') + '">' +
+      '<span class="rk">' + (r.rank || '–') + '</span>' +
+      '<span class="nm">' + FA.esc(r.display_name) + (mine ? ' <span class="muted small">(you)</span>' : '') +
+        (r.beats_coach ? ' <span class="flame">' + FA.esc(c.beating_label || 'Beating the coach 🔥') + '</span>' : '') +
+        '<small>' + r.days_logged + (r.days_logged === 1 ? ' day' : ' days') + ' logged</small></span>' +
+      '<span class="tot">' + FA.fmt(r.total) + '<small>steps</small></span></li>';
+  }
+
+  let me = null;
+  async function loadMe() {
+    if (!FA.token) return;
+    try { me = await FA.api('me', { query: { t: FA.token } }); } catch (ex) { if (ex.code === 'signed_out') FA.signOut(); me = null; }
+  }
+
+  async function loadBoard() {
+    let lb;
+    try { lb = await FA.api('leaderboard', { query: { slug: ch.slug } }); } catch { return; }
+    const c = ch.hero_copy || {};
+    // Number to beat
+    const coachTotal = lb.coach ? lb.coach.total : 0;
+    $('#coach-total').textContent = FA.fmt(coachTotal);
+    const beaters = lb.top.filter((r) => r.beats_coach);
+    $('#beaters').innerHTML = beaters.map((r) => '<li><span>' + FA.esc(r.display_name) + '</span><em>' + FA.esc(c.beating_label || 'Beating the coach 🔥') + ' · ' + FA.fmt(r.total) + '</em></li>').join('') ||
+      (lb.status === 'upcoming' ? '' : '<li><span class="muted">Nobody is ahead of ' + FA.esc(c.coach_name || 'the coach') + ' yet.</span><em>Be first</em></li>');
+    // Board
+    const myName = me && me.participant && me.participant.display_name;
+    const myRank = me && me.standing && me.standing.rank;
+    if (lb.status === 'upcoming') {
+      const start = new Date(ch.start_date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+      $('#lb-body').innerHTML = '<div class="placeholder"><b>Leaderboard opens ' + start + '</b>' + (lb.participants ? lb.participants + ' already in. ' : '') + 'Join now so you\'re on the board from day one.</div>';
+    } else if (!lb.top.length) {
+      $('#lb-body').innerHTML = '<div class="placeholder"><b>No steps counted yet</b>Log your first workout and take the #1 spot.</div>';
+    } else {
+      $('#lb-body').innerHTML = '<ol class="board">' + lb.top.map((r) => boardRow(r, myRank && r.rank === myRank && r.display_name === myName)).join('') + '</ol>';
+    }
+    // Own rank under the board when outside the Top 10
+    if (me && me.standing && !me.participant.is_coach && lb.status !== 'upcoming' && (!myRank || myRank > 10)) {
+      $('#lb-mine').innerHTML = '<ol class="board my-rank">' + boardRow({ display_name: myName, rank: myRank, total: me.standing.total, days_logged: me.standing.days_logged, beats_coach: me.standing.beats_coach }, true) + '</ol>';
+    } else {
+      $('#lb-mine').innerHTML = '';
+    }
+    $('#lb-count').textContent = lb.participants ? lb.participants + (lb.participants === 1 ? ' player' : ' players') + (lb.beating_coach ? ' · ' + lb.beating_coach + ' ahead of ' + (c.coach_name || 'the coach') : '') : '';
+    $('#lb-updated').textContent = 'Updated ' + new Date(lb.updated_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  }
+
+  async function start() {
+    ch = await FA.init();
+    if (!ch) {
+      $('#ch-countdown').innerHTML = '<p class="muted">Challenge details are loading slowly. Refresh in a moment.</p>';
+      return;
+    }
+    applyCopy();
+    renderCountdown();
+    setInterval(renderCountdown, 1000);
+    await loadMe();
+    await loadBoard();
+    setInterval(loadBoard, 60000);
+    document.addEventListener('fuelagent:logged', async () => { await loadMe(); loadBoard(); });
+    document.addEventListener('fuelagent:signedin', async () => { applyCopy(); await loadMe(); loadBoard(); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries, obs) => {
+        if (entries.some((e) => e.isIntersecting) && !leaderboardViewed) {
+          leaderboardViewed = true;
+          FA.track('fuel_leaderboard_view', { status: ch.status });
+          obs.disconnect();
+        }
+      }, { threshold: 0.4 }).observe($('#leaderboard'));
+    }
+  }
+  start();
+})();
+</script>
+</body>
+</html>
