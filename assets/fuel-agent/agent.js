@@ -187,13 +187,13 @@
           setToken(r.token);
           track('fuel_join', { method: 'form' });
           $('.sheet-body', m).innerHTML = `
-            <div class="agent-reply"><span class="emblem"><img src="/flex-logo.png" alt=""></span><span>You're in, ${esc(r.display_name)} 🙌🏾 ${r.emailed ? 'Your private link is in your email too.' : ''}</span></div>
+            <div class="agent-reply"><span class="emblem"><img src="/assets/fuel-agent/flex-logo-official.png" alt=""></span><span>You're in, ${esc(r.display_name)} 🙌🏾 ${r.emailed ? 'Your private link is in your email too.' : ''}</span></div>
             <p class="muted small" style="margin:14px 0">This phone stays signed in. Log your steps after every workout.</p>
             <div class="cta-stack"><button class="btn primary wide" type="button" data-act="log">Log steps</button><a class="btn ghost wide" href="/fuel/agent/me">My Challenge</a></div>`;
           $('[data-act=log]', m).addEventListener('click', () => { close(m); openLog(); });
           document.dispatchEvent(new CustomEvent('fuelagent:signedin'));
         } else {
-          $('.sheet-body', m).innerHTML = '<div class="agent-reply"><span class="emblem"><img src="/flex-logo.png" alt=""></span><span>You\'re already in! 📬 We just emailed you a fresh link to sign in on this phone.</span></div>';
+          $('.sheet-body', m).innerHTML = '<div class="agent-reply"><span class="emblem"><img src="/assets/fuel-agent/flex-logo-official.png" alt=""></span><span>You\'re already in! 📬 We just emailed you a fresh link to sign in on this phone.</span></div>';
         }
       } catch (ex) {
         err.textContent = ex.message;
@@ -221,7 +221,7 @@
       btn.disabled = true;
       try {
         const r = await api('resend-link', { body: { slug: SLUG, email: $('#l-email', form).value } });
-        $('.sheet-body', m).innerHTML = `<div class="agent-reply"><span class="emblem"><img src="/flex-logo.png" alt=""></span><span>📬 ${esc(r.message)}</span></div>`;
+        $('.sheet-body', m).innerHTML = `<div class="agent-reply"><span class="emblem"><img src="/assets/fuel-agent/flex-logo-official.png" alt=""></span><span>📬 ${esc(r.message)}</span></div>`;
       } catch (ex) {
         $('.error', form).textContent = ex.message;
         btn.disabled = false;
@@ -337,7 +337,7 @@
         if (r.entry.status === 'counted') track('fuel_log_approved', { source: source });
         state.standing = r.standing;
         $('.sheet-body', m).innerHTML = `
-          <div class="agent-reply"><span class="emblem"><img src="/flex-logo.png" alt=""></span><span>${esc(r.reply)}</span></div>
+          <div class="agent-reply"><span class="emblem"><img src="/assets/fuel-agent/flex-logo-official.png" alt=""></span><span>${esc(r.reply)}</span></div>
           <div class="cta-stack" style="margin-top:16px"><a class="btn ghost wide" href="/fuel/agent/me">See my entries</a><button class="btn primary wide" type="button" data-act="done">Done</button></div>`;
         $('[data-act=done]', m).addEventListener('click', () => close(m));
         document.dispatchEvent(new CustomEvent('fuelagent:logged', { detail: r }));
@@ -360,13 +360,13 @@
     fab.className = 'chat-fab';
     fab.type = 'button';
     fab.setAttribute('aria-label', 'Chat with the ' + name);
-    fab.innerHTML = '<img src="/flex-logo.png" alt=""><span class="dot"></span>';
+    fab.innerHTML = '<img src="/assets/fuel-agent/flex-logo-official.png" alt=""><span class="dot"></span>';
     const panel = document.createElement('div');
     panel.className = 'chat-panel';
     panel.setAttribute('role', 'dialog');
     panel.setAttribute('aria-label', name + ' chat');
     panel.innerHTML = `
-      <div class="chat-head"><span class="emblem"><img src="/flex-logo.png" alt=""></span><div><b>${esc(name)}</b><small>AI coach · answers about this challenge</small></div><button type="button" class="x" aria-label="Close chat">✕</button></div>
+      <div class="chat-head"><span class="emblem"><img src="/assets/fuel-agent/flex-logo-official.png" alt=""></span><div><b>${esc(name)}</b><small>AI coach · answers about this challenge</small></div><button type="button" class="x" aria-label="Close chat">✕</button></div>
       <div class="chat-log" aria-live="polite"></div>
       <div class="chat-chips"></div>
       <form class="chat-form"><input type="text" maxlength="500" placeholder="Ask the ${esc(name)}…" aria-label="Message"><button type="submit">Send</button></form>`;
