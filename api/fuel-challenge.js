@@ -684,8 +684,8 @@ ${JSON.stringify({
     final_upload_deadline: challenge.final_upload_deadline, reward: challenge.reward_title,
     daily_step_cap_before_manual_review: challenge.daily_step_cap, rules: challenge.rules,
     coach_name: copy.coach_name, coach_total_steps: coachRow ? Number(coachRow.total_counted_steps) : null,
-    accepted_proof: ['photo of the stair machine display after the workout', 'screenshot from a watch app or phone health app'],
-    photo_tips: ['show the full screen with the step number', 'no crops, filters or edits', 'take it right after the workout', 'one upload per proof; the same day from two sources does not add up'],
+    accepted_proof: ['photo of the stair machine with the display switched to TOTAL STEPS', 'screenshot of the day’s Steps total from a watch app or phone health app'],
+    photo_tips: ['the image must show a total step count; steps per minute, time, calories, distance or pace alone will not count', 'stair machine: switch the console display to total steps before stepping off (many consoles cycle stats with a display button)', 'watch or phone: screenshot today’s Steps in the health or fitness app, not a workout summary', 'show the full screen', 'no crops, filters or edits', 'take it right after the workout', 'one upload per proof; the same day from two sources does not add up'],
   })}
 
 ${me ? `The person chatting is signed in (JSON): ${JSON.stringify({ display_name: me.participant.display_name, is_coach: me.participant.is_coach, ...me.standing })}. gap_to_coach > 0 means steps behind the coach; < 0 means ahead. To win they need strictly more than the coach.` : 'The person chatting is not signed in. If they ask about their own numbers, tell them to open their private My Challenge link or join first.'}`;
