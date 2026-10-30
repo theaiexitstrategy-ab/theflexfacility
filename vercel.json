@@ -16,7 +16,8 @@
     { "source": "/fuel/agent/me", "destination": "/fuel-agent-me.html" },
     { "source": "/fuel/agent/rules", "destination": "/fuel-agent-rules.html" },
     { "source": "/reviews", "destination": "/reviews.html" },
-    { "source": "/about", "destination": "/about.html" }
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/manual", "destination": "/manual.html" }
   ],
   "functions": {
     "api/fuel-challenge.js": {

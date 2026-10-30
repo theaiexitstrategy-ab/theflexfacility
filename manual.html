@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flex Fuel Coach Manual | The Flex Facility</title>
+<meta name="description" content="Coach Kenny's guide to Flex Fuel and the November Stair-Step Challenge: how it works, where everything lives, and what to do each day.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/assets/fuel-agent/flex-logo-official.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --paper: #f6f6f1;
+    --card: #ffffff;
+    --line: #111111;
+    --muted: #55554f;
+    --soft: #ecebe3;
+    --lime: #d8ff3a;
+    --quiet: #b3470b;
+  }
+  * { box-sizing: border-box; }
+  html { background: #2a2a28; }
+  body {
+    margin: 0;
+    background: #2a2a28;
+    color: var(--ink);
+    font: 15px/1.5 Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  a { color: inherit; }
+  h1, h2, h3, .display { font-family: 'Archivo Black', Inter, sans-serif; font-weight: 400; letter-spacing: -0.01em; }
+
+  .toolbar {
+    position: sticky; top: 0; z-index: 5;
+    display: flex; gap: 10px; align-items: center; justify-content: space-between;
+    padding: 10px 16px; background: #0f0f0f; color: #fff;
+    border-bottom: 1px solid #333;
+  }
+  .toolbar .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .08em; font-size: 13px; text-decoration: none; }
+  .toolbar img { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; }
+  .toolbar .actions { display: flex; gap: 8px; }
+  .btn {
+    display: inline-block; padding: 8px 14px; border-radius: 8px;
+    font: 600 13px Inter, sans-serif; text-decoration: none; cursor: pointer; border: 0;
+  }
+  .btn.lime { background: var(--lime); color: #0f0f0f; }
+  .btn.ghost { background: #262626; color: #fff; }
+
+  .sheets { padding: 24px 16px 48px; display: grid; gap: 24px; justify-items: center; }
+  .sheet {
+    width: 100%; max-width: 8.5in; min-height: 11in;
+    background: var(--paper); padding: 0.55in 0.7in 0.4in;
+    display: flex; flex-direction: column;
+    box-shadow: 0 6px 30px rgba(0,0,0,.35);
+  }
+  .sheet.dark { background: var(--ink); color: #fff; }
+  .sheet > .body { flex: 1; }
+  .foot {
+    margin-top: 18px; padding-top: 12px; border-top: 1px solid #cfcfc6;
+    display: flex; justify-content: space-between; gap: 12px; font-size: 12.5px; color: var(--muted);
+  }
+  .dark .foot { border-color: #2d2d2d; color: #a8a8a0; }
+
+  .eyebrow { font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: 12.5px; color: var(--muted); margin: 0 0 6px; }
+  .sheet h2 { font-size: 40px; line-height: 1.02; margin: 0 0 10px; }
+  .lede { font-size: 16px; color: #3a3a35; margin: 0 0 18px; max-width: 34em; }
+  .tag { display: inline-block; background: var(--lime); color: #0f0f0f; font-weight: 700; letter-spacing: .12em; font-size: 13px; padding: 7px 14px; border-radius: 6px; }
+  .url { font-weight: 700; white-space: nowrap; }
+  .hl { color: var(--lime); font-weight: 700; }
+
+  /* Cover */
+  .cover-top { display: flex; justify-content: space-between; align-items: center; }
+  .cover-top .brand { display: flex; align-items: center; gap: 16px; font-weight: 700; letter-spacing: .14em; font-size: 15px; }
+  .cover-top img { width: 84px; height: 84px; border-radius: 50%; border: 3px solid #fff; background: #000; }
+  .cover-top .kind { letter-spacing: .12em; font-size: 13px; color: #cfcfc6; }
+  .cover-main { display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; align-items: center; margin: 56px 0 40px; }
+  .cover-main .display { font-size: 108px; line-height: .9; margin: 18px 0 22px; }
+  .cover-main p { font-size: 21px; color: #e6e6e0; margin: 0; }
+  .phone { background: #2b2b2b; border: 3px solid #444; border-radius: 40px; padding: 16px; max-width: 320px; justify-self: end; width: 100%; }
+  .phone .screen { background: var(--paper); color: var(--ink); border-radius: 28px; padding: 18px 16px 22px; }
+  .phone .top { display: flex; justify-content: space-between; align-items: center; font-family: 'Archivo Black'; font-size: 15px; }
+  .phone .pill { background: #0f0f0f; color: var(--lime); font: 700 12.5px Inter; padding: 4px 9px; border-radius: 8px; }
+  .phone .bar { height: 7px; background: #e3e3dc; border-radius: 4px; margin: 10px 0 14px; }
+  .phone .bar i { display: block; height: 100%; width: 59%; background: #0f0f0f; border-radius: 4px; }
+  .phone .plate { background: #e6e4d9; border-radius: 14px; aspect-ratio: 1.25; display: grid; place-items: center; }
+  .phone .plate svg { width: 78%; }
+  .phone .msg { background: #0f0f0f; color: #fff; border-radius: 12px; padding: 11px 13px; font-size: 13.5px; margin: 12px 0 10px; }
+  .phone .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .phone .row span { text-align: center; padding: 9px; border-radius: 10px; font-weight: 700; font-size: 13.5px; background: #e3e3dc; }
+  .phone .row span:first-child { background: var(--lime); }
+  .phone .note { border: 1px solid #ddd; border-radius: 10px; padding: 9px 12px; font-size: 12.5px; margin-top: 10px; background: #fff; }
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .three div { border-top: 2px solid var(--lime); padding-top: 12px; }
+  .three b { display: block; font-size: 17px; }
+  .three span { color: #bdbdb5; font-size: 14.5px; }
+  .also { margin-top: 26px; display: flex; gap: 14px; align-items: center; background: #1b1b1b; border: 1px solid #333; border-radius: 12px; padding: 14px 18px; font-size: 14.5px; color: #e6e6e0; }
+  .also .tag { flex: none; }
+
+  /* Cards */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .card { background: var(--card); border: 2px solid var(--line); border-radius: 14px; padding: 20px 22px; }
+  .card.ink { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .card .num { float: right; font-family: 'Archivo Black'; font-size: 36px; color: #d8d6cb; line-height: 1; }
+  .card.ink .num { color: #3a3a3a; }
+  .card h3 { font-family: Inter; font-weight: 700; font-size: 19px; margin: 12px 0 6px; }
+  .card p { margin: 0; color: #3a3a35; font-size: 14.5px; }
+  .card.ink p { color: #e0e0da; }
+  .ico { width: 44px; height: 44px; border-radius: 10px; background: var(--lime); display: grid; place-items: center; }
+  .ico svg { width: 22px; height: 22px; stroke: #0f0f0f; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .ico.ink { background: var(--ink); }
+  .ico.ink svg { stroke: var(--lime); }
+  .quote { margin-top: 12px; background: var(--soft); border-radius: 9px; padding: 9px 12px; font-size: 13.5px; }
+  .card.ink .quote { background: #222; color: #fff; }
+
+  /* Where it lives strip */
+  .where { display: flex; gap: 14px; align-items: center; background: var(--ink); color: #fff; border-radius: 12px; padding: 14px 18px; margin: 18px 0; font-size: 14.5px; }
+  .where b { color: var(--lime); }
+  .path { display: inline-block; background: #262626; border-radius: 6px; padding: 2px 8px; font-weight: 600; color: #fff; }
+
+  /* Dashboard mock */
+  .browser { background: var(--ink); border-radius: 18px; padding: 14px 18px 18px; }
+  .browser .dots { display: flex; gap: 6px; margin-bottom: 10px; }
+  .browser .dots i { width: 10px; height: 10px; border-radius: 50%; background: #555; }
+  .browser .win { background: #fff; border-radius: 10px; padding: 18px; }
+  .browser .head { display: flex; justify-content: space-between; align-items: baseline; }
+  .browser .head h3 { margin: 0; font-size: 19px; }
+  .browser .head span { font-size: 12.5px; color: var(--muted); }
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 14px 0; }
+  .tiles div { background: var(--soft); border-radius: 10px; padding: 10px 12px; font-size: 12.5px; }
+  .tiles div:first-child { background: var(--lime); }
+  .tiles b { display: block; font-family: 'Archivo Black'; font-weight: 400; font-size: 22px; line-height: 1.1; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e2e2da; }
+  th { background: var(--soft); font-weight: 700; }
+  .ok { font-weight: 700; }
+  .ap { background: var(--lime); padding: 2px 8px; border-radius: 6px; font-weight: 700; }
+  .qu { color: var(--quiet); font-weight: 700; }
+  .feats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 28px; margin-top: 22px; }
+  .feat { display: flex; gap: 14px; }
+  .feat b { display: block; font-size: 16.5px; }
+  .feat span { color: #3a3a35; font-size: 14.5px; }
+
+  /* Onboarding */
+  .steps4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; text-align: center; }
+  .mini { background: #111; border-radius: 22px; padding: 7px; aspect-ratio: .62; margin-bottom: 10px; }
+  .mini .s { background: #fff; border-radius: 16px; height: 100%; padding: 10px; display: flex; flex-direction: column; font-size: 10px; text-align: left; }
+  .mini .s.d { background: #2a2a2a; }
+  .mini .addr { background: var(--soft); border-radius: 6px; padding: 4px 6px; font-weight: 600; }
+  .mini .t { font-family: 'Archivo Black'; font-size: 17px; line-height: 1; margin: 14px 0 8px; }
+  .mini .g { margin-top: auto; background: var(--lime); border-radius: 6px; text-align: center; padding: 6px; font-weight: 700; }
+  .mini .share { margin-top: auto; border-top: 1px solid #ddd; padding-top: 8px; display: flex; justify-content: center; }
+  .mini .share i { width: 30px; height: 30px; border-radius: 50%; background: #111; border: 3px solid var(--lime); }
+  .mini .sheetx { margin-top: auto; background: #fff; border-top: 1px solid #ddd; display: grid; gap: 5px; padding-top: 6px; }
+  .mini .sheetx span { background: var(--soft); border-radius: 4px; height: 12px; }
+  .mini .sheetx span.on { background: var(--lime); border: 1.5px solid #111; height: auto; padding: 4px; font-weight: 700; text-align: center; }
+  .mini .apps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 6px; }
+  .mini .apps i { aspect-ratio: 1; background: #555; border-radius: 6px; display: grid; place-items: center; font: 700 7.5px Inter; font-style: normal; }
+  .mini .apps i.f { background: var(--lime); color: #111; }
+  .steps4 .n { font-family: 'Archivo Black'; font-size: 22px; }
+  .steps4 p { margin: 4px 0 0; font-size: 13.5px; }
+  .guard h3 { display: flex; gap: 12px; align-items: center; font-family: 'Archivo Black'; font-weight: 400; font-size: 22px; margin: 0 0 12px; }
+  .guard .grid2 { gap: 10px 28px; font-size: 14.5px; }
+  .guard p { margin: 0; }
+  .tip { background: var(--ink); color: #fff; border-radius: 12px; padding: 16px 20px; margin-top: 18px; font-size: 14.5px; }
+  .tip b { color: var(--lime); }
+
+  /* Challenge */
+  .hero-ch { display: grid; grid-template-columns: 1fr 1.15fr; gap: 14px; }
+  .hero-ch .card { padding: 16px 18px; }
+  .hero-ch .card.ink p { font-size: 13.5px; }
+  .hero-ch .card.ink h3 { font-family: 'Archivo Black'; font-weight: 400; font-size: 21px; line-height: 1.05; margin: 10px 0 10px; }
+  .facts { display: grid; gap: 7px; margin: 0; }
+  .facts div { display: grid; grid-template-columns: 92px 1fr; gap: 8px; font-size: 14px; }
+  .facts dt { font-weight: 700; color: var(--muted); text-transform: uppercase; font-size: 11.5px; letter-spacing: .08em; padding-top: 2px; }
+  .facts dd { margin: 0; font-weight: 600; }
+  .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0; }
+  .flow .card { padding: 12px 14px; }
+  .flow .card p { font-size: 13.5px; }
+  .flow .card h3 { margin: 2px 0 4px; font-size: 16px; }
+  .flow .k { font-family: 'Archivo Black'; font-size: 20px; color: #cfcdc1; }
+  .proof { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .proof ul { margin: 4px 0 0; padding-left: 18px; font-size: 13.5px; }
+  .proof .card { padding: 12px 16px; }
+  .proof li { margin: 2px 0; }
+  .yes { border-left: 5px solid #3c8d2f; }
+  .no { border-left: 5px solid var(--quiet); }
+  .small { font-size: 13px; color: var(--muted); }
+
+  /* Kenny's daily job */
+  .jobs { display: grid; gap: 8px; }
+  .job { display: grid; grid-template-columns: 44px 1fr auto; gap: 14px; align-items: start; background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 8px 14px; }
+  .job > div > b { display: block; font-size: 16px; }
+  .job > div > span { font-size: 13.5px; color: #3a3a35; }
+  .job .when { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; background: var(--soft); padding: 4px 8px; border-radius: 6px; white-space: nowrap; }
+  .timeline { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 12px; }
+  .timeline div { position: relative; padding-top: 28px; padding-right: 10px; font-size: 13px; }
+  .timeline div::before { content: ''; position: absolute; top: 9px; left: 0; right: 0; height: 3px; background: #111; }
+  .timeline div::after { content: ''; position: absolute; top: 0; left: 0; width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 3px solid #111; }
+  .timeline div.on::after { background: var(--lime); }
+  .timeline b { display: block; font-size: 14px; }
+
+  /* Links */
+  .links td:first-child { font-weight: 700; width: 34%; }
+  .links td { vertical-align: top; padding: 5px 8px; font-size: 13px; }
+  .links .who { font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 2px 7px; border-radius: 5px; background: var(--soft); white-space: nowrap; }
+  .links .who.c { background: var(--lime); }
+  .links .who.k { background: #111; color: #fff; }
+
+  /* Cost */
+  .cost h3 { font-family: Inter; font-weight: 700; }
+  .price { font-family: 'Archivo Black'; font-size: 52px; line-height: 1; margin: 8px 0 4px; }
+  .opts { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 10px; font-size: 14.5px; }
+  .opts li { display: flex; gap: 12px; }
+  .opts i { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--lime); display: grid; place-items: center; font: 700 12px Inter; font-style: normal; }
+  .roll { display: grid; grid-template-columns: repeat(4, 1fr); margin: 10px 0 16px; }
+  .roll div { position: relative; padding-top: 50px; padding-right: 12px; font-size: 13.5px; }
+  .roll div::before { content: ''; position: absolute; top: 21px; left: 0; right: 0; height: 3px; background: #111; }
+  .roll div i { position: absolute; top: 0; left: 0; width: 44px; height: 44px; border-radius: 50%; border: 3px solid #111; background: #fff; display: grid; place-items: center; font: normal 400 17px 'Archivo Black'; }
+  .roll div:first-child i { background: var(--lime); }
+  .roll div:last-child i { background: #111; color: var(--lime); }
+  .roll b { display: block; font-size: 15px; }
+  .roll span { color: #3a3a35; }
+  .checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 5px; font-size: 14px; }
+  .checks li { display: flex; gap: 12px; align-items: flex-start; }
+  .checks li::before { content: ''; flex: none; width: 20px; height: 20px; border: 2px solid #111; border-radius: 5px; margin-top: 1px; }
+  .checks .sub { font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+  .checks .sub::before { display: none; }
+
+  @media screen and (max-width: 760px) {
+    .sheets { padding: 16px 0 32px; gap: 16px; }
+    .sheet { min-height: 0; padding: 32px 16px 24px; }
+    .sheet h2 { font-size: 32px; }
+    .cover-main { grid-template-columns: 1fr; margin: 32px 0; }
+    .cover-main .display { font-size: 72px; }
+    .cover-main p { font-size: 18px; }
+    .phone { justify-self: center; }
+    .grid2, .hero-ch, .proof, .feats, .flow { grid-template-columns: 1fr; }
+    .three { grid-template-columns: 1fr; gap: 14px; }
+    .steps4 { grid-template-columns: 1fr 1fr; }
+    .tiles { grid-template-columns: 1fr; }
+    .timeline, .roll { grid-template-columns: 1fr 1fr; row-gap: 16px; }
+    .job { grid-template-columns: 44px 1fr; }
+    .job .when { grid-column: 2; justify-self: start; }
+    .browser { padding: 10px; }
+    .browser .win { padding: 12px; overflow-x: auto; }
+    .toolbar .brand span { display: none; }
+    .where, .also { flex-direction: column; align-items: flex-start; }
+    .links td:first-child { width: auto; }
+    .url, .links a { white-space: normal; overflow-wrap: anywhere; }
+  }
+
+  @page { size: letter; margin: 0; }
+  @media print {
+    html, body { background: none; }
+    .toolbar { display: none; }
+    .sheets { padding: 0; gap: 0; display: block; }
+    .sheet { width: 8.5in; height: 11in; min-height: 0; max-width: none; box-shadow: none; page-break-after: always; break-after: page; overflow: hidden; }
+    .sheet:last-child { page-break-after: auto; break-after: auto; }
+    a { text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <a class="brand" href="/"><img src="/assets/fuel-agent/flex-logo-official.png" alt="The Flex Facility"><span>FLEX FUEL · COACH MANUAL</span></a>
+  <div class="actions">
+    <a class="btn ghost" href="/flex-fuel-coach-manual.pdf" download>Download PDF</a>
+    <button class="btn lime" type="button" onclick="window.print()">Print</button>
+  </div>
+</div>
+
+<main class="sheets">
+
+  <!-- 1. Cover -->
+  <section class="sheet dark">
+    <div class="body">
+      <div class="cover-top">
+        <div class="brand"><img src="/assets/fuel-agent/flex-logo-official.png" alt="The Flex Facility">THE FLEX FACILITY</div>
+        <div class="kind">COACH MANUAL</div>
+      </div>
+      <div class="cover-main">
+        <div>
+          <span class="tag">FOR COACH KENNY</span>
+          <h1 class="display">FLEX<br>FUEL</h1>
+          <p>Your clients snap their meals. The AI tracks the rest. You stay the coach.</p>
+        </div>
+        <div class="phone" aria-hidden="true">
+          <div class="screen">
+            <div class="top">FLEX FUEL <span class="pill">1,240 / 2,100</span></div>
+            <div class="bar"><i></i></div>
+            <div class="plate">
+              <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#fff" stroke="#d6d3c6" stroke-width="5"/><ellipse cx="108" cy="68" rx="36" ry="27" fill="#c8874a"/><rect x="48" y="104" width="84" height="46" rx="20" fill="#f8f6ef" stroke="#dcd8c9" stroke-width="3"/><circle cx="148" cy="112" r="12" fill="#4c8b39"/><circle cx="168" cy="126" r="11" fill="#4c8b39"/><circle cx="150" cy="136" r="10" fill="#4c8b39"/></svg>
+            </div>
+            <div class="msg">Grilled chicken, rice and broccoli. About <span class="hl">550 cal, 45g protein</span>. Log it?</div>
+            <div class="row"><span>Log it</span><span>Edit</span></div>
+            <div class="note">Protein goal is in reach. Keep showing up.</div>
+          </div>
+        </div>
+      </div>
+      <div class="three">
+        <div><b>Snap it</b><span>A photo logs the meal</span></div>
+        <div><b>Track it</b><span>Calories, protein, weight</span></div>
+        <div><b>Coach it</b><span>You see every client</span></div>
+      </div>
+      <div class="also">
+        <span class="tag">ALSO INSIDE</span>
+        <span>The <b>November Stair-Step Challenge</b>, Nov 1 to Nov 24. Clients join at <a class="url" href="https://www.theflexfacility.com/fuel/agent">theflexfacility.com/fuel/agent</a>. See pages 5 and 6.</span>
+      </div>
+    </div>
+    <div class="foot"><span><a href="https://fuel.theflexfacility.com">fuel.theflexfacility.com</a> · <a href="https://portal.goelev8.ai">portal.goelev8.ai</a></span><span>Built by GoElev8.ai</span></div>
+  </section>
+
+  <!-- 2. Client side -->
+  <section class="sheet">
+    <div class="body">
+      <p class="eyebrow">Page 2 · The client side</p>
+      <h2>How it works for your clients</h2>
+      <p class="lede">Six steps. The habit stays the same as texting you a photo, but now it's tracked automatically. Clients use it at <a class="url" href="https://fuel.theflexfacility.com">fuel.theflexfacility.com</a>.</p>
+      <div class="grid2">
+        <div class="card"><span class="num">01</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></div><h3>Quick intake chat</h3><p>2–3 minutes on first login. The AI asks about their body, goal, activity, food restrictions, and any health flags.</p></div>
+        <div class="card"><span class="num">02</span><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></div><h3>Daily targets set</h3><p>The AI sets a calorie and protein target. <b>You approve or edit it with one tap</b> before it goes live.</p></div>
+        <div class="card ink"><span class="num">03</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div><h3>Snap the meal</h3><p>Photo or typed. The AI estimates calories and macros, and the client confirms or fixes it.</p><div class="quote">"About 550 cal, 45g protein. Log it?"</div></div>
+        <div class="card"><span class="num">04</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/></svg></div><h3>Nudges + affirmations</h3><p>Reminders around meal times, plus motivation in their style: hype, calm, faith-based, or tough love.</p><div class="quote">"Haven't seen lunch yet. Snap it before you eat."</div></div>
+        <div class="card"><span class="num">05</span><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6v.6"/><path d="M12 17h.01"/></svg></div><h3>Ask anything</h3><p>Log a weigh-in, or ask "How am I doing today?" or "What should I eat for dinner to stay on track?"</p></div>
+        <div class="card"><span class="num">06</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 20h16M7 17V10M11 17V5M15 17v-6M19 17v-3"/></svg></div><h3>Monthly progress report</h3><p>On the 1st, every client gets a progress summary by email and inside the app.</p></div>
+      </div>
+    </div>
+    <div class="foot"><span>Flex Fuel · Coach Manual</span><span>2</span></div>
+  </section>
+
+  <!-- 3. Coach side -->
+  <section class="sheet">
+    <div class="body">
+      <p class="eyebrow">Page 3 · The coach side</p>
+      <h2>Your coach toolkit</h2>
+      <p class="lede">No more meal photos flooding your phone. You still see everything, from one screen.</p>
+      <div class="where">
+        <b>WHERE IT LIVES</b>
+        <span>Sign in at <a class="url" href="https://portal.goelev8.ai">portal.goelev8.ai</a>, then open <span class="path">Flex Fuel → Meals</span>. The same login runs the step challenge under <span class="path">Flex Fuel → Stair Challenge</span>.</span>
+      </div>
+      <div class="browser">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="win">
+          <div class="head"><h3 class="display">Coach dashboard</h3><span>Example view</span></div>
+          <div class="tiles">
+            <div>Needs approval<b>New targets</b></div>
+            <div>Logging this week<b>Active</b></div>
+            <div>Gone quiet<b>Check in</b></div>
+          </div>
+          <table>
+            <tr><th>Client</th><th>Goal</th><th>Last log</th><th>Status</th></tr>
+            <tr><td>[Client name]</td><td>Lose fat</td><td>Today</td><td class="ok">On track</td></tr>
+            <tr><td>[Client name]</td><td>Build muscle</td><td>Today</td><td class="ok">On track</td></tr>
+            <tr><td>[Client name]</td><td>Recomp</td><td>New client</td><td><span class="ap">Approve</span></td></tr>
+            <tr><td>[Client name]</td><td>Performance</td><td>5 days ago</td><td class="qu">Quiet</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="feats">
+        <div class="feat"><div class="ico ink"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><b>Approve targets</b><span>Every new client's calorie and protein target waits for your 10-second OK.</span></div></div>
+        <div class="feat"><div class="ico ink"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3 6"/></svg></div><div><b>See your whole roster</b><span>Who's logging, who's gone quiet, and who's trending toward their goal.</span></div></div>
+        <div class="feat"><div class="ico ink"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div><div><b>Monthly roster report</b><span>On the 1st, a summary of every client's progress lands in your email.</span></div></div>
+        <div class="feat"><div class="ico ink"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M4 4l16 16"/></svg></div><div><b>Your phone stays yours</b><span>Meal photos go to Flex Fuel, not your personal texts.</span></div></div>
+      </div>
+    </div>
+    <div class="foot"><span>Flex Fuel · Coach Manual</span><span>3</span></div>
+  </section>
+
+  <!-- 4. Onboarding -->
+  <section class="sheet">
+    <div class="body">
+      <p class="eyebrow">Page 4 · Onboarding</p>
+      <h2>Getting clients set up</h2>
+      <p class="lede">Do this with each client at the gym. It takes about 5 minutes. No App Store, no texting fees.</p>
+      <div class="steps4">
+        <div><div class="mini" aria-hidden="true"><div class="s"><span class="addr">fuel.theflexfacility.com</span><span class="t">FLEX<br>FUEL</span><span class="g">Get started</span></div></div><div class="n">1</div><p><b>Open the link</b> in Safari or Chrome: <a class="url" href="https://fuel.theflexfacility.com">fuel.theflexfacility.com</a></p></div>
+        <div><div class="mini" aria-hidden="true"><div class="s"><span class="share"><i></i></span></div></div><div class="n">2</div><p><b>Tap Share</b> (the square with the up arrow)</p></div>
+        <div><div class="mini" aria-hidden="true"><div class="s" style="background:#ddd"><span class="sheetx"><span></span><span class="on">Add to Home Screen</span><span></span><span></span></span></div></div><div class="n">3</div><p><b>Tap "Add to Home Screen."</b> Required on iPhone for reminders.</p></div>
+        <div><div class="mini" aria-hidden="true"><div class="s d"><span class="apps"><i></i><i></i><i></i><i></i><i class="f">FUEL</i><i></i></span></div></div><div class="n">4</div><p><b>Open from the icon</b>, allow notifications, and do the intake chat.</p></div>
+      </div>
+      <div class="card guard" style="margin-top:22px">
+        <h3><span class="ico ink"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></span>Built-in safety guardrails</h3>
+        <div class="grid2">
+          <p><b>Calorie floors.</b> Targets never go below about 1,200 for women and 1,500 for men. You can adjust these.</p>
+          <p><b>Weight-loss cap.</b> The AI limits how fast it targets weight loss.</p>
+          <p><b>Health check at intake.</b> Pregnancy, diabetes, conditions, and medications get flagged to you before you approve.</p>
+          <p><b>Not medical advice.</b> Photo counts are estimates. Flex Fuel is a coaching tool, not a dietitian.</p>
+        </div>
+      </div>
+      <div class="tip"><b>Coach tip:</b> If a client skips step 3, reminders still reach them by email. But home-screen setup gets the best results, so do it together. While you're there, have them join the step challenge too (page 5).</div>
+    </div>
+    <div class="foot"><span>Flex Fuel · Coach Manual</span><span>4</span></div>
+  </section>
+
+  <!-- 5. Stair-Step Challenge: how it works -->
+  <section class="sheet">
+    <div class="body">
+      <p class="eyebrow">Page 5 · The challenge</p>
+      <h2>November Stair-Step Challenge</h2>
+      <p class="lede">The Fuel Agent runs a month-long step challenge with you as the number to beat. It's free, and anyone can join, Flex Fuel user or not.</p>
+      <div class="hero-ch">
+        <div class="card ink">
+          <span class="tag">OUT-STEP COACH KENNY</span>
+          <h3>Beat your total, win a free pass to your Thanksgiving Boot Camp.</h3>
+          <p>Players log their steps every day. Anyone who finishes with <b>more</b> total steps than you earns the pass. A tie does not win. Your total is public all month.</p>
+        </div>
+        <div class="card">
+          <dl class="facts">
+            <div><dt>Dates</dt><dd>Sun Nov 1 to Tue Nov 24, 2026 (Central)</dd></div>
+            <div><dt>Last upload</dt><dd>Wed Nov 25, 12:00 PM Central</dd></div>
+            <div><dt>Reward</dt><dd>Free pass to Thanksgiving Boot Camp</dd></div>
+            <div><dt>Join</dt><dd><a href="https://www.theflexfacility.com/fuel/agent">theflexfacility.com/fuel/agent</a></dd></div>
+            <div><dt>Rules</dt><dd><a href="https://www.theflexfacility.com/fuel/agent/rules">theflexfacility.com/fuel/agent/rules</a></dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="flow">
+        <div class="card"><span class="k">1</span><h3>Join</h3><p>At <a class="url" href="https://www.theflexfacility.com/fuel/agent">theflexfacility.com/fuel/agent</a> with first name, last name and email.</p></div>
+        <div class="card"><span class="k">2</span><h3>Get their link</h3><p>A private <b>My Challenge</b> link arrives by email. It signs them in, so they keep it to themselves.</p></div>
+        <div class="card"><span class="k">3</span><h3>Log every day</h3><p>Upload proof of the day's total steps. The Fuel Agent reads the number, checks the photo and moves them up the live Top 10 board.</p></div>
+      </div>
+      <div class="proof">
+        <div class="card yes">
+          <b>Counts</b>
+          <ul>
+            <li>A photo of the stair machine with the display <b>switched to total steps</b></li>
+            <li>A screenshot of the day's Steps in a watch or phone health app (Apple Health/Fitness, Garmin, Fitbit, Samsung and others)</li>
+            <li>The full screen, no crops, filters or edits</li>
+          </ul>
+        </div>
+        <div class="card no">
+          <b>Doesn't count</b>
+          <ul>
+            <li>Steps per minute (the StairMaster's default display)</li>
+            <li>A workout summary with only time, calories, distance or pace</li>
+            <li>Edited, reused or AI-made images</li>
+            <li>Logging one day from two sources. Only the best entry per day counts</li>
+          </ul>
+        </div>
+      </div>
+      <p class="small" style="margin-top:14px">Each day can be logged until 36 hours after it ends. The leaderboard shows first name and last initial only. Photos, emails and phone numbers are never public.</p>
+    </div>
+    <div class="foot"><span>Flex Fuel · Coach Manual</span><span>5</span></div>
+  </section>
+
+  <!-- 6. Kenny's part + links -->
+  <section class="sheet">
+    <div class="body">
+      <p class="eyebrow">Page 6 · Your part in the challenge</p>
+      <h2>What you do, and where</h2>
+      <p class="lede">Everything is in <a class="url" href="https://portal.goelev8.ai">portal.goelev8.ai</a> under <span class="path" style="background:#111">Flex Fuel → Stair Challenge</span>.</p>
+      <div class="jobs">
+        <div class="job"><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 20h4v-4h4v-4h4V8h4"/></svg></div><div><b>Log your own stairs</b><span>Open <b>My Stairs</b> and enter your total for the day. You're the benchmark, so your number is the one everyone chases.</span></div><span class="when">Daily</span></div>
+        <div class="job"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/></svg></div><div><b>Clear the Review queue</b><span>Photos the agent couldn't confirm, and any day over 60,000 steps, wait in <b>Review</b>. Approve, reject, or approve with a corrected number. Players see "checking" until you do.</span></div><span class="when">Daily</span></div>
+        <div class="job"><div class="ico"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><b>Final checks</b><span>Anyone in the Top 10 or ahead of you gets every entry re-confirmed by you before a pass can go out. They show up in <b>Review</b> marked for a final check.</span></div><span class="when">Nov 25</span></div>
+        <div class="job"><div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M12 7v12M3 11h18"/></svg></div><div><b>Issue the boot camp passes</b><span>After the challenge ends, open <b>Rewards</b> to see who earned a pass, issue each one, and mark it used at the door.</span></div><span class="when">After Nov 25</span></div>
+      </div>
+      <div class="timeline">
+        <div class="on"><b>Now</b>Share the join link</div>
+        <div class="on"><b>Nov 1</b>Challenge opens</div>
+        <div><b>Nov 24</b>Last day to step</div>
+        <div><b>Nov 25, noon</b>Last upload, final checks</div>
+        <div><b>Boot Camp</b>Winners redeem passes</div>
+      </div>
+
+      <h3 style="font-size:20px;margin:12px 0 4px">Every link in one place</h3>
+      <table class="links">
+        <tr><td><a href="https://fuel.theflexfacility.com">fuel.theflexfacility.com</a></td><td>The Flex Fuel app. Meal photos, targets, nudges, weigh-ins.</td><td><span class="who c">Clients</span></td></tr>
+        <tr><td><a href="https://www.theflexfacility.com/fuel/agent">theflexfacility.com/fuel/agent</a></td><td>Join the challenge, live leaderboard, chat with the Fuel Agent.</td><td><span class="who c">Clients</span></td></tr>
+        <tr><td><a href="https://www.theflexfacility.com/fuel/agent/rules">theflexfacility.com/fuel/agent/rules</a></td><td>Official challenge rules.</td><td><span class="who c">Clients</span></td></tr>
+        <tr><td>Private My Challenge link</td><td>Emailed on join. Lost it? The join page can email it again.</td><td><span class="who c">Clients</span></td></tr>
+        <tr><td><a href="https://portal.goelev8.ai">portal.goelev8.ai</a></td><td>Your dashboard. Flex Fuel → Meals for clients, Flex Fuel → Stair Challenge for the challenge.</td><td><span class="who k">You</span></td></tr>
+        <tr><td><a href="https://www.theflexfacility.com/manual">theflexfacility.com/manual</a></td><td>This manual, always up to date.</td><td><span class="who k">You</span></td></tr>
+      </table>
+    </div>
+    <div class="foot"><span>Flex Fuel · Coach Manual</span><span>6</span></div>
+  </section>
+
+  <!-- 7. Cost, rollout, decisions -->
+  <section class="sheet">
+    <div class="body cost">
+      <p class="eyebrow">Page 7 · Next steps</p>
+      <h2>Cost, rollout and decisions</h2>
+      <div class="grid2" style="margin-top:12px">
+        <div class="card ink">
+          <span class="hl" style="letter-spacing:.1em;font-size:13px">PROPOSED COST</span>
+          <div class="price">~$50</div>
+          <b>per month, all clients</b>
+          <p style="margin-top:8px">Covers the AI cost, about $0.50–$1 per active client, or roughly $30–$60 for 60 clients.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0">Three ways you can use it</h3>
+          <ul class="opts">
+            <li><i>A</i><span><b>Free perk</b> for every client, to keep people around longer.</span></li>
+            <li><i>B</i><span><b>Built into packages</b> as part of your training price.</span></li>
+            <li><i>C</i><span><b>Paid add-on</b> sold as premium nutrition coaching.</span></li>
+          </ul>
+        </div>
+      </div>
+      <h3 style="margin:16px 0 0;font-size:17px">Rollout plan</h3>
+      <div class="roll">
+        <div><i>1</i><b>Pick the pilot</b><span>8–10 of your most consistent clients.</span></div>
+        <div><i>2</i><b>Onboard in person</b><span>Walk each one through page 4 at the gym.</span></div>
+        <div><i>3</i><b>Review together</b><span>Check logging, accuracy and feedback. Fix what's off.</span></div>
+        <div><i>4</i><b>Full roster</b><span>Roll out to all 60 clients.</span></div>
+      </div>
+      <p class="small" style="margin:-8px 0 12px">The step challenge doesn't wait on the pilot. It's open to everyone from Nov 1, and it's an easy way to get the whole roster using the Fuel Agent.</p>
+      <div class="card">
+        <h3 class="display" style="font-family:'Archivo Black';font-weight:400;font-size:22px;margin:0 0 12px">Your decisions, Coach</h3>
+        <ul class="checks">
+          <li class="sub">Flex Fuel</li>
+          <li>Is the flat ~$50/month for all clients good?</li>
+          <li>Option A, B or C from above?</li>
+          <li>Any clients under 18? Parent consent, or leave them out?</li>
+          <li>Keep the default calorie floors, or set your own?</li>
+          <li>Check the dashboard weekly, or just the monthly report?</li>
+          <li>Which 8–10 clients are in the pilot?</li>
+          <li class="sub">Stair-Step Challenge</li>
+          <li>Cap the number of free boot camp passes, or does everyone who beats you get one? (No cap right now.)</li>
+          <li>Who clears the Review queue each day in November: you, or someone on your team?</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot"><span>Questions? Aaron Bryant · <a href="mailto:ab@goelev8.ai">ab@goelev8.ai</a> · <a href="tel:+13146569001">(314) 656-9001</a></span><span>7</span></div>
+  </section>
+
+</main>
+</body>
+</html>
