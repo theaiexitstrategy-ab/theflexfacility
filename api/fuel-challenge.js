@@ -161,11 +161,17 @@ async function loadChallengeById(supabase, id) {
 // Token → participant + challenge, or 401.
 async function auth(supabase, token) {
   if (!token || typeof token !== 'string' || token.length > 100) throw new HttpError(401, 'signed_out');
-  const { data: participant, error } = await supabase
+  // The newest link or one of the last few (see emailFreshLink), so a
+  // player stays signed in on every browser they've opened a link in.
+  const hash = sha256(token); // hex only, safe inside the filter string
+  const { data: rows, error } = await supabase
     .from('fuel_challenge_participants')
     .select('id, client_id, challenge_id, first_name, display_name, email, is_coach, status')
-    .eq('client_id', CLIENT_ID).eq('access_token_hash', sha256(token)).maybeSingle();
+    .eq('client_id', CLIENT_ID)
+    .or(`access_token_hash.eq.${hash},prior_token_hashes.cs.{${hash}}`)
+    .limit(1);
   if (error) throw new Error('participant lookup: ' + error.message);
+  const participant = rows?.[0];
   if (!participant) throw new HttpError(401, 'signed_out');
   const challenge = await loadChallengeById(supabase, participant.challenge_id);
   return { participant, challenge };
@@ -419,21 +425,34 @@ async function findFuelProfile(supabase, email) {
   }
 }
 
+// How many older links keep working after a new one is sent.
+const PRIOR_LINKS_KEPT = 4;
+
+// Sends a new link without signing out the old ones: the previous hash
+// moves into prior_token_hashes. If the email fails, nothing is lost.
 async function emailFreshLink(supabase, challenge, participantId) {
   const token = newToken();
+  const { data: cur, error: curErr } = await supabase
+    .from('fuel_challenge_participants').select('access_token_hash, prior_token_hashes')
+    .eq('client_id', CLIENT_ID).eq('id', participantId).single();
+  if (curErr) throw new Error('token lookup: ' + curErr.message);
+  const prior = [cur.access_token_hash, ...(cur.prior_token_hashes || [])]
+    .filter(Boolean).slice(0, PRIOR_LINKS_KEPT);
   const { data: participant, error } = await supabase
     .from('fuel_challenge_participants')
-    .update({ access_token_hash: sha256(token) })
+    .update({ access_token_hash: sha256(token), prior_token_hashes: prior })
     .eq('client_id', CLIENT_ID).eq('id', participantId)
     .select('id, first_name, email').single();
   if (error) throw new Error('token rotate: ' + error.message);
   const link = `${TENANT.siteUrl}${TENANT.agentPath}/me?t=${encodeURIComponent(token)}`;
-  await logEvent(supabase, { challenge_id: challenge.id, participant_id: participantId, event_type: 'link_emailed', payload: {} });
+  let sent = true;
   try {
     await sendWelcomeEmail({ participant, challenge, link });
   } catch (e) {
+    sent = false;
     console.error('[fuel-challenge] link email failed:', e.message);
   }
+  await logEvent(supabase, { challenge_id: challenge.id, participant_id: participantId, event_type: sent ? 'link_emailed' : 'link_email_failed', payload: {} });
 }
 
 async function handleResendLink(req, res, supabase) {
@@ -453,7 +472,7 @@ async function handleResendLink(req, res, supabase) {
     .eq('client_id', CLIENT_ID).eq('challenge_id', challenge.id).eq('email', email).maybeSingle();
   if (p && p.status === 'active') await emailFreshLink(supabase, challenge, p.id);
   // Same answer either way, so this can't be used to test who's in.
-  return res.status(200).json({ ok: true, message: "If that email is in the challenge, a new link is on its way. It replaces your old link." });
+  return res.status(200).json({ ok: true, message: "If that email is in the challenge, a new link is on its way. Check your spam folder too." });
 }
 
 async function countRecentByIp(supabase, eventType, ip, since) {
