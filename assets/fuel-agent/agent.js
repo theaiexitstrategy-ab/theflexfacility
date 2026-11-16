@@ -187,13 +187,16 @@
           setToken(r.token);
           track('fuel_join', { method: 'form' });
           $('.sheet-body', m).innerHTML = `
-            <div class="agent-reply"><span class="emblem"><img src="/assets/fuel-agent/flex-logo-official.png" alt=""></span><span>You're in, ${esc(r.display_name)} 🙌🏾 ${r.emailed ? 'Your private link is in your email too.' : ''}</span></div>
-            <p class="muted small" style="margin:14px 0">This phone stays signed in. Log your steps after every workout.</p>
+            <div class="agent-reply"><span class="emblem"><img src="/assets/fuel-agent/flex-logo-official.png" alt=""></span><span>You're in, ${esc(r.display_name)} 🙌🏾</span></div>
+            <p class="muted small" style="margin:14px 0">This phone stays signed in. On another phone, sign in with your email and the challenge password. Log your steps after every workout.</p>
             <div class="cta-stack"><button class="btn primary wide" type="button" data-act="log">Log steps</button><a class="btn ghost wide" href="/fuel/agent/me">My Challenge</a></div>`;
           $('[data-act=log]', m).addEventListener('click', () => { close(m); openLog(); });
           document.dispatchEvent(new CustomEvent('fuelagent:signedin'));
         } else {
-          $('.sheet-body', m).innerHTML = '<div class="agent-reply"><span class="emblem"><img src="/assets/fuel-agent/flex-logo-official.png" alt=""></span><span>You\'re already in! 📬 We just emailed you a fresh link to sign in on this phone.</span></div>';
+          // Already in: go straight to sign-in with the email filled in.
+          const joinedEmail = $('#j-email', form).value;
+          close(m);
+          openLink(joinedEmail, "You're already in! Enter the challenge password to sign in.");
         }
       } catch (ex) {
         err.textContent = ex.message;
@@ -203,28 +206,40 @@
     });
   }
 
-  // ─── Email me my link ─────────────────────────────────────────────
-  function openLink() {
-    const m = modal('fa-link', 'Sign in on this phone', `
-      <p class="muted">Enter the email you joined with and we'll send your private My Challenge link.</p>
+  // ─── Sign in: email + the shared challenge password ──────────────
+  function openLink(prefillEmail, notice) {
+    const m = modal('fa-link', 'Sign in', `
+      <p class="muted">${notice ? esc(notice) : 'Use the email you joined with and the challenge password.'}</p>
       <form novalidate>
-        <div class="field"><label for="l-email">Email</label><input id="l-email" type="email" autocomplete="email" inputmode="email" required></div>
+        <div class="field"><label for="l-email">Email</label><input id="l-email" type="email" autocomplete="username" inputmode="email" autocapitalize="off" required></div>
+        <div class="field"><label for="l-pass">Password</label><input id="l-pass" type="password" autocomplete="current-password" autocapitalize="characters" required></div>
         <p class="error" role="alert"></p>
-        <button class="btn primary wide" type="submit">Email my link</button>
+        <button class="btn primary wide" type="submit">Sign in</button>
         <p class="small muted" style="margin-top:14px">Not in yet? <button type="button" class="linkbtn" data-act="join">Join the challenge</button></p>
       </form>`);
     const form = $('form', m);
+    if (typeof prefillEmail === 'string' && prefillEmail) {
+      $('#l-email', form).value = prefillEmail;
+      setTimeout(() => $('#l-pass', form).focus(), 60);
+    }
     $('[data-act=join]', m).addEventListener('click', () => { close(m); openJoin(); });
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = $('button[type=submit]', form);
+      const err = $('.error', form);
+      err.textContent = '';
       btn.disabled = true;
+      btn.textContent = 'Signing in…';
       try {
-        const r = await api('resend-link', { body: { slug: SLUG, email: $('#l-email', form).value } });
-        $('.sheet-body', m).innerHTML = `<div class="agent-reply"><span class="emblem"><img src="/assets/fuel-agent/flex-logo-official.png" alt=""></span><span>📬 ${esc(r.message)}</span></div>`;
+        const r = await api('login', { body: { slug: SLUG, email: $('#l-email', form).value, password: $('#l-pass', form).value } });
+        setToken(r.token);
+        track('fuel_login', { method: 'password' });
+        close(m);
+        document.dispatchEvent(new CustomEvent('fuelagent:signedin'));
       } catch (ex) {
-        $('.error', form).textContent = ex.message;
+        err.textContent = ex.message;
         btn.disabled = false;
+        btn.textContent = 'Sign in';
       }
     });
   }
