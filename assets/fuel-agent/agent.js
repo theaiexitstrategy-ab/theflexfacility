@@ -212,7 +212,7 @@
       <p class="muted">${notice ? esc(notice) : 'Use the email you joined with and the challenge password.'}</p>
       <form novalidate>
         <div class="field"><label for="l-email">Email</label><input id="l-email" type="email" autocomplete="username" inputmode="email" autocapitalize="off" required></div>
-        <div class="field"><label for="l-pass">Password</label><input id="l-pass" type="password" autocomplete="current-password" autocapitalize="characters" required></div>
+        <div class="field"><label for="l-pass">Password</label><div class="pw-wrap"><input id="l-pass" type="password" autocomplete="current-password" autocapitalize="characters" required><button type="button" class="pw-eye" aria-label="Show password" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
         <p class="error" role="alert"></p>
         <button class="btn primary wide" type="submit">Sign in</button>
         <p class="small muted" style="margin-top:14px">Not in yet? <button type="button" class="linkbtn" data-act="join">Join the challenge</button></p>
@@ -222,6 +222,17 @@
       $('#l-email', form).value = prefillEmail;
       setTimeout(() => $('#l-pass', form).focus(), 60);
     }
+    // Eye button: show or hide what was typed.
+    const pass = $('#l-pass', form);
+    const eye = $('.pw-eye', form);
+    eye.addEventListener('click', () => {
+      const show = pass.type === 'password';
+      pass.type = show ? 'text' : 'password';
+      eye.setAttribute('aria-pressed', String(show));
+      eye.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+      eye.innerHTML = show ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.7 10.7 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.2M6.6 6.6C3.9 8.4 2 12 2 12s3.5 7 10 7a9.8 9.8 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+      pass.focus();
+    });
     $('[data-act=join]', m).addEventListener('click', () => { close(m); openJoin(); });
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
