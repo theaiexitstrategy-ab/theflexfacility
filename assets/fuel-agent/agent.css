@@ -145,10 +145,17 @@ footer.site nav a { color: var(--muted); text-decoration: none; padding: 6px 0; 
 /* Forms */
 .field { display: grid; gap: 6px; margin-bottom: 14px; }
 .field label, .field .label { font-size: 14px; font-weight: 600; color: var(--muted); }
-.field input[type=text], .field input[type=email], .field input[type=tel], .field input[type=number], .field select {
+.field input[type=text], .field input[type=email], .field input[type=password], .field input[type=tel], .field input[type=number], .field select {
   width: 100%; min-height: 50px; padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--card-2); color: var(--text); font-size: 16px;
 }
 .field input:focus, .field select:focus { border-color: var(--gold); outline: none; }
+/* Password with a show/hide eye inside the box. */
+.pw-wrap { position: relative; }
+.field .pw-wrap input { padding-right: 52px; }
+.pw-eye { position: absolute; top: 50%; right: 4px; transform: translateY(-50%); width: 44px; height: 44px; display: grid; place-items: center; border: 0; background: none; color: var(--muted); cursor: pointer; border-radius: 10px; }
+.pw-eye:hover, .pw-eye[aria-pressed=true] { color: var(--gold); }
+.pw-eye:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+.pw-eye svg { width: 22px; height: 22px; }
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--muted); margin: 6px 0 16px; }
 .check input { width: 22px; height: 22px; accent-color: var(--gold); flex: none; margin-top: 1px; }
