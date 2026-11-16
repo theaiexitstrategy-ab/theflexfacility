@@ -661,6 +661,14 @@ div[class*="vapi"] button {
 </section>
 
 <!-- TESTIMONIALS -->
+<section class="events-section" id="events" data-events-section style="display:none;padding:90px 24px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-tag">What's Coming Up</div>
+    <h2 class="section-title">Upcoming <span class="accent">Events</span></h2>
+    <div data-goelev8-events="flex-facility" data-title="" data-accent="var(--red)" data-theme="dark" style="margin-top:32px;"></div>
+  </div>
+</section>
+
 <section class="testimonials">
   <div class="testi-inner">
     <div class="section-tag reveal">Results That Speak</div>
@@ -1025,5 +1033,14 @@ window.addEventListener('scroll', () => {
   else { nav.style.boxShadow = 'none'; }
 });
 </script>
+<!-- GoElev8 events: published from the portal (Bookings → Events).
+     The section stays hidden until there's at least one upcoming event. -->
+<script>
+  document.addEventListener('goelev8:events', function (e) {
+    var s = e.target.closest('[data-events-section]');
+    if (s && e.detail && e.detail.count) s.style.display = '';
+  });
+</script>
+<script src="https://portal.goelev8.ai/embed/events.js" async></script>
 </body>
 </html>
