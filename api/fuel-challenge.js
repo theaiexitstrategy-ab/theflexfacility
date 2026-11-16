@@ -7,6 +7,7 @@
 //   GET  ?action=challenge&slug=           config + effective status + countdown instants
 //   GET  ?action=leaderboard&slug=         Top 10 + coach row + participant count (CDN 30s)
 //   POST ?action=join                      { slug, first_name, last_name, email, phone?, consent }
+//   POST ?action=login                     { slug, email, password } → signed-in token
 //   POST ?action=resend-link               { slug, email } — emails a fresh private link
 //   POST ?action=upload-url                { t, filename, mime } → one-time signed upload URL
 //   POST ?action=submit-entry              { t, entry_date, source, claimed_steps, image_path }
@@ -28,6 +29,11 @@
 // sha256 is stored. The token rides in the private link (/fuel/agent/me?t=)
 // and in the browser's localStorage.
 //
+// Password sign-in: every player uses their email plus the shared challenge
+// password (FUEL_CHALLENGE_PASSWORD, default STAIRS, any case). That returns
+// a signed token ("s1.<participant id>.<hmac>") checked by signature, so it
+// never expires and signing in on one phone never signs out another.
+//
 // Photos never pass through this function (Vercel caps bodies at 4.5 MB):
 // the browser PUTs straight to Supabase Storage with a signed upload URL,
 // then submit-entry downloads the object server-side to verify it.
@@ -46,7 +52,7 @@ const { createClient } = require('@supabase/supabase-js');
 const { TENANT } = require('../lib/fuel/tenant');
 const { verifyStepImage, checkWindow, sniffMime } = require('../lib/fuel/verifyStepImage');
 const { askText, ClaudeError } = require('../lib/fuel/claude');
-const { sendWelcomeEmail, sendRewardEmail } = require('../lib/fuel/challengeEmails');
+const { sendWelcomeEmail, sendRewardEmail, challengePassword } = require('../lib/fuel/challengeEmails');
 const { localDate, startOfDay, endOfDay, shortDate, isIsoDate } = require('../lib/fuel/time');
 
 const CLIENT_ID = TENANT.clientId;
@@ -94,6 +100,18 @@ function ipHash(req) {
 
 const sha256 = (s) => crypto.createHash('sha256').update(String(s)).digest('hex');
 const newToken = () => crypto.randomBytes(24).toString('base64url');
+const LOGINS_FAILED_PER_IP_HOUR = 10;
+const SESSION_PREFIX = 's1.';
+const sessionKey = () => process.env.FUEL_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || '';
+const sessionSig = (id) => crypto.createHmac('sha256', sessionKey()).update('fuel-session:' + id).digest('base64url');
+const sessionToken = (id) => SESSION_PREFIX + id + '.' + sessionSig(id);
+// Participant id from a valid signed token, or null.
+function sessionParticipantId(token) {
+  if (!token.startsWith(SESSION_PREFIX) || !sessionKey()) return null;
+  const [id, sig] = token.slice(SESSION_PREFIX.length).split('.');
+  if (!/^[0-9a-f-]{36}$/i.test(id || '') || !sig) return null;
+  return secretMatches(sig, sessionSig(id)) ? id : null;
+}
 const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v || '').trim());
 const steps = (n) => Number(n || 0).toLocaleString('en-US');
 
@@ -161,15 +179,21 @@ async function loadChallengeById(supabase, id) {
 // Token → participant + challenge, or 401.
 async function auth(supabase, token) {
   if (!token || typeof token !== 'string' || token.length > 100) throw new HttpError(401, 'signed_out');
-  // The newest link or one of the last few (see emailFreshLink), so a
-  // player stays signed in on every browser they've opened a link in.
-  const hash = sha256(token); // hex only, safe inside the filter string
-  const { data: rows, error } = await supabase
+  let q = supabase
     .from('fuel_challenge_participants')
     .select('id, client_id, challenge_id, first_name, display_name, email, is_coach, status')
-    .eq('client_id', CLIENT_ID)
-    .or(`access_token_hash.eq.${hash},prior_token_hashes.cs.{${hash}}`)
-    .limit(1);
+    .eq('client_id', CLIENT_ID);
+  const sessionId = sessionParticipantId(token);
+  if (sessionId) {
+    // Password sign-in: the signature is the proof.
+    q = q.eq('id', sessionId);
+  } else {
+    // Emailed link: the newest one or one of the last few (see
+    // emailFreshLink), so older links keep working.
+    const hash = sha256(token); // hex only, safe inside the filter string
+    q = q.or(`access_token_hash.eq.${hash},prior_token_hashes.cs.{${hash}}`);
+  }
+  const { data: rows, error } = await q.limit(1);
   if (error) throw new Error('participant lookup: ' + error.message);
   const participant = rows?.[0];
   if (!participant) throw new HttpError(401, 'signed_out');
@@ -256,6 +280,7 @@ const ROUTES = {
   'GET challenge': handleChallenge,
   'GET leaderboard': handleLeaderboard,
   'POST join': handleJoin,
+  'POST login': handleLogin,
   'POST resend-link': handleResendLink,
   'POST upload-url': handleUploadUrl,
   'POST submit-entry': handleSubmitEntry,
@@ -366,9 +391,8 @@ async function handleJoin(req, res, supabase) {
     .from('fuel_challenge_participants').select('id')
     .eq('client_id', CLIENT_ID).eq('challenge_id', challenge.id).eq('email', email).maybeSingle();
   if (existing) {
-    // Never hand a token to whoever typed the email; mail it instead.
-    await emailFreshLink(supabase, challenge, existing.id);
-    return res.status(200).json({ ok: true, existing: true, emailed: true });
+    // Already in: sign in with the password instead of joining twice.
+    return res.status(200).json({ ok: true, existing: true, emailed: false });
   }
 
   const token = newToken();
@@ -453,6 +477,31 @@ async function emailFreshLink(supabase, challenge, participantId) {
     console.error('[fuel-challenge] link email failed:', e.message);
   }
   await logEvent(supabase, { challenge_id: challenge.id, participant_id: participantId, event_type: sent ? 'link_emailed' : 'link_email_failed', payload: {} });
+}
+
+async function handleLogin(req, res, supabase) {
+  const b = body(req);
+  const challenge = await loadChallenge(supabase, b.slug);
+  const email = String(b.email || '').trim().toLowerCase();
+  if (!isEmail(email)) throw bad('invalid_email', 'Enter the email you joined with.');
+  const ip = ipHash(req);
+  const since = new Date(Date.now() - 3600_000);
+  if (await countRecentByIp(supabase, 'login_failed', ip, since) >= LOGINS_FAILED_PER_IP_HOUR) {
+    throw new HttpError(429, 'rate_limited', 'Too many tries. Wait an hour, or ask Coach Kenny for help.');
+  }
+  const passwordOk = secretMatches(String(b.password || '').trim().toUpperCase(), challengePassword());
+  const { data: p, error } = passwordOk ? await supabase
+    .from('fuel_challenge_participants').select('id, display_name, status')
+    .eq('client_id', CLIENT_ID).eq('challenge_id', challenge.id).eq('email', email).maybeSingle()
+    : { data: null, error: null };
+  if (error) throw new Error('login lookup: ' + error.message);
+  if (!p) {
+    await logEvent(supabase, { challenge_id: challenge.id, event_type: 'login_failed', payload: { ip_hash: ip, reason: passwordOk ? 'no_such_email' : 'bad_password' } });
+    if (!passwordOk) throw new HttpError(401, 'bad_password', "That password isn't right. Ask Coach Kenny for the challenge password.");
+    throw new HttpError(404, 'not_joined', "We couldn't find that email in the challenge. Check the spelling, or join first.");
+  }
+  await logEvent(supabase, { challenge_id: challenge.id, participant_id: p.id, event_type: 'login', payload: {} });
+  return res.status(200).json({ ok: true, token: sessionToken(p.id), display_name: p.display_name });
 }
 
 async function handleResendLink(req, res, supabase) {
