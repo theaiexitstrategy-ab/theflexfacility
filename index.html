@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <link rel="icon" href="/flex-logo.png">
 <title>The Flex Facility — Elite Athletic Performance Training</title>
+<meta name="description" content="Small-group athletic performance training with Coach Kenny Sims in Earth City, MO. Speed, strength, explosiveness and NIL-ready training. Book a free 20-minute assessment.">
+<meta name="theme-color" content="#0A0A0B">
+<meta property="og:title" content="The Flex Facility — Elite Athletic Performance Training">
+<meta property="og:description" content="Speed, strength and explosiveness training for competitive athletes. Claim a free athletic performance assessment with Coach Kenny.">
+<meta property="og:image" content="/images/kenny-flex.webp">
 <!-- GoElev8 Portal embed — lead tracking (portal.goelev8.ai is the source of truth) -->
 <script>
   window.GoElev8 = {
@@ -16,19 +21,10 @@
   };
 </script>
 <script src="https://portal.goelev8.ai/embed/track.js" async></script>
-<!-- Seasonal theme: Halloween look runs Oct 1–31 (visitor's local date) and
-     switches itself off Nov 1. Preview any time with ?theme=halloween;
-     force it off with ?theme=off. Styles live under html.halloween below. -->
-<script>
-  (function () {
-    var q = new URLSearchParams(location.search).get('theme');
-    if (q === 'halloween' || (q !== 'off' && new Date().getMonth() === 9)) {
-      document.documentElement.classList.add('halloween');
-    }
-  })();
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="/images/kenny-flex.webp">
 <!-- Vapi Widget -->
 <script
   src="https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js"
@@ -51,378 +47,474 @@
   });
 </script>
 <style>
+  /* ───────────────────────── TOKENS ───────────────────────── */
   :root {
+    --ink: #0A0A0B;
+    --ink-2: #111113;
+    --ink-3: #18181B;
+    --ink-4: #222226;
+    --line: rgba(255,255,255,0.08);
+    --line-2: rgba(255,255,255,0.14);
+    --bone: #F4F3EF;
+    --chalk: #EEECE6;
+    --chalk-2: #E2DFD7;
+    --text: #F4F3EF;
+    --mute: #A3A3A8;
+    --mute-2: #75757B;
     --red: #E8200A;
-    --red-dark: #B51A08;
-    --red-light: #FF3D24;
-    --red-rgb: 232,32,10; /* same as --red; used for the rgba() tints */
-    --black: #080808;
-    --dark: #111;
-    --card: #141414;
-    --border: rgba(var(--red-rgb),0.2);
-    --text: #F5F5F5;
-    --muted: #888;
-    --white: #ffffff;
+    --red-hot: #FF3B1F;
+    --red-deep: #9E1505;
+    --red-rgb: 232,32,10;
+    --radius: 22px;
+    --radius-sm: 14px;
+    --wrap: 1240px;
+    --gutter: clamp(16px, 4vw, 40px);
+    --display: 'Archivo', 'Arial Narrow', sans-serif;
+    --body: 'Archivo', system-ui, sans-serif;
+    --mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --ease: cubic-bezier(.2,.7,.1,1);
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'Barlow', sans-serif; background: var(--black); color: var(--text); overflow-x: hidden; }
-  body::before { content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); opacity: 0.6; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { font-family: var(--body); font-stretch: 100%; background: var(--ink); color: var(--text); overflow-x: hidden; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--red-hot); outline-offset: 3px; border-radius: 6px; }
+  [id] { scroll-margin-top: 96px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
+  .wrap > *, .hero-grid > *, .assess-grid > *, .coach-grid > *, .nil-grid > * { min-width: 0; }
+  .icon { width: 1em; height: 1em; flex-shrink: 0; }
 
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(8,8,8,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-  .nav-logo { display: flex; align-items: center; text-decoration: none; }
-  .nav-logo img { height: 44px; width: 44px; object-fit: contain; opacity: 0.92; transition: opacity 0.2s; }
-  .nav-logo img:hover { opacity: 1; }
-  .nav-cta { background: var(--red); color: var(--white); border: none; padding: 10px 24px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-decoration: none; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
-  .nav-cta:hover { background: var(--red-light); transform: translateY(-1px); }
+  /* film grain over everything — keeps flat blacks from feeling digital */
+  body::after { content: ''; position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.05; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
-  .hero { min-height: 100vh; position: relative; display: flex; align-items: center; overflow: hidden; padding-top: 70px; }
-  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 30% 50%, rgba(var(--red-rgb),0.1) 0%, transparent 60%), radial-gradient(ellipse 50% 80% at 80% 20%, rgba(var(--red-rgb),0.05) 0%, transparent 50%), linear-gradient(160deg, #0a0a0a 0%, #120503 50%, #080808 100%); }
-  .hero-watermark {
-    position: absolute; right: 3%; top: 50%; transform: translateY(-50%);
-    width: clamp(280px, 38vw, 500px);
-    opacity: 0.06;
-    pointer-events: none; user-select: none;
-  }
-  .hero-watermark img { width: 100%; height: auto; display: block; }
+  /* ───────────────────────── TYPE ───────────────────────── */
+  .display { font-family: var(--display); font-stretch: 62%; font-weight: 900; text-transform: uppercase; line-height: 0.86; letter-spacing: -0.005em; }
+  .display em { font-style: normal; color: var(--red); }
+  .stroke { color: transparent; -webkit-text-stroke: 1.5px currentColor; }
+  .display .stroke { -webkit-text-stroke-color: var(--text); }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 0.74rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); }
+  .eyebrow .tick { width: 22px; height: 1px; background: var(--red); }
+  .eyebrow .live { width: 7px; height: 7px; border-radius: 50%; background: var(--red-hot); box-shadow: 0 0 0 0 rgba(var(--red-rgb),.6); animation: live 2s infinite; }
+  @keyframes live { 0% { box-shadow: 0 0 0 0 rgba(var(--red-rgb),.6); } 70% { box-shadow: 0 0 0 9px rgba(var(--red-rgb),0); } 100% { box-shadow: 0 0 0 0 rgba(var(--red-rgb),0); } }
+  .h2 { font-size: clamp(2.6rem, 6.2vw, 5.4rem); margin: 18px 0 0; }
+  .lede { font-size: clamp(1.02rem, 1.35vw, 1.16rem); color: var(--mute); max-width: 56ch; }
+  .lede strong { color: var(--text); font-weight: 600; }
+  .sec-head { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: end; margin-bottom: clamp(40px, 6vw, 64px); }
+  .sec-head .lede { justify-self: end; }
 
-  .hero-grid { position: absolute; inset: 0; background-image: repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(var(--red-rgb),0.02) 40px, rgba(var(--red-rgb),0.02) 41px); }
-  .hero-number { position: absolute; right: -2%; top: 50%; transform: translateY(-50%); font-family: 'Bebas Neue', sans-serif; font-size: clamp(200px, 35vw, 420px); color: rgba(var(--red-rgb),0.04); line-height: 1; pointer-events: none; user-select: none; }
-  .hero-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 60px 40px; display: grid; grid-template-columns: 1fr 420px; gap: 60px; align-items: center; }
-  .hero-tag { display: inline-flex; align-items: center; gap: 10px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--red); margin-bottom: 20px; }
-  .hero-tag::before { content: ''; width: 24px; height: 2px; background: var(--red); }
-  .hero-h1 { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(3rem, 7vw, 6.5rem); font-weight: 900; line-height: 0.95; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 12px; }
-  .hero-h1 .accent { color: var(--red); }
-  .hero-h1 .outline { -webkit-text-stroke: 2px var(--white); color: transparent; }
-  .hero-sub { font-size: clamp(1rem, 1.8vw, 1.2rem); font-weight: 300; line-height: 1.7; color: #AAA; max-width: 520px; margin-bottom: 36px; }
-  .hero-sub strong { color: var(--white); font-weight: 600; }
-  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
+  /* ───────────────────────── BUTTONS ───────────────────────── */
+  .btn { --h: 56px; display: inline-flex; align-items: center; justify-content: center; gap: 12px; height: var(--h); padding: 0 10px 0 26px; border-radius: 999px; border: 0; cursor: pointer; text-decoration: none; font-family: var(--display); font-stretch: 85%; font-weight: 800; font-size: 0.98rem; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; transition: transform .25s var(--ease), background .25s, box-shadow .25s, color .25s; }
+  .btn .arr { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; transition: transform .35s var(--ease); }
+  .btn .arr svg { width: 16px; height: 16px; }
+  .btn:hover .arr { transform: translateX(3px) rotate(-45deg); }
+  .btn-primary { background: var(--red); color: #fff; box-shadow: 0 10px 30px -10px rgba(var(--red-rgb),.7), inset 0 1px 0 rgba(255,255,255,.18); }
+  .btn-primary .arr { background: #fff; color: var(--red); }
+  .btn-primary:hover { background: var(--red-hot); transform: translateY(-2px); box-shadow: 0 18px 40px -12px rgba(var(--red-rgb),.8), inset 0 1px 0 rgba(255,255,255,.2); }
+  .btn-ghost { background: rgba(255,255,255,.04); color: var(--text); border: 1px solid var(--line-2); padding: 0 24px; }
+  .btn-ghost:hover { background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.3); }
+  .btn-ghost svg { width: 18px; height: 18px; color: var(--red-hot); }
+  .btn-block { width: 100%; }
+  .btn-dark { background: var(--ink); color: var(--bone); }
+  .btn-dark .arr { background: var(--red); color: #fff; }
+  .btn-dark:hover { transform: translateY(-2px); background: #000; }
 
-  .btn-red { background: var(--red); color: var(--white); border: none; padding: 16px 32px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); position: relative; overflow: hidden; }
-  .btn-red::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.15); transform: translateX(-100%) skewX(-15deg); transition: transform 0.3s; }
-  .btn-red:hover::after { transform: translateX(120%) skewX(-15deg); }
-  .btn-red:hover { background: var(--red-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(var(--red-rgb),0.4); }
-  .btn-outline { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.2); padding: 16px 32px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
-  .btn-outline:hover { border-color: var(--red); color: var(--red); }
+  /* ───────────────────────── NAV ───────────────────────── */
+  .nav { position: fixed; top: 14px; left: 0; right: 0; z-index: 200; padding: 0 var(--gutter); pointer-events: none; }
+  .nav-bar { pointer-events: auto; max-width: var(--wrap); margin: 0 auto; height: 64px; display: flex; align-items: center; gap: 16px; padding: 0 8px 0 10px; border-radius: 999px; background: rgba(14,14,16,.55); border: 1px solid rgba(255,255,255,.07); backdrop-filter: blur(18px) saturate(140%); -webkit-backdrop-filter: blur(18px) saturate(140%); transition: background .3s, box-shadow .3s; }
+  .nav.scrolled .nav-bar { background: rgba(12,12,14,.82); box-shadow: 0 12px 40px -12px rgba(0,0,0,.7); }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand img { width: 46px; height: 46px; border-radius: 50%; }
+  .brand-word { font-family: var(--display); font-stretch: 70%; font-weight: 900; font-size: 1.18rem; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1; }
+  .brand-word span { color: var(--red); }
+  .nav-links { display: flex; gap: 4px; margin: 0 auto; list-style: none; }
+  .nav-links a { display: block; padding: 9px 14px; border-radius: 999px; text-decoration: none; font-size: 0.86rem; font-weight: 500; color: var(--mute); transition: color .2s, background .2s; }
+  .nav-links a:hover { color: var(--text); background: rgba(255,255,255,.06); }
+  .nav-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .nav-call { display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 16px; border-radius: 999px; background: transparent; border: 1px solid var(--line-2); cursor: pointer; font-size: 0.84rem; font-weight: 600; color: var(--text); transition: background .2s, border-color .2s; }
+  .nav-call svg { width: 16px; height: 16px; color: var(--red-hot); }
+  .nav-call:hover { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.3); }
+  .nav .btn { --h: 46px; font-size: 0.86rem; padding: 0 6px 0 20px; }
+  .nav .btn .arr { width: 34px; height: 34px; }
 
-  .hero-stats { display: flex; gap: 32px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.07); }
-  .hstat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 2.2rem; font-weight: 900; color: var(--red); line-height: 1; margin-bottom: 4px; }
-  .hstat-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
-  .hstat-sep { width: 1px; background: rgba(255,255,255,0.07); align-self: stretch; }
+  /* ───────────────────────── HERO ───────────────────────── */
+  .hero { position: relative; min-height: 100svh; padding: 128px 0 72px; display: flex; align-items: center; overflow: hidden; isolation: isolate; }
+  .hero::before { content: ''; position: absolute; inset: 0; z-index: -1; background:
+      radial-gradient(60% 55% at 78% 45%, rgba(var(--red-rgb),.22) 0%, transparent 62%),
+      radial-gradient(40% 40% at 10% 90%, rgba(var(--red-rgb),.08) 0%, transparent 70%),
+      linear-gradient(180deg, #0B0B0C 0%, #0A0A0B 100%); }
+  .hero::after { content: ''; position: absolute; inset: 0; z-index: -1; opacity: .5; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 72px 72px; mask-image: radial-gradient(70% 60% at 50% 40%, #000 20%, transparent 80%); -webkit-mask-image: radial-gradient(70% 60% at 50% 40%, #000 20%, transparent 80%); }
+  .hero-grid { display: grid; grid-template-columns: 1.12fr 0.88fr; gap: clamp(32px, 5vw, 72px); align-items: center; width: 100%; }
+  .hero-h1 { font-size: clamp(3.6rem, 9.4vw, 8.6rem); margin: 22px 0 26px; }
+  .hero-h1 .line { display: block; }
+  .hero .lede { margin-bottom: 34px; }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 44px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(4, auto); justify-content: start; gap: 0; border-top: 1px solid var(--line); padding-top: 22px; }
+  .hero-stats > div { padding-right: 28px; margin-right: 28px; border-right: 1px solid var(--line); }
+  .hero-stats > div:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
+  .hero-stats dt { font-family: var(--display); font-stretch: 62%; font-weight: 900; font-size: 2.1rem; line-height: 1; text-transform: uppercase; }
+  .hero-stats dt em { font-style: normal; color: var(--red); }
+  .hero-stats dd { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute-2); margin-top: 6px; }
 
-  .urgency-card { background: var(--card); border: 1px solid var(--border); padding: 36px 32px; position: relative; overflow: hidden; }
-  .urgency-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--red-dark), var(--red-light)); }
-  .urgency-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(var(--red-rgb),0.15); border: 1px solid rgba(var(--red-rgb),0.3); padding: 6px 14px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--red); margin-bottom: 20px; }
-  .pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); animation: pulse 1.5s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.5)} }
-  .urgency-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; font-weight: 800; text-transform: uppercase; line-height: 1.1; margin-bottom: 14px; }
-  .urgency-desc { font-size: 0.82rem; line-height: 1.7; color: #888; margin-bottom: 24px; }
-  .spots-bar { background: rgba(255,255,255,0.06); height: 6px; margin-bottom: 8px; position: relative; overflow: hidden; }
-  .spots-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 75%; background: linear-gradient(90deg, var(--red-dark), var(--red-light)); animation: fillBar 1.5s 0.8s ease forwards; transform-origin: left; }
-  @keyframes fillBar { from{width:0}to{width:75%} }
-  .spots-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
-  .spots-label span { color: var(--red); }
-  .urgency-form { display: flex; flex-direction: column; gap: 10px; }
-  .uf-input { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--text); padding: 12px 16px; font-family: 'Barlow', sans-serif; font-size: 0.82rem; outline: none; transition: border-color 0.2s; width: 100%; }
-  .uf-input:focus { border-color: var(--red); }
-  .uf-input::placeholder { color: #444; }
-  .uf-select { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--text); padding: 12px 16px; font-family: 'Barlow', sans-serif; font-size: 0.82rem; outline: none; transition: border-color 0.2s; width: 100%; appearance: none; -webkit-appearance: none; cursor: pointer; }
-  .uf-select:focus { border-color: var(--red); }
-  .uf-select option { background: #1a1a1a; }
-  .uf-submit { background: var(--red); color: var(--white); border: none; padding: 15px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
-  .uf-submit:hover { background: var(--red-light); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(var(--red-rgb),0.4); }
-  .uf-note { font-size: 0.62rem; color: #444; text-align: center; letter-spacing: 1px; }
+  .hero-visual { position: relative; justify-self: end; width: 100%; max-width: 500px; }
+  .hv-card { position: relative; aspect-ratio: 0.8; border-radius: 30px; overflow: hidden; background: var(--chalk); box-shadow: 0 50px 100px -30px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.06); }
+  .hv-card::before { content: 'FLEX'; position: absolute; left: 50%; top: 2%; transform: translateX(-50%); font-family: var(--display); font-stretch: 62%; font-weight: 900; font-size: 13.5rem; line-height: .8; letter-spacing: -0.01em; color: var(--chalk-2); z-index: 0; }
+  .hv-card img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; mix-blend-mode: multiply; animation: heroIn 1.4s var(--ease) both; }
+  @keyframes heroIn { from { transform: scale(1.06); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .hv-card::after { content: ''; position: absolute; inset: auto 0 0 0; height: 34%; z-index: 2; background: linear-gradient(180deg, transparent, rgba(10,10,11,.55)); }
+  .hv-chip { position: absolute; z-index: 3; display: flex; align-items: center; gap: 10px; padding: 10px 14px 10px 10px; border-radius: 16px; background: rgba(12,12,14,.78); border: 1px solid rgba(255,255,255,.1); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 18px 40px -16px rgba(0,0,0,.7); }
+  .hv-chip .ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--red); color: #fff; }
+  .hv-chip .ic svg { width: 18px; height: 18px; }
+  .hv-chip b { display: block; font-family: var(--display); font-stretch: 75%; font-weight: 800; font-size: 0.98rem; text-transform: uppercase; letter-spacing: .02em; line-height: 1.1; }
+  .hv-chip small { display: block; font-family: var(--mono); font-size: 0.64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
+  .hv-chip.c1 { top: 22px; left: 22px; }
+  .hv-chip.c2 { bottom: 22px; right: 22px; }
+  .seal { position: absolute; z-index: 4; left: -46px; bottom: 64px; width: 132px; height: 132px; display: grid; place-items: center; border-radius: 50%; background: var(--ink); box-shadow: 0 20px 40px -10px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.08); text-decoration: none; }
+  .seal svg.ring { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 18s linear infinite; }
+  .seal svg.ring text { font-family: var(--mono); font-size: 10.4px; letter-spacing: 2.6px; text-transform: uppercase; fill: var(--bone); }
+  .seal img { width: 64px; height: 64px; border-radius: 50%; }
+  .seal:hover svg.ring { animation-duration: 6s; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-  .section-tag { display: inline-flex; align-items: center; gap: 10px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
-  .section-tag::before { content: ''; width: 20px; height: 2px; background: var(--red); }
-  .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; text-transform: uppercase; line-height: 1; margin-bottom: 48px; letter-spacing: -0.5px; }
-  .section-title .accent { color: var(--red); }
+  /* ───────────────────────── TICKER ───────────────────────── */
+  .ticker { position: relative; z-index: 2; background: var(--red); color: #fff; overflow: hidden; padding: 16px 0; border-block: 1px solid rgba(0,0,0,.25); }
+  .ticker-track { display: flex; width: max-content; animation: marquee 32s linear infinite; }
+  .ticker-track span { display: inline-flex; align-items: center; gap: 28px; padding-right: 28px; font-family: var(--display); font-stretch: 62%; font-weight: 900; font-size: clamp(1.5rem, 3vw, 2.2rem); text-transform: uppercase; letter-spacing: .01em; line-height: 1; white-space: nowrap; }
+  .ticker-track svg { width: 22px; height: 22px; opacity: .85; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
 
-  .pain { padding: 90px 40px; background: var(--dark); border-top: 1px solid rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.04); position: relative; overflow: hidden; }
-  .pain::before { content: 'BEHIND'; position: absolute; right: -1%; top: 50%; transform: translateY(-50%); font-family: 'Bebas Neue', sans-serif; font-size: clamp(100px,20vw,240px); color: rgba(var(--red-rgb),0.03); line-height: 1; pointer-events: none; }
-  .pain-inner { max-width: 1200px; margin: 0 auto; }
-  .pain-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
-  .pain-card { background: var(--card); padding: 36px 28px; border-left: 3px solid transparent; transition: all 0.3s; }
-  .pain-card:hover { border-left-color: var(--red); background: #181818; }
-  .pain-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
-  .pain-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-  .pain-desc { font-size: 0.8rem; line-height: 1.7; color: #666; }
-  .pain-stat { margin-top: 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; font-weight: 900; color: var(--red); line-height: 1; }
-  .pain-stat-label { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: #555; }
+  /* ───────────────────────── SECTIONS ───────────────────────── */
+  section { position: relative; z-index: 2; }
+  .sec { padding: clamp(88px, 11vw, 140px) 0; }
+  .sec-ink2 { background: var(--ink-2); }
+  .sec-line { border-top: 1px solid var(--line); }
 
-  .coach { padding: 90px 40px; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-  .coach-card { background: var(--card); border: 1px solid rgba(255,255,255,0.06); padding: 48px; position: relative; overflow: hidden; }
-  .coach-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--red-dark), var(--red-light), transparent); }
-  .coach-card::after { content: 'KENNY'; position: absolute; bottom: -10px; right: -5px; font-family: 'Bebas Neue', sans-serif; font-size: 8rem; color: rgba(var(--red-rgb),0.05); line-height: 1; pointer-events: none; }
-  .coach-role { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
-  .coach-name { font-family: 'Barlow Condensed', sans-serif; font-size: 3rem; font-weight: 900; text-transform: uppercase; line-height: 1; margin-bottom: 4px; }
-  .coach-title { font-size: 0.8rem; color: var(--muted); margin-bottom: 24px; font-style: italic; }
-  .coach-bio { font-size: 0.82rem; line-height: 1.8; color: #777; margin-bottom: 28px; }
-  .coach-credentials { display: flex; flex-direction: column; gap: 10px; }
-  .cred { display: flex; align-items: center; gap: 12px; font-size: 0.78rem; color: #999; }
-  .cred::before { content: ''; width: 16px; height: 2px; background: var(--red); flex-shrink: 0; }
-  .coach-promise { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(1.8rem,3vw,2.8rem); font-weight: 900; text-transform: uppercase; line-height: 1.05; margin-bottom: 20px; }
-  .coach-promise .accent { color: var(--red); }
-  .coach-promise-text { font-size: 0.85rem; line-height: 1.8; color: #777; margin-bottom: 32px; }
-  .results-list { display: flex; flex-direction: column; gap: 2px; }
-  .result-item { background: var(--card); padding: 20px 24px; display: flex; align-items: center; gap: 16px; transition: all 0.3s; border-left: 3px solid transparent; }
-  .result-item:hover { border-left-color: var(--red); }
-  .result-icon { width: 36px; height: 36px; flex-shrink: 0; background: rgba(var(--red-rgb),0.1); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
-  .result-text { flex: 1; }
-  .result-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
-  .result-sub { font-size: 0.7rem; color: var(--muted); }
+  /* ASSESSMENT */
+  .assess-grid { display: grid; grid-template-columns: 1fr 470px; gap: clamp(40px, 6vw, 88px); align-items: start; }
+  .assess-copy .h2 { margin-bottom: 22px; }
+  .tests { list-style: none; margin-top: 40px; border-top: 1px solid var(--line); }
+  .tests li { display: grid; grid-template-columns: 56px 1fr auto; gap: 16px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .tests .n { font-family: var(--mono); font-size: 0.78rem; color: var(--red-hot); letter-spacing: .1em; }
+  .tests b { display: block; font-family: var(--display); font-stretch: 70%; font-weight: 800; font-size: 1.45rem; text-transform: uppercase; line-height: 1.05; letter-spacing: .01em; }
+  .tests small { display: block; color: var(--mute); font-size: 0.92rem; margin-top: 2px; }
+  .tests .ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: rgba(255,255,255,.04); border: 1px solid var(--line); color: var(--bone); }
+  .tests .ic svg { width: 20px; height: 20px; }
+  .assess-alt { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; margin-top: 34px; color: var(--mute); font-size: 0.92rem; }
+  .assess-alt a { font-family: var(--mono); font-weight: 600; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--red); padding-bottom: 2px; }
+  .assess-alt a:hover { color: var(--red-hot); }
 
-  /* ── NIL ── */
-  .nil { padding: 90px 40px; background: var(--black); position: relative; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.04); }
-  .nil::before { content: 'NIL'; position: absolute; right: -2%; top: 50%; transform: translateY(-50%); font-family: 'Bebas Neue', sans-serif; font-size: clamp(120px,22vw,300px); color: rgba(var(--red-rgb),0.05); line-height: 1; pointer-events: none; }
-  .nil-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-  .nil-headline { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2.2rem, 4.5vw, 4rem); font-weight: 900; text-transform: uppercase; line-height: 0.95; margin-bottom: 20px; letter-spacing: -0.5px; }
-  .nil-headline .accent { color: var(--red); }
-  .nil-headline .outline { -webkit-text-stroke: 2px var(--white); color: transparent; }
-  .nil-body { font-size: 0.88rem; line-height: 1.8; color: #777; margin-bottom: 20px; }
-  .nil-body strong { color: var(--white); font-weight: 600; }
-  .nil-facts { display: flex; gap: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.07); flex-wrap: wrap; }
-  .nil-fact-num { font-family: 'Barlow Condensed', sans-serif; font-size: 2.4rem; font-weight: 900; color: var(--red); line-height: 1; margin-bottom: 4px; }
-  .nil-fact-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
-  .nil-fact-sep { width: 1px; background: rgba(255,255,255,0.07); align-self: stretch; }
-  .nil-right { display: flex; flex-direction: column; gap: 2px; }
-  .nil-card { background: var(--card); padding: 28px; border-left: 3px solid transparent; transition: all 0.3s; position: relative; }
-  .nil-card:hover { border-left-color: var(--red); background: #181818; }
-  .nil-card-number { position: absolute; top: 16px; right: 20px; font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: rgba(var(--red-rgb),0.08); line-height: 1; }
-  .nil-card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.05rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; color: var(--white); }
-  .nil-card-desc { font-size: 0.78rem; line-height: 1.7; color: #666; }
-  .nil-cta-strip { margin: 60px auto 0; max-width: 1200px; background: rgba(var(--red-rgb),0.06); border: 1px solid rgba(var(--red-rgb),0.15); padding: 28px 36px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-  .nil-cta-text { font-size: 0.88rem; color: #888; line-height: 1.6; }
-  .nil-cta-text strong { color: var(--white); font-weight: 600; display: block; font-size: 1rem; margin-bottom: 4px; }
+  .form-card { position: sticky; top: 100px; border-radius: 28px; padding: 30px; background: linear-gradient(180deg, #17171A 0%, #121214 100%); border: 1px solid var(--line-2); box-shadow: 0 40px 80px -30px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.06); overflow: hidden; }
+  .form-card::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 160px; background: radial-gradient(80% 100% at 50% 0%, rgba(var(--red-rgb),.2), transparent 70%); pointer-events: none; }
+  .fc-top { position: relative; display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px; border-radius: 999px; background: rgba(var(--red-rgb),.14); border: 1px solid rgba(var(--red-rgb),.35); font-family: var(--mono); font-size: 0.68rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #FF8A78; }
+  .fc-step { font-family: var(--mono); font-size: 0.7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--mute-2); }
+  .fc-title { position: relative; font-size: 2.6rem; margin-bottom: 8px; }
+  .fc-sub { position: relative; color: var(--mute); font-size: 0.93rem; margin-bottom: 20px; }
+  .spots { margin-bottom: 24px; }
+  .spots-bar { height: 6px; border-radius: 99px; background: rgba(255,255,255,.07); overflow: hidden; }
+  .spots-fill { height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--red-deep), var(--red-hot)); transition: width 1.6s var(--ease); }
+  .spots.in .spots-fill { width: 75%; }
+  .spots-label { display: flex; justify-content: space-between; margin-top: 8px; font-family: var(--mono); font-size: 0.68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute-2); }
+  .spots-label b { color: #FF8A78; font-weight: 600; }
 
-  .sports { padding: 80px 40px; background: var(--dark); border-top: 1px solid rgba(255,255,255,0.04); }
-  .sports-inner { max-width: 1200px; margin: 0 auto; }
-  .sports-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 2px; margin-top: 50px; }
-  .sport-card { background: var(--card); padding: 28px 20px; text-align: center; transition: all 0.3s; border-bottom: 2px solid transparent; }
-  .sport-card:hover { border-bottom-color: var(--red); background: #181818; }
-  .sport-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
-  .sport-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .fstep { display: none; }
+  .fstep.on { display: block; animation: stepIn .45s var(--ease); }
+  @keyframes stepIn { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+  .field { margin-bottom: 14px; }
+  .field-row { display: grid; grid-template-columns: 1fr 120px; gap: 12px; }
+  .lbl { display: block; font-family: var(--mono); font-size: 0.68rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); margin-bottom: 7px; }
+  .lbl i { font-style: normal; color: var(--mute-2); text-transform: none; letter-spacing: .02em; }
+  .inp { width: 100%; height: 52px; padding: 0 16px; border-radius: var(--radius-sm); background: rgba(255,255,255,.035); border: 1px solid var(--line-2); color: var(--text); font-family: var(--body); font-size: 1rem; outline: none; transition: border-color .2s, background .2s, box-shadow .2s; }
+  .inp::placeholder { color: #6E6E74; }
+  .inp:hover { border-color: rgba(255,255,255,.22); }
+  .inp:focus { border-color: var(--red); background: rgba(255,255,255,.05); box-shadow: 0 0 0 4px rgba(var(--red-rgb),.16); }
+  .inp.bad { border-color: var(--red-hot); }
+  select.inp { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 44px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A3A3A8' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; background-size: 18px; }
+  select.inp option { background: #18181B; color: var(--text); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; border: 0; }
+  .chip input { position: absolute; opacity: 0; pointer-events: none; }
+  .chip span { display: inline-flex; align-items: center; height: 40px; padding: 0 15px; border-radius: 999px; border: 1px solid var(--line-2); background: rgba(255,255,255,.03); font-size: 0.88rem; font-weight: 500; color: var(--mute); cursor: pointer; transition: all .2s; user-select: none; }
+  .chip span:hover { color: var(--text); border-color: rgba(255,255,255,.3); }
+  .chip input:checked + span { background: var(--red); border-color: var(--red); color: #fff; }
+  .chip input:focus-visible + span { outline: 2px solid var(--red-hot); outline-offset: 2px; }
+  .err { display: none; color: #FF8A78; font-size: 0.82rem; margin: -4px 0 12px; }
+  .err.show { display: block; }
+  .fc-actions { display: flex; gap: 10px; margin-top: 8px; }
+  .back { flex: 0 0 auto; height: 56px; width: 56px; border-radius: 50%; border: 1px solid var(--line-2); background: transparent; cursor: pointer; display: grid; place-items: center; color: var(--mute); transition: all .2s; }
+  .back:hover { color: var(--text); border-color: rgba(255,255,255,.3); }
+  .back svg { width: 18px; height: 18px; transform: rotate(180deg); }
+  .fine { font-size: 0.74rem; color: var(--mute-2); line-height: 1.55; margin-top: 14px; }
+  .fine a { color: var(--mute); text-decoration: underline; text-underline-offset: 2px; }
+  .fine a:hover { color: var(--red-hot); }
+  .assure { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; font-size: 0.8rem; color: var(--mute); }
+  .assure svg { width: 15px; height: 15px; color: #4ADE80; }
 
-  .process { padding: 90px 40px; max-width: 1200px; margin: 0 auto; }
-  .process-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; margin-top: 55px; }
-  .process-step { background: var(--card); padding: 36px 28px; position: relative; overflow: hidden; transition: all 0.3s; }
-  .process-step:hover { background: #181818; }
-  .step-number { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; color: rgba(var(--red-rgb),0.08); line-height: 1; margin-bottom: 12px; transition: color 0.3s; }
-  .process-step:hover .step-number { color: rgba(var(--red-rgb),0.2); }
-  .step-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-  .step-desc { font-size: 0.78rem; line-height: 1.7; color: #666; }
-  .step-arrow { position: absolute; right: -1px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 12px solid var(--dark); z-index: 2; }
+  /* REALITY */
+  .bento-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .stat-card { position: relative; border-radius: var(--radius); padding: 32px 28px 30px; background: var(--ink-3); border: 1px solid var(--line); overflow: hidden; display: flex; flex-direction: column; min-height: 400px; transition: border-color .3s, transform .4s var(--ease); }
+  .stat-card:hover { border-color: rgba(var(--red-rgb),.45); transform: translateY(-4px); }
+  .stat-card.feature { background: linear-gradient(160deg, #2A0B06 0%, #160605 55%, #18181B 100%); border-color: rgba(var(--red-rgb),.3); }
+  .stat-card .ic { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: rgba(var(--red-rgb),.14); color: var(--red-hot); margin-bottom: auto; }
+  .stat-card .ic svg { width: 22px; height: 22px; }
+  .stat-num { font-family: var(--display); font-stretch: 62%; font-weight: 900; font-size: clamp(5rem, 8vw, 7rem); line-height: .85; color: var(--bone); margin: 36px 0 8px; }
+  .stat-num em { font-style: normal; color: var(--red); }
+  .stat-cap { font-family: var(--mono); font-size: 0.7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute-2); line-height: 1.5; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--line); }
+  .card-t { font-family: var(--display); font-stretch: 72%; font-weight: 800; font-size: 1.55rem; text-transform: uppercase; line-height: 1.05; letter-spacing: .01em; margin-bottom: 10px; }
+  .card-d { color: var(--mute); font-size: 0.95rem; }
 
-  .testimonials { padding: 90px 40px; background: var(--dark); border-top: 1px solid rgba(255,255,255,0.04); }
-  .testi-inner { max-width: 1200px; margin: 0 auto; }
-  .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 55px; }
-  .testi-card { background: var(--card); padding: 36px 28px; border: 1px solid rgba(255,255,255,0.04); transition: all 0.3s; }
-  .testi-card:hover { border-color: var(--border); }
-  .testi-sport { display: inline-block; background: rgba(var(--red-rgb),0.1); border: 1px solid rgba(var(--red-rgb),0.2); padding: 4px 12px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
-  .testi-result { font-family: 'Barlow Condensed', sans-serif; font-size: 2.5rem; font-weight: 900; color: var(--red); line-height: 1; margin-bottom: 8px; }
-  .testi-result-label { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
-  .testi-quote { font-size: 0.82rem; font-style: italic; line-height: 1.7; color: #777; margin-bottom: 20px; }
-  .testi-author { display: flex; align-items: center; gap: 12px; }
-  .testi-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 800; color: var(--white); flex-shrink: 0; }
-  .testi-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
-  .testi-meta { font-size: 0.62rem; color: var(--muted); }
+  /* PROGRAMS BENTO */
+  .bento { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-areas: "speed speed strength" "nutrition combine combine" "sports sports sports"; gap: 16px; }
+  .tile { position: relative; border-radius: var(--radius); padding: 30px; background: var(--ink-3); border: 1px solid var(--line); overflow: hidden; min-height: 280px; display: flex; flex-direction: column; justify-content: flex-end; transition: border-color .3s; }
+  .tile:hover { border-color: rgba(255,255,255,.2); }
+  .tile .idx { position: absolute; top: 26px; left: 30px; font-family: var(--mono); font-size: 0.72rem; letter-spacing: .14em; color: var(--mute-2); }
+  .tile .ic { position: absolute; top: 22px; right: 22px; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line-2); color: var(--bone); transition: background .3s, color .3s, border-color .3s; }
+  .tile:hover .ic { background: var(--red); border-color: var(--red); color: #fff; }
+  .tile .ic svg { width: 22px; height: 22px; }
+  .tile .bg-word { position: absolute; right: -10px; bottom: -0.16em; font-family: var(--display); font-stretch: 62%; font-weight: 900; font-size: clamp(8rem, 16vw, 14rem); line-height: .8; text-transform: uppercase; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.07); pointer-events: none; }
+  .tile .card-t { font-size: clamp(1.7rem, 2.6vw, 2.3rem); position: relative; }
+  .tile .card-d { position: relative; max-width: 40ch; }
+  .t-speed { grid-area: speed; background: radial-gradient(90% 120% at 100% 100%, rgba(var(--red-rgb),.28), transparent 60%), var(--ink-3); }
+  .t-strength { grid-area: strength; }
+  .t-nutrition { grid-area: nutrition; }
+  .t-combine { grid-area: combine; }
+  .t-sports { grid-area: sports; min-height: 0; display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: center; }
+  .t-sports .card-t { margin: 0; white-space: nowrap; }
+  .sport-list { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; list-style: none; }
+  .sport-list li { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 0.92rem; font-weight: 500; color: var(--bone); }
+  .sport-list li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
 
-  .final-cta { padding: 100px 40px; position: relative; text-align: center; overflow: hidden; }
-  .final-cta::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(var(--red-rgb),0.08) 0%, transparent 70%); }
-  .cta-inner { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
-  .cta-h2 { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2.5rem,6vw,5.5rem); font-weight: 900; text-transform: uppercase; line-height: 0.95; margin-bottom: 20px; letter-spacing: -1px; }
-  .cta-h2 .accent { color: var(--red); }
-  .cta-h2 .outline { -webkit-text-stroke: 2px var(--white); color: transparent; }
-  .cta-sub { font-size: 0.9rem; color: #888; line-height: 1.7; margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto; }
-  .cta-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 560px; margin: 0 auto; }
-  .cta-input { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--text); padding: 14px 18px; font-family: 'Barlow', sans-serif; font-size: 0.82rem; outline: none; transition: border-color 0.2s; }
-  .cta-input:focus { border-color: var(--red); }
-  .cta-input::placeholder { color: #444; }
-  .cta-select { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--text); padding: 14px 18px; font-family: 'Barlow', sans-serif; font-size: 0.82rem; outline: none; transition: border-color 0.2s; appearance: none; -webkit-appearance: none; cursor: pointer; grid-column: span 2; }
-  .cta-select:focus { border-color: var(--red); }
-  .cta-select option { background: #1a1a1a; }
-  .cta-btn { grid-column: span 2; background: var(--red); color: var(--white); border: none; padding: 17px; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); }
-  .cta-btn:hover { background: var(--red-light); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(var(--red-rgb),0.4); }
-  .cta-note { font-size: 0.65rem; color: #444; margin-top: 16px; letter-spacing: 1px; }
+  /* COACH (light section) */
+  .coach { background: var(--chalk); color: var(--ink); overflow: hidden; }
+  .coach .eyebrow { color: #5D5D63; }
+  .coach-bgword { position: absolute; left: 50%; top: 40px; transform: translateX(-50%); font-family: var(--display); font-stretch: 62%; font-weight: 900; font-size: clamp(10rem, 30vw, 28rem); line-height: .8; text-transform: uppercase; color: var(--chalk-2); pointer-events: none; user-select: none; white-space: nowrap; }
+  .coach-grid { position: relative; display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(40px, 6vw, 88px); align-items: center; }
+  .coach-photo { position: relative; border-radius: 30px; overflow: hidden; aspect-ratio: 0.72; box-shadow: 0 50px 90px -40px rgba(0,0,0,.6); }
+  .coach-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; }
+  .coach-photo figcaption { position: absolute; left: 16px; right: 16px; bottom: 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 16px; background: rgba(10,10,11,.72); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: var(--bone); border: 1px solid rgba(255,255,255,.1); }
+  .coach-photo figcaption b { display: block; font-family: var(--display); font-stretch: 72%; font-weight: 800; font-size: 1.05rem; text-transform: uppercase; letter-spacing: .02em; }
+  .coach-photo figcaption small { font-family: var(--mono); font-size: 0.64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
+  .coach-photo figcaption .badge { width: 40px; height: 40px; border-radius: 50%; }
+  .coach .h2 { color: var(--ink); }
+  .coach .h2 em { color: var(--red); }
+  .coach-role { font-family: var(--mono); font-size: 0.74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--red); margin: 18px 0 22px; }
+  .coach-bio { font-size: 1.06rem; color: #3E3E44; max-width: 58ch; margin-bottom: 14px; }
+  .creds { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; list-style: none; margin: 30px 0 36px; }
+  .creds li { display: flex; gap: 12px; align-items: flex-start; padding: 16px; border-radius: 16px; background: #fff; border: 1px solid rgba(0,0,0,.06); font-size: 0.92rem; font-weight: 500; color: #26262B; line-height: 1.4; }
+  .creds svg { width: 20px; height: 20px; color: var(--red); margin-top: 1px; }
 
-  footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); }
-  .footer-logo span { color: var(--red); }
-  .footer-links { display: flex; gap: 24px; }
-  .footer-links a { font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: #8a8a8a; text-decoration: none; transition: color 0.2s; }
-  .footer-links a:hover { color: var(--red); }
-  .footer-copy { font-size: 0.6rem; color: #8a8a8a; letter-spacing: 1px; }
-  .footer-copy a { color: inherit; }
-  .footer-copy a:hover { color: var(--red); }
-  .testi-more { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px 28px; margin-top: 36px; }
-  .testi-more a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--white); text-decoration: none; border-bottom: 2px solid var(--red); padding: 6px 0; transition: color 0.2s; }
-  .testi-more a:hover { color: var(--red-light); }
+  /* PROCESS */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: s; position: relative; }
+  .step { position: relative; padding: 28px 26px 30px; border-radius: var(--radius); background: var(--ink-3); border: 1px solid var(--line); }
+  .step .top { display: flex; align-items: center; gap: 12px; margin-bottom: 70px; }
+  .step .n { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-family: var(--mono); font-size: 0.82rem; font-weight: 600; background: var(--ink); border: 1px solid var(--line-2); color: var(--bone); }
+  .step:first-child .n { background: var(--red); border-color: var(--red); color: #fff; }
+  .step .bar { flex: 1; height: 1px; background: linear-gradient(90deg, var(--line-2), transparent); }
+  .step .card-t { font-size: 1.65rem; }
 
-  /* FORM SUCCESS STATE */
-  .form-success { text-align: center; padding: 20px 0 10px; }
-  .success-check { font-size: 2.5rem; color: #2ecc71; margin-bottom: 10px; }
-  .success-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
-  .success-sub { font-size: 0.78rem; color: #888; line-height: 1.6; margin-bottom: 20px; }
-  .success-book-btn { display: block; background: var(--red); color: var(--white); padding: 14px 24px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; transition: all 0.2s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); margin-bottom: 10px; }
-  .success-book-btn:hover { background: var(--red-light); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(var(--red-rgb),0.4); }
-  .success-note { font-size: 0.6rem; color: #444; letter-spacing: 1px; }
+  /* NIL */
+  .nil { overflow: hidden; }
+  .nil::before { content: ''; position: absolute; inset: 0; background: radial-gradient(50% 60% at 15% 30%, rgba(var(--red-rgb),.16), transparent 70%); pointer-events: none; }
+  .nil-grid { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 88px); align-items: center; }
+  .nil .h2 { font-size: clamp(2.8rem, 6.6vw, 6rem); margin-bottom: 26px; }
+  .nil p.lede + p.lede { margin-top: 14px; }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 36px; border-top: 1px solid var(--line); }
+  .facts div { padding: 22px 18px 0 0; }
+  .facts div + div { padding-left: 18px; border-left: 1px solid var(--line); }
+  .facts b { display: block; font-family: var(--display); font-stretch: 62%; font-weight: 900; font-size: 2.8rem; line-height: 1; color: var(--red); }
+  .facts small { display: block; font-family: var(--mono); font-size: 0.66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute-2); margin-top: 6px; }
+  .nil-cards { display: grid; gap: 12px; }
+  .nil-card { display: grid; grid-template-columns: 64px 1fr; gap: 18px; padding: 26px; border-radius: var(--radius); background: rgba(24,24,27,.8); border: 1px solid var(--line); transition: border-color .3s, transform .4s var(--ease); }
+  .nil-card:hover { border-color: rgba(var(--red-rgb),.45); transform: translateX(-4px); }
+  .nil-card .n { font-family: var(--display); font-stretch: 62%; font-weight: 900; font-size: 3.2rem; line-height: .85; color: transparent; -webkit-text-stroke: 1.2px var(--red); }
+  .nil-card .card-t { font-size: 1.35rem; margin-bottom: 6px; }
+  .nil-strip { position: relative; margin-top: clamp(48px, 7vw, 80px); display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 28px 30px; border-radius: var(--radius); background: var(--bone); color: var(--ink); }
+  .nil-strip b { display: block; font-family: var(--display); font-stretch: 70%; font-weight: 900; font-size: 1.7rem; text-transform: uppercase; line-height: 1.05; }
+  .nil-strip p { color: #4A4A50; font-size: 0.96rem; max-width: 64ch; margin-top: 4px; }
 
-  /* NIL CALLOUT */
-  .nil-callout {
-    display: flex; align-items: flex-start; gap: 20px; text-align: left;
-    background: rgba(var(--red-rgb),0.06);
-    border: 1px solid rgba(var(--red-rgb),0.2);
-    border-left: 4px solid var(--red);
-    padding: 24px 28px;
-    margin-bottom: 36px;
-    max-width: 560px; margin-left: auto; margin-right: auto;
-  }
-  .nil-callout-icon { font-size: 1.8rem; flex-shrink: 0; margin-top: 2px; }
-  .nil-callout-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1rem; font-weight: 800; text-transform: uppercase;
-    letter-spacing: 2px; color: var(--red); margin-bottom: 8px;
-  }
-  .nil-callout-desc { font-size: 0.78rem; line-height: 1.7; color: #888; }
+  /* RESULTS */
+  .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .quote { display: flex; flex-direction: column; padding: 30px 28px; border-radius: var(--radius); background: var(--ink-3); border: 1px solid var(--line); }
+  .quote .tag { align-self: flex-start; font-family: var(--mono); font-size: 0.66rem; letter-spacing: .1em; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--mute); margin-bottom: 26px; }
+  .quote .big { font-family: var(--display); font-stretch: 62%; font-weight: 900; font-size: 5rem; line-height: .85; color: var(--red); }
+  .quote .cap { font-family: var(--mono); font-size: 0.68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute-2); margin: 8px 0 22px; }
+  .quote blockquote { font-size: 1.02rem; color: #D4D4D8; line-height: 1.6; margin-bottom: 26px; flex: 1; }
+  .stars { display: flex; gap: 2px; color: var(--red-hot); margin-bottom: 12px; }
+  .stars svg { width: 15px; height: 15px; }
+  .who { display: flex; align-items: center; gap: 12px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .who .av { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--bone); color: var(--ink); font-family: var(--display); font-stretch: 75%; font-weight: 900; font-size: 0.95rem; }
+  .who b { display: block; font-size: 0.95rem; font-weight: 600; }
+  .who small { font-size: 0.8rem; color: var(--mute-2); }
+  .quotes-more { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 40px; }
 
-  /* MEET COACH KENNY */
-  .meet-coach { padding: 100px 40px; position: relative; }
-  .meet-coach-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 380px 1fr; gap: 60px; align-items: center; }
-  .meet-coach-photo { border-radius: 12px; overflow: hidden; }
-  .meet-coach-photo img { width: 100%; height: auto; display: block; border-radius: 12px; }
-  .meet-coach-text {}
-  .meet-coach-heading { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2rem,4vw,3.2rem); font-weight: 900; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 8px; }
-  .meet-coach-heading .accent { color: var(--red); }
-  .meet-coach-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--red); margin-bottom: 24px; }
-  .meet-coach-bio { font-size: 0.9rem; line-height: 1.8; color: #999; margin-bottom: 32px; }
-  .meet-coach-btn { display: inline-block; background: var(--red); color: var(--white); border: none; padding: 14px 32px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-decoration: none; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
-  .meet-coach-btn:hover { background: var(--red-light); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(var(--red-rgb),0.4); }
+  /* EVENTS (GoElev8 embed) */
+  .events-section { padding: clamp(88px, 11vw, 140px) 0; border-top: 1px solid var(--line); }
 
-  /* SOCIAL POSTS */
-  .social-posts { padding: 100px 40px; position: relative; }
-  .social-posts-inner { max-width: 900px; margin: 0 auto; }
-  .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 50px; }
-  .social-card { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; overflow: hidden; transition: transform 0.3s; }
-  .social-card:hover { transform: translateY(-4px); }
-  .social-img { width: 100%; aspect-ratio: 1/1; background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 60%, rgba(var(--red-rgb),0.15) 100%); display: flex; align-items: center; justify-content: center; position: relative; }
-  .social-img-icon { font-size: 3rem; opacity: 0.15; }
-  .social-body { padding: 20px; }
-  .social-handle { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
-  .social-caption { font-size: 0.78rem; line-height: 1.7; color: #999; margin-bottom: 14px; }
-  .social-likes { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; color: #555; text-transform: uppercase; }
+  /* INSTAGRAM */
+  .ig { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 28px; padding: clamp(28px, 4vw, 44px); border-radius: 28px; text-decoration: none; background: linear-gradient(120deg, #1B1B1F, #131315); border: 1px solid var(--line); transition: border-color .3s; overflow: hidden; position: relative; }
+  .ig:hover { border-color: rgba(var(--red-rgb),.5); }
+  .ig .display { font-size: clamp(2.2rem, 5.4vw, 4.6rem); }
+  .ig .handle { font-family: var(--mono); color: var(--red-hot); font-size: 0.9rem; letter-spacing: .06em; margin-top: 12px; display: block; }
+  .ig .go { width: 84px; height: 84px; border-radius: 50%; background: var(--red); color: #fff; display: grid; place-items: center; transition: transform .4s var(--ease); }
+  .ig:hover .go { transform: rotate(-45deg) scale(1.05); }
+  .ig .go svg { width: 28px; height: 28px; }
 
-  /* FIT CTA */
-  .fit-cta { text-align: center; padding: 40px 20px 0; }
-  .fit-cta a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.82rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #555; text-decoration: none; transition: color 0.2s; }
-  .fit-cta a:hover { color: var(--red); }
-  .fit-cta a span { color: var(--red); }
+  /* FINAL CTA */
+  .final { overflow: hidden; text-align: center; }
+  .final::before { content: ''; position: absolute; inset: 0; background: radial-gradient(55% 55% at 50% 30%, rgba(var(--red-rgb),.2), transparent 70%); pointer-events: none; }
+  .final .wrap { position: relative; }
+  .final .h2 { font-size: clamp(3.2rem, 9vw, 8.4rem); margin: 18px auto 24px; }
+  .final .lede { margin: 0 auto 44px; }
+  .final-card { max-width: 640px; margin: 0 auto; text-align: left; padding: 30px; border-radius: 28px; background: linear-gradient(180deg, #17171A 0%, #121214 100%); border: 1px solid var(--line-2); box-shadow: 0 40px 80px -30px rgba(0,0,0,.9); }
+  .final-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  .final-grid .full { grid-column: 1 / -1; }
+  .nil-note { display: flex; gap: 14px; align-items: flex-start; padding: 16px; margin-bottom: 20px; border-radius: 16px; background: rgba(var(--red-rgb),.08); border: 1px solid rgba(var(--red-rgb),.22); }
+  .nil-note svg { width: 22px; height: 22px; color: var(--red-hot); margin-top: 2px; }
+  .nil-note b { display: block; font-family: var(--display); font-stretch: 72%; font-weight: 800; font-size: 1.05rem; text-transform: uppercase; letter-spacing: .03em; margin-bottom: 2px; }
+  .nil-note p { font-size: 0.86rem; color: var(--mute); line-height: 1.55; }
+  .final-meta { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 22px; margin-top: 18px; font-family: var(--mono); font-size: 0.7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute-2); }
+  .fit-link { display: block; text-align: center; margin-top: 54px; color: var(--mute); text-decoration: none; font-size: 0.95rem; }
+  .fit-link span { color: var(--text); border-bottom: 1px solid var(--red); padding-bottom: 1px; }
+  .fit-link:hover span { color: var(--red-hot); }
 
-  .reveal { opacity: 1; transform: translateY(0); transition: all 0.6s ease; }
-  .reveal.animate { opacity: 0; transform: translateY(20px); }
-  .reveal.visible { opacity: 1 !important; transform: translateY(0) !important; }
-  .delay-1{transition-delay:0.1s} .delay-2{transition-delay:0.2s} .delay-3{transition-delay:0.3s} .delay-4{transition-delay:0.4s} .delay-5{transition-delay:0.5s}
+  /* FOOTER */
+  footer { position: relative; z-index: 2; border-top: 1px solid var(--line); padding: 64px 0 120px; overflow: hidden; }
+  .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; }
+  .foot-brand { display: flex; gap: 16px; align-items: center; }
+  .foot-brand img { width: 64px; height: 64px; border-radius: 50%; }
+  .foot-brand p { color: var(--mute); font-size: 0.92rem; max-width: 34ch; }
+  .foot-col h4 { font-family: var(--mono); font-size: 0.68rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--mute-2); margin-bottom: 14px; }
+  .foot-col ul { list-style: none; display: grid; gap: 8px; }
+  .foot-col a { color: var(--bone); text-decoration: none; font-size: 0.94rem; transition: color .2s; }
+  .foot-col a:hover { color: var(--red-hot); }
+  .foot-word { font-family: var(--display); font-stretch: 62%; font-weight: 900; font-size: clamp(5rem, 20vw, 19rem); line-height: .8; text-transform: uppercase; letter-spacing: -0.01em; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.1); margin: 56px 0 28px; white-space: nowrap; text-align: center; }
+  .foot-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 0.8rem; color: var(--mute-2); }
+  .foot-bottom a { color: var(--mute); }
+  .foot-bottom a:hover { color: var(--red-hot); }
 
-  /* CALL FLEX BUTTON */
-  .nav-call-btn { background: transparent; color: var(--red); border: 2px solid var(--red); padding: 8px 18px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.82rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%); }
-  .nav-call-btn:hover { background: var(--red); color: var(--white); }
-  .call-flex-hero { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px; }
-  .call-flex-hero-btn { background: transparent; color: var(--red); border: 2px solid var(--red); padding: 14px 28px; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
-  .call-flex-hero-btn:hover { background: var(--red); color: var(--white); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(var(--red-rgb),0.3); }
-  .call-flex-or { font-size: 0.7rem; color: #555; letter-spacing: 2px; text-transform: uppercase; }
-  .call-flex-tel { color: var(--red); text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; transition: color 0.2s; }
-  .call-flex-tel:hover { color: var(--red-light); }
-
-  /* KINETIC KEN CHAT WIDGET */
-  .kk-widget { position: fixed; bottom: 24px; right: 24px; z-index: 9999; }
-  .kk-bubble { width: 68px; height: 68px; border-radius: 50%; cursor: pointer; position: relative; transition: transform 0.2s; }
-  .kk-bubble:hover { transform: scale(1.08); }
+  /* ───────────────────────── FLOATING UI ───────────────────────── */
+  .kk-widget { position: fixed; bottom: 24px; right: 24px; z-index: 9999; transition: bottom .35s var(--ease); }
+  .kk-bubble { width: 66px; height: 66px; border-radius: 50%; cursor: pointer; position: relative; transition: transform 0.2s; border: 0; background: var(--ink-3); padding: 0; box-shadow: 0 14px 30px -10px rgba(0,0,0,.8); }
+  .kk-bubble:hover { transform: scale(1.06); }
   .kk-bubble img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-  .kk-pulse { position: absolute; inset: -6px; border-radius: 50%; border: 3px solid var(--red); animation: kkpulse 2s ease-in-out infinite; }
-  @keyframes kkpulse { 0%,100%{ opacity:0.3; transform:scale(1); } 50%{ opacity:0.8; transform:scale(1.12); } }
-  .kk-badge { position: absolute; top: -2px; right: -2px; width: 20px; height: 20px; border-radius: 50%; background: var(--red); color: var(--white); font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 2px solid var(--black); }
+  .kk-pulse { position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--red); animation: kkpulse 2.2s ease-in-out infinite; }
+  @keyframes kkpulse { 0%,100% { opacity: .25; transform: scale(1); } 50% { opacity: .8; transform: scale(1.1); } }
+  .kk-badge { position: absolute; top: -2px; right: -2px; width: 20px; height: 20px; border-radius: 50%; background: var(--red); color: #fff; font-size: 11px; font-weight: 800; display: grid; place-items: center; border: 2px solid var(--ink); }
 
-  /* FLEX CALL MODAL */
-  .flex-modal-overlay { display:none; position:fixed; inset:0; z-index:10000; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); align-items:center; justify-content:center; }
-  .flex-modal-overlay.open { display:flex; }
-  .flex-modal { background:#111; border:1px solid rgba(var(--red-rgb),0.25); border-radius:16px; width:90%; max-width:420px; padding:0; box-shadow:0 24px 60px rgba(0,0,0,0.6); animation:modalIn 0.25s ease; overflow:hidden; }
-  @keyframes modalIn { from{opacity:0;transform:scale(0.95) translateY(10px)} to{opacity:1;transform:scale(1) translateY(0)} }
-  .flex-modal-head { background:var(--red); padding:20px 24px; display:flex; align-items:center; justify-content:space-between; }
-  .flex-modal-title { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:1.1rem; text-transform:uppercase; letter-spacing:3px; color:var(--white); }
-  .flex-modal-close { background:none; border:none; color:rgba(255,255,255,0.5); font-size:1.5rem; cursor:pointer; line-height:1; }
-  .flex-modal-close:hover { color:var(--white); }
-  .flex-modal-body { padding:28px 24px; }
-  .flex-modal-field { margin-bottom:16px; }
-  .flex-modal-field label { display:block; font-family:'Barlow Condensed',sans-serif; font-size:0.72rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#666; margin-bottom:6px; }
-  .flex-modal-field input { width:100%; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.12); color:#f5f5f5; padding:12px 16px; font-family:'Barlow',sans-serif; font-size:0.88rem; border-radius:8px; outline:none; transition:border-color 0.2s; }
-  .flex-modal-field input:focus { border-color:var(--red); }
-  .flex-modal-field input::placeholder { color:#444; }
-  .flex-modal-submit { width:100%; background:var(--red); color:var(--white); border:none; padding:15px; font-family:'Barlow Condensed',sans-serif; font-size:1rem; font-weight:900; letter-spacing:3px; text-transform:uppercase; cursor:pointer; border-radius:8px; transition:all 0.2s; margin-top:4px; clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); }
-  .flex-modal-submit:hover { background:var(--red-light); transform:translateY(-2px); box-shadow:0 8px 24px rgba(var(--red-rgb),0.4); }
-  .flex-modal-note { text-align:center; font-size:0.62rem; color:#444; letter-spacing:1px; margin-top:14px; }
-  .flex-modal-confirm { text-align:center; padding:30px 20px; }
-  .flex-modal-confirm .icon { font-size:2.5rem; margin-bottom:10px; }
-  .flex-modal-confirm p { font-family:'Barlow Condensed',sans-serif; font-size:1.1rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--red); }
+  .app-download-btn { position: fixed; bottom: 34px; left: 24px; z-index: 9999; display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line-2); cursor: pointer; background: rgba(14,14,16,.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: var(--bone); font-size: 0.84rem; font-weight: 600; box-shadow: 0 14px 30px -10px rgba(0,0,0,.8); transition: transform .2s, border-color .2s, bottom .35s var(--ease); }
+  .app-download-btn:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.3); }
+  .app-download-btn svg { width: 16px; height: 16px; fill: currentColor; }
 
-  @media (max-width: 900px) {
-    nav { padding: 14px 20px; }
-    .hero-content { grid-template-columns: 1fr; gap: 40px; padding: 50px 20px; }
-    .hero-number { display: none; }
-    .pain { padding: 60px 20px; } .pain-grid { grid-template-columns: 1fr; }
-    .coach { grid-template-columns: 1fr; gap: 40px; padding: 60px 20px; }
-    .nil { padding: 60px 20px; } .nil-inner { grid-template-columns: 1fr; gap: 40px; } .nil::before { display: none; }
-    .nil-cta-strip { flex-direction: column; align-items: flex-start; }
-    .sports { padding: 60px 20px; } .sports-grid { grid-template-columns: repeat(3,1fr); }
-    .process { padding: 60px 20px; } .process-steps { grid-template-columns: 1fr 1fr; } .step-arrow { display: none; }
-    .nav-call-btn { padding: 6px 12px; font-size: 0.72rem; letter-spacing: 1px; }
-    .call-flex-hero { flex-direction: column; gap: 8px; }
-    .meet-coach { padding: 60px 20px; } .meet-coach-inner { grid-template-columns: 1fr; gap: 30px; } .meet-coach-photo { max-width: 320px; margin: 0 auto; }
-    .social-posts { padding: 60px 20px; } .social-grid { grid-template-columns: 1fr; }
-    .testimonials { padding: 60px 20px; } .testi-grid { grid-template-columns: 1fr; }
-    .final-cta { padding: 60px 20px; } .cta-form { grid-template-columns: 1fr; } .cta-select,.cta-btn { grid-column: span 1; }
-    footer { padding: 30px 20px; flex-direction: column; align-items: flex-start; }
-  }
-  /* ── Halloween (October) theme — active only when <html> has .halloween ── */
-  .hw-only { display: none; }
-  html.halloween {
-    --red: #FF6A00;
-    --red-dark: #C44A00;
-    --red-light: #FF8C33;
-    --red-rgb: 255,106,0;
-    --hw-purple-rgb: 123,47,191;
-  }
-  html.halloween .hw-only { display: block; }
-  html.halloween .hero-bg { background: radial-gradient(ellipse 80% 60% at 30% 55%, rgba(var(--red-rgb),0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 70% at 85% 15%, rgba(var(--hw-purple-rgb),0.22) 0%, transparent 60%), linear-gradient(160deg, #0a0710 0%, #140818 50%, #080808 100%); }
-  html.halloween .hero-bg::after { content: ''; position: absolute; top: 96px; right: 7%; width: clamp(70px, 9vw, 120px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 38% 36%, #fff8dc 0%, #eadcab 55%, #c9b57a 100%); box-shadow: 0 0 60px 18px rgba(243,233,198,0.12), 0 0 140px 60px rgba(var(--hw-purple-rgb),0.18); opacity: 0.5; }
-  html.halloween .hero-grid { background-image: repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(var(--hw-purple-rgb),0.035) 40px, rgba(var(--hw-purple-rgb),0.035) 41px); }
-  html.halloween .hero-h1 .outline { -webkit-text-stroke-color: #E9DDF7; }
+  .mbar { display: none; }
 
-  .hw-badge { display: none; align-items: center; gap: 10px; width: fit-content; margin-bottom: 18px; padding: 7px 14px 7px 10px; border: 1px solid rgba(var(--red-rgb),0.35); background: rgba(var(--hw-purple-rgb),0.18); font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #F3E9C6; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
-  .hw-badge svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--red); }
-  .hw-badge b { color: var(--red); font-weight: 800; }
-  html.halloween .hw-badge { display: inline-flex; }
+  /* MODALS */
+  .modal-overlay { display: none; position: fixed; inset: 0; z-index: 10001; background: rgba(0,0,0,.72); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay.open { display: flex; }
+  .modal { position: relative; width: 100%; max-width: 420px; border-radius: 26px; padding: 30px; background: linear-gradient(180deg, #19191C, #121214); border: 1px solid var(--line-2); box-shadow: 0 40px 80px -20px rgba(0,0,0,.9); animation: modalIn .3s var(--ease); }
+  @keyframes modalIn { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: none; } }
+  .modal-x { position: absolute; top: 16px; right: 16px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line-2); background: transparent; color: var(--mute); cursor: pointer; font-size: 1.3rem; line-height: 1; display: grid; place-items: center; }
+  .modal-x:hover { color: var(--text); border-color: rgba(255,255,255,.3); }
+  .modal .ic-lg { width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; background: var(--red); color: #fff; margin-bottom: 18px; }
+  .modal .ic-lg svg { width: 24px; height: 24px; }
+  .modal-title { font-size: 2.3rem; margin-bottom: 8px; }
+  .modal-sub { color: var(--mute); font-size: 0.93rem; margin-bottom: 22px; }
+  .modal-confirm { text-align: center; padding: 20px 0 6px; }
+  .modal-confirm .ic-lg { margin: 0 auto 16px; background: #16A34A; }
+  .app-store-btn { display: inline-flex; align-items: center; gap: 10px; height: 54px; padding: 0 24px; border-radius: 999px; background: var(--bone); color: var(--ink); font-weight: 700; text-decoration: none; transition: transform .2s; }
+  .app-store-btn:hover { transform: translateY(-2px); }
+  .app-store-btn svg { width: 20px; height: 20px; fill: currentColor; }
 
-  .hw-bats { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
-  .hw-bat { position: absolute; color: rgba(var(--hw-purple-rgb),0.75); animation: hwDrift 9s ease-in-out infinite; }
-  .hw-bat svg { display: block; width: 100%; height: auto; animation: hwFlap 0.35s ease-in-out infinite alternate; transform-origin: 50% 40%; }
-  .hw-bat.b1 { top: 120px; right: 16%; width: 46px; }
-  .hw-bat.b2 { top: 190px; right: 4%; width: 30px; animation-delay: -3s; animation-duration: 11s; }
-  .hw-bat.b3 { top: 84px; right: 28%; width: 24px; animation-delay: -6s; animation-duration: 13s; }
-  .hw-bat.b4 { bottom: 14%; left: 3%; width: 34px; animation-delay: -2s; animation-duration: 12s; }
-  .hw-bat.b2 svg { animation-duration: 0.28s; }
-  .hw-bat.b3 svg { animation-duration: 0.42s; }
-  @keyframes hwDrift { 0%,100% { transform: translate(0,0); } 33% { transform: translate(-36px,-14px); } 66% { transform: translate(18px,10px); } }
-  @keyframes hwFlap { from { transform: scaleY(1); } to { transform: scaleY(0.55); } }
-
-  html.halloween .urgency-card::after { content: ''; position: absolute; top: 3px; right: 0; width: 84px; height: 84px; pointer-events: none; opacity: 0.22; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 84' fill='none' stroke='%23F3E9C6' stroke-width='1'%3E%3Cpath d='M84 0 L0 0 M84 0 L84 84 M84 0 L20 64 M84 0 L46 76 M84 0 L8 38'/%3E%3Cpath d='M70 0 Q72 8 84 14 M54 0 Q58 18 84 30 M38 0 Q44 28 84 48 M22 0 Q30 40 84 66 M8 0 Q16 50 84 82'/%3E%3C/svg%3E") no-repeat top right / contain; }
-
-  @media (max-width: 900px) {
-    html.halloween .hero-bg::after { top: 84px; right: 6%; }
-    .hw-bat.b3, .hw-bat.b4 { display: none; }
-    .hw-badge { font-size: 0.68rem; letter-spacing: 1.5px; max-width: 100%; }
-  }
+  /* ───────────────────────── MOTION ───────────────────────── */
+  .js .rv { opacity: 0; transform: translateY(26px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+  .js .rv.in { opacity: 1; transform: none; }
+  .js .rv.d1 { transition-delay: .08s; } .js .rv.d2 { transition-delay: .16s; } .js .rv.d3 { transition-delay: .24s; }
   @media (prefers-reduced-motion: reduce) {
-    .hw-bat, .hw-bat svg { animation: none; }
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    .js .rv { opacity: 1; transform: none; }
+  }
+
+  /* ───────────────────────── RESPONSIVE ───────────────────────── */
+  @media (max-width: 1080px) {
+    .nav-links { display: none; }
+    .hero-grid { grid-template-columns: 1fr 0.8fr; }
+    .hero-stats { grid-template-columns: repeat(2, auto); row-gap: 18px; }
+    .hero-stats > div:nth-child(2) { border-right: 0; margin-right: 0; padding-right: 0; }
+    .assess-grid { grid-template-columns: 1fr 420px; }
+    .steps { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 880px) {
+    .sec-head { grid-template-columns: 1fr; gap: 18px; }
+    .sec-head .lede { justify-self: start; }
+    .hero { padding: 108px 0 56px; min-height: auto; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { justify-self: center; max-width: 440px; margin-top: 8px; }
+    .hv-card { aspect-ratio: 0.92; }
+    .hero-h1 { margin-top: 18px; }
+    .seal { left: auto; right: 10px; bottom: auto; top: -26px; width: 104px; height: 104px; }
+    .seal img { width: 52px; height: 52px; }
+    .seal svg.ring text { font-size: 10.4px; }
+    .assess-grid { grid-template-columns: 1fr; }
+    .form-card { position: relative; top: 0; }
+    .bento-3, .quotes { grid-template-columns: 1fr; }
+    .stat-card { min-height: 0; }
+    .bento { grid-template-columns: 1fr; grid-template-areas: "speed" "strength" "nutrition" "combine" "sports"; }
+    .tile { min-height: 240px; }
+    .t-sports { grid-template-columns: 1fr; gap: 18px; }
+    .sport-list { justify-content: flex-start; }
+    .coach-grid, .nil-grid { grid-template-columns: 1fr; }
+    .coach-photo { max-width: 460px; }
+    .nil-strip { flex-direction: column; align-items: flex-start; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: 1 / -1; }
+  }
+  @media (max-width: 640px) {
+    .nav { top: 10px; }
+    .nav-bar { height: 58px; padding: 0 6px 0 6px; }
+    .brand img { width: 44px; height: 44px; }
+    .brand-word { display: none; }
+    .nav-call { width: 46px; padding: 0; justify-content: center; }
+    .nav-call .txt { display: none; }
+    .hero-ctas .btn { width: 100%; }
+    .btn { white-space: normal; line-height: 1.1; font-size: 0.92rem; letter-spacing: .04em; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .hero-stats > div { border-right: 0 !important; margin-right: 0 !important; padding-right: 0 !important; }
+    .hv-card::before { font-size: 10rem; }
+    .hv-chip.c1 { top: 14px; left: 14px; }
+    .hv-chip.c2 { bottom: 14px; right: 14px; }
+    .form-card, .final-card { padding: 22px; border-radius: 24px; }
+    .fc-title { font-size: 2.2rem; }
+    .pill { font-size: 0.62rem; letter-spacing: .05em; padding: 0 10px; white-space: nowrap; }
+    .fc-step { white-space: nowrap; font-size: 0.62rem; letter-spacing: .06em; }
+    .field-row { grid-template-columns: 1fr 96px; }
+    .tests li { grid-template-columns: 40px 1fr; }
+    .tests .ic { display: none; }
+    .step .top { margin-bottom: 40px; }
+    .steps { grid-template-columns: 1fr; }
+    .creds { grid-template-columns: 1fr; }
+    .facts b { font-size: 2.2rem; }
+    .final-grid { grid-template-columns: 1fr; }
+    .ig { grid-template-columns: 1fr; }
+    .ig .go { width: 64px; height: 64px; }
+    .foot-grid { grid-template-columns: 1fr; }
+    footer { padding-bottom: 150px; }
+
+    /* sticky mobile action bar */
+    .mbar { display: flex; gap: 8px; position: fixed; left: 10px; right: 10px; bottom: 10px; z-index: 9998; padding: 8px; border-radius: 999px; background: rgba(14,14,16,.88); border: 1px solid var(--line-2); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 20px 40px -10px rgba(0,0,0,.9); transform: translateY(140%); transition: transform .4s var(--ease); }
+    .mbar.show { transform: none; }
+    .mbar .btn { flex: 1; --h: 50px; font-size: 0.9rem; }
+    .mbar .btn .arr { width: 34px; height: 34px; }
+    .mbar .call { width: 50px; height: 50px; border-radius: 50%; border: 1px solid var(--line-2); display: grid; place-items: center; color: var(--red-hot); background: transparent; }
+    .mbar .call svg { width: 20px; height: 20px; }
+    body.mbar-on .kk-widget { bottom: 86px; }
+    body.mbar-on .app-download-btn { bottom: 86px; }
+    .kk-widget { right: 14px; }
+    .kk-bubble { width: 56px; height: 56px; }
+    .app-download-btn { left: 14px; bottom: 24px; width: 46px; height: 46px; padding: 0; justify-content: center; }
+    .app-download-btn .txt { display: none; }
+    .app-download-btn svg { width: 18px; height: 18px; }
   }
 
 /* Force hide VAPI default button */
@@ -446,395 +538,514 @@ div[class*="vapi"] button {
   gtag('js', new Date());
   gtag('config', 'G-6T75SN79LV');
 </script>
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
-<nav>
-  <a href="#" class="nav-logo"><img src="/flex-logo.png" alt="Flex Facility"></a>
-  <button class="nav-call-btn" id="callFlexBtn" onclick="handleCallFlex()">&#9742; Have FLEX Call You</button>
-  <a href="#assessment" class="nav-cta">Free Assessment</a>
+<!-- ICON SPRITE -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+    <symbol id="i-dumbbell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M17.5 6.5v11M3 9.5v5M21 9.5v5M6.5 12h11"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></symbol>
+    <symbol id="i-fuel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.1-6"/></symbol>
+    <symbol id="i-stopwatch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="8"/><path d="M12 10v4l2 2M10 2h4M12 2v4"/></symbol>
+    <symbol id="i-agility" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18 9 8l5 8 6-12"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
+    <symbol id="i-cash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></symbol>
+    <symbol id="i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
+    <symbol id="i-apple" viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184 4 270.2c0 26.5 4.9 53.9 14.6 82.3C30.7 386.8 71.5 512 124.1 512c25.6-.6 43.5-18.1 76.2-18.1 31.8 0 48.3 18.1 76.4 18.1 52.9-.7 90.4-116.7 102.2-151.1-64.6-30.5-59.2-89.5-60.2-92.2zM245.1 0c-35.3 2.6-76.7 23.6-101.5 50.5-22.5 24.5-42.2 63.5-34.7 100.8 38.3 3 77.5-21.2 100.2-47.3 23.1-26.4 39.2-65.5 36-104z"/></symbol>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<nav class="nav" id="nav" aria-label="Main">
+  <div class="nav-bar">
+    <a href="#top" class="brand" aria-label="The Flex Facility — home">
+      <img src="/flex-logo.png" alt="Flex Facility logo" width="46" height="46">
+      <span class="brand-word">Flex <span>Facility</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#programs">Programs</a></li>
+      <li><a href="#coach">Coach Kenny</a></li>
+      <li><a href="#process">How it works</a></li>
+      <li><a href="#nil">NIL</a></li>
+      <li><a href="#results">Results</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="nav-call" id="callFlexBtn" onclick="handleCallFlex()" aria-label="Have FLEX call you"><svg><use href="#i-phone"/></svg><span class="txt">Have FLEX call you</span></button>
+      <a href="#assessment" class="btn btn-primary">Free Assessment <span class="arr"><svg><use href="#i-arrow"/></svg></span></a>
+    </div>
+  </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-number">1</div>
-  <div class="hero-watermark"><img src="/flex-logo.png" alt=""></div>
-  <div class="hw-bats hw-only" aria-hidden="true">
-    <div class="hw-bat b1"><svg viewBox="0 0 64 32" aria-hidden="true"><path fill="currentColor" d="M32 12L30 12L28.5 8L27.5 13Q18 6 4 8Q9 11 8 15Q4 16 3 19Q10 16 13 20Q14 22 13 25Q18 20 23 22Q25 24 25 27Q29 24 32 26Q35 24 39 27Q39 24 41 22Q46 20 51 25Q50 22 51 20Q54 16 61 19Q60 16 56 15Q55 11 60 8Q46 6 36.5 13L35.5 8L34 12Z"/></svg></div>
-    <div class="hw-bat b2"><svg viewBox="0 0 64 32" aria-hidden="true"><path fill="currentColor" d="M32 12L30 12L28.5 8L27.5 13Q18 6 4 8Q9 11 8 15Q4 16 3 19Q10 16 13 20Q14 22 13 25Q18 20 23 22Q25 24 25 27Q29 24 32 26Q35 24 39 27Q39 24 41 22Q46 20 51 25Q50 22 51 20Q54 16 61 19Q60 16 56 15Q55 11 60 8Q46 6 36.5 13L35.5 8L34 12Z"/></svg></div>
-    <div class="hw-bat b3"><svg viewBox="0 0 64 32" aria-hidden="true"><path fill="currentColor" d="M32 12L30 12L28.5 8L27.5 13Q18 6 4 8Q9 11 8 15Q4 16 3 19Q10 16 13 20Q14 22 13 25Q18 20 23 22Q25 24 25 27Q29 24 32 26Q35 24 39 27Q39 24 41 22Q46 20 51 25Q50 22 51 20Q54 16 61 19Q60 16 56 15Q55 11 60 8Q46 6 36.5 13L35.5 8L34 12Z"/></svg></div>
-    <div class="hw-bat b4"><svg viewBox="0 0 64 32" aria-hidden="true"><path fill="currentColor" d="M32 12L30 12L28.5 8L27.5 13Q18 6 4 8Q9 11 8 15Q4 16 3 19Q10 16 13 20Q14 22 13 25Q18 20 23 22Q25 24 25 27Q29 24 32 26Q35 24 39 27Q39 24 41 22Q46 20 51 25Q50 22 51 20Q54 16 61 19Q60 16 56 15Q55 11 60 8Q46 6 36.5 13L35.5 8L34 12Z"/></svg></div>
-  </div>
-  <div class="hero-content">
-    <div class="hero-left">
-      <div class="hw-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.2 2.5h2.4l-.6 4.2h-1.6z" fill="#5E8C31"/><ellipse cx="7.6" cy="14.2" rx="5.2" ry="7" fill="currentColor"/><ellipse cx="16.4" cy="14.2" rx="5.2" ry="7" fill="currentColor"/><ellipse cx="12" cy="14.2" rx="4.6" ry="7.6" fill="#FF8C33"/></svg><span><b>October</b> at The Flex · No tricks. Just results.</span></div>
-      <div class="hero-tag">Earth City, MO · Est. 2013</div>
-      <h1 class="hero-h1">Is Your<br><span class="accent">Athlete</span><br><span class="outline">Getting</span><br>Left Behind?</h1>
-      <p class="hero-sub">While other kids train with elite coaches, yours is falling behind on <strong>speed, strength, and explosiveness</strong> — the exact metrics that win starting spots, earn scholarships, and unlock NIL deals.</p>
-      <div class="hero-btns">
-        <a href="#assessment" class="btn-red">Claim Free Athletic Assessment</a>
-        <a href="#process" class="btn-outline">See How It Works</a>
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow rv"><span class="live"></span>Earth City, MO &nbsp;·&nbsp; Est. 2013</p>
+      <h1 class="display hero-h1 rv d1">
+        <span class="line">Is your</span>
+        <span class="line"><em>athlete</em></span>
+        <span class="line"><span class="stroke">getting</span></span>
+        <span class="line">left behind?</span>
+      </h1>
+      <p class="lede rv d2">While other kids train with elite coaches, yours is falling behind on <strong>speed, strength, and explosiveness</strong> — the exact metrics that win starting spots, earn scholarships, and unlock NIL deals.</p>
+      <div class="hero-ctas rv d2">
+        <a href="#assessment" class="btn btn-primary">Claim free athletic assessment <span class="arr"><svg><use href="#i-arrow"/></svg></span></a>
+        <a href="#process" class="btn btn-ghost">See how it works</a>
       </div>
-      <div class="hero-stats">
-        <div class="hstat"><div class="hstat-num">10+</div><div class="hstat-label">Years Coaching</div></div>
-        <div class="hstat-sep"></div>
-        <div class="hstat"><div class="hstat-num">Pro</div><div class="hstat-label">Bodybuilder</div></div>
-        <div class="hstat-sep"></div>
-        <div class="hstat"><div class="hstat-num">NIL</div><div class="hstat-label">Ready Training</div></div>
-        <div class="hstat-sep"></div>
-        <div class="hstat"><div class="hstat-num">Group</div><div class="hstat-label">Training</div></div>
+      <dl class="hero-stats rv d3">
+        <div><dt>10<em>+</em></dt><dd>Years coaching</dd></div>
+        <div><dt>Pro</dt><dd>Elite bodybuilder</dd></div>
+        <div><dt>NIL</dt><dd>Ready training</dd></div>
+        <div><dt>Group</dt><dd>Small-group sessions</dd></div>
+      </dl>
+    </div>
+
+    <div class="hero-visual rv d1">
+      <div class="hv-card">
+        <img src="/images/kenny-flex.webp" alt="Coach Kenny Sims flexing in a Flex Training Est. 2013 tank" width="1000" height="1294" fetchpriority="high">
+        <div class="hv-chip c1"><span class="ic"><svg><use href="#i-trophy"/></svg></span><span><b>Pro Elite</b><small>Bodybuilder</small></span></div>
+        <div class="hv-chip c2"><span class="ic"><svg><use href="#i-bolt"/></svg></span><span><b>Coach Kenny Sims</b><small>Owner · Head coach</small></span></div>
+      </div>
+      <a class="seal" href="#assessment" aria-label="Claim a free assessment">
+        <svg class="ring" viewBox="0 0 132 132" aria-hidden="true"><defs><path id="seal-c" d="M66,66 m-52,0 a52,52 0 1,1 104,0 a52,52 0 1,1 -104,0"/></defs><text><textPath href="#seal-c">Free assessment · Limited spots ·</textPath></text></svg>
+        <img src="/flex-logo.png" alt="">
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Speed <svg><use href="#i-star"/></svg> Strength <svg><use href="#i-star"/></svg> Explosiveness <svg><use href="#i-star"/></svg> NIL ready <svg><use href="#i-star"/></svg> Combine prep <svg><use href="#i-star"/></svg> Est. 2013 <svg><use href="#i-star"/></svg></span>
+    <span>Speed <svg><use href="#i-star"/></svg> Strength <svg><use href="#i-star"/></svg> Explosiveness <svg><use href="#i-star"/></svg> NIL ready <svg><use href="#i-star"/></svg> Combine prep <svg><use href="#i-star"/></svg> Est. 2013 <svg><use href="#i-star"/></svg></span>
+  </div>
+</div>
+
+<!-- ASSESSMENT -->
+<section class="sec" id="assessment">
+  <div class="wrap assess-grid">
+    <div class="assess-copy">
+      <p class="eyebrow rv"><span class="tick"></span>Free · 20 minutes · No pressure</p>
+      <h2 class="display h2 rv d1">Free athletic<br><em>performance</em><br>assessment</h2>
+      <p class="lede rv d2">20 minutes with Coach Kenny. We evaluate your athlete's speed, strength, agility, and explosiveness — and map out exactly what they need to level up before their next season.</p>
+      <ol class="tests">
+        <li class="rv"><span class="n">01</span><span><b>Speed</b><small>First-step quickness and top-end speed</small></span><span class="ic"><svg><use href="#i-stopwatch"/></svg></span></li>
+        <li class="rv d1"><span class="n">02</span><span><b>Strength</b><small>Sport-specific strength and power</small></span><span class="ic"><svg><use href="#i-dumbbell"/></svg></span></li>
+        <li class="rv d2"><span class="n">03</span><span><b>Agility &amp; explosiveness</b><small>Change of direction and lateral quickness</small></span><span class="ic"><svg><use href="#i-agility"/></svg></span></li>
+        <li class="rv d3"><span class="n">04</span><span><b>Your game plan</b><small>Exactly what they need before next season</small></span><span class="ic"><svg><use href="#i-map"/></svg></span></li>
+      </ol>
+      <div class="assess-alt rv">
+        <span>Rather talk it through?</span>
+        <button class="btn btn-ghost" style="--h:46px" onclick="handleCallFlex()"><svg><use href="#i-phone"/></svg>Have FLEX call you</button>
+        <span>or dial <a href="tel:8775153539">(877) 515-FLEX</a></span>
       </div>
     </div>
-    <div id="assessment">
-      <div class="urgency-card">
-        <div class="urgency-badge"><span class="pulse-dot"></span>Only 3 Spots Left This Month</div>
-        <div class="urgency-title">Free Athletic<br>Performance<br>Assessment</div>
-        <p class="urgency-desc">20 minutes with Coach Kenny. We evaluate your athlete's speed, strength, agility, and explosiveness — and map out exactly what they need to level up before their next season.</p>
+
+    <div class="form-card rv d1" id="assessForm">
+      <div class="fc-top">
+        <span class="pill"><span class="live"></span>Only 3 spots left this month</span>
+        <span class="fc-step" id="afStepLabel">Step 1 of 2</span>
+      </div>
+      <h3 class="display fc-title">Claim your spot</h3>
+      <p class="fc-sub">Takes under a minute. We'll text you to lock in a time.</p>
+      <div class="spots" id="spots">
         <div class="spots-bar"><div class="spots-fill"></div></div>
-        <div class="spots-label"><span>9 of 12 spots</span> claimed this month</div>
-        <div class="urgency-form">
-          <input type="text" class="uf-input" placeholder="Athlete's Name" required>
-          <input type="text" class="uf-input" placeholder="Athlete's Age" required>
-          <input type="text" class="uf-input" placeholder="Parent/Guardian Name (Optional)" style="opacity:0.7;">
-          <input type="tel" class="uf-input" placeholder="Phone Number">
-          <select class="uf-select"><option value="" disabled selected>Athlete's Sport...</option><option>Football</option><option>Basketball</option><option>Baseball / Softball</option><option>Track & Field</option><option>Soccer</option><option>Wrestling</option><option>Volleyball</option><option>Other</option></select>
-          <select class="uf-select"><option value="" disabled selected>Primary Goal...</option><option>Increase Speed & Agility</option><option>Build Strength & Power</option><option>Prepare for Tryouts / Combine</option><option>College Recruitment Prep</option><option>NIL Readiness & Brand Building</option><option>Overall Athletic Performance</option></select>
-          <button class="uf-submit" onclick="handleAssessment(this)">Claim My Free Assessment →</button>
-          <p class="uf-note">No commitment. No sales pitch. Just results-focused coaching.</p>
-          <p class="uf-note" style="margin-top:6px;color:#666;line-height:1.5;">By submitting, you agree to receive SMS from The Flex Facility about your assessment and our programs. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. See <a href="/privacy" style="color:var(--red);text-decoration:underline;">Privacy</a> &amp; <a href="/terms" style="color:var(--red);text-decoration:underline;">Terms</a>.</p>
+        <div class="spots-label"><span><b>9 of 12 spots</b> claimed</span><span>This month</span></div>
+      </div>
+
+      <div class="fstep on" data-step="1">
+        <div class="field-row">
+          <div class="field"><label class="lbl" for="afName">Athlete's name</label><input class="inp" id="afName" type="text" autocomplete="name" placeholder="First and last name"></div>
+          <div class="field"><label class="lbl" for="afAge">Age</label><input class="inp" id="afAge" type="text" inputmode="numeric" placeholder="14"></div>
         </div>
-        <div class="call-flex-hero">
-          <button class="call-flex-hero-btn" onclick="handleCallFlex()">&#9742; Have FLEX Call You</button>
-          <span class="call-flex-or">or dial</span>
-          <a href="tel:8775153539" class="call-flex-tel">(877) 515-FLEX</a>
+        <p class="err" id="afNameErr">Add your athlete's name to continue.</p>
+        <fieldset class="field" style="border:0">
+          <legend class="lbl">Sport</legend>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="afSport" value="Football"><span>Football</span></label>
+            <label class="chip"><input type="radio" name="afSport" value="Basketball"><span>Basketball</span></label>
+            <label class="chip"><input type="radio" name="afSport" value="Baseball / Softball"><span>Baseball / Softball</span></label>
+            <label class="chip"><input type="radio" name="afSport" value="Track & Field"><span>Track &amp; Field</span></label>
+            <label class="chip"><input type="radio" name="afSport" value="Soccer"><span>Soccer</span></label>
+            <label class="chip"><input type="radio" name="afSport" value="Wrestling"><span>Wrestling</span></label>
+            <label class="chip"><input type="radio" name="afSport" value="Volleyball"><span>Volleyball</span></label>
+            <label class="chip"><input type="radio" name="afSport" value="Other"><span>Other</span></label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label class="lbl" for="afGoal">Primary goal</label>
+          <select class="inp" id="afGoal">
+            <option value="" selected>Choose a goal…</option>
+            <option>Increase Speed & Agility</option>
+            <option>Build Strength & Power</option>
+            <option>Prepare for Tryouts / Combine</option>
+            <option>College Recruitment Prep</option>
+            <option>NIL Readiness & Brand Building</option>
+            <option>Overall Athletic Performance</option>
+          </select>
         </div>
+        <button class="btn btn-primary btn-block" type="button" onclick="assessNext()">Continue <span class="arr"><svg><use href="#i-arrow"/></svg></span></button>
+      </div>
+
+      <div class="fstep" data-step="2">
+        <div class="field"><label class="lbl" for="afParent">Parent / guardian name <i>(optional)</i></label><input class="inp" id="afParent" type="text" autocomplete="name" placeholder="Your name"></div>
+        <div class="field"><label class="lbl" for="afPhone">Mobile number</label><input class="inp" id="afPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(555) 123-4567"></div>
+        <p class="err" id="afPhoneErr">Enter a 10-digit phone number so we can text you a time.</p>
+        <div class="fc-actions">
+          <button class="back" type="button" onclick="assessBack()" aria-label="Back"><svg><use href="#i-arrow"/></svg></button>
+          <button class="btn btn-primary btn-block uf-submit" type="button" onclick="handleAssessment(this)">Claim my free assessment <span class="arr"><svg><use href="#i-arrow"/></svg></span></button>
+        </div>
+        <p class="assure"><svg><use href="#i-shield"/></svg>No commitment. No sales pitch. Just results-focused coaching.</p>
+        <p class="fine">By submitting, you agree to receive SMS from The Flex Facility about your assessment and our programs. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. See <a href="/privacy">Privacy</a> &amp; <a href="/terms">Terms</a>.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PAIN -->
-<section class="pain">
-  <div class="pain-inner">
-    <div class="section-tag reveal">The Reality</div>
-    <h2 class="section-title reveal">What's Holding Your<br><span class="accent">Athlete Back</span></h2>
-    <div class="pain-grid">
-      <div class="pain-card reveal">
-        <span class="pain-icon">⚡</span>
-        <div class="pain-title">Falling Behind on Speed</div>
-        <p class="pain-desc">Speed is the #1 differentiator at every level. Without targeted training, the gap between your athlete and the competition widens every season.</p>
-        <div class="pain-stat">0.3s</div>
-        <div class="pain-stat-label">Average speed gap between starters and bench players</div>
+<!-- THE REALITY -->
+<section class="sec sec-ink2 sec-line">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow rv"><span class="tick"></span>The reality</p>
+        <h2 class="display h2 rv d1">What's holding<br>your <em>athlete</em> back</h2>
       </div>
-      <div class="pain-card reveal delay-1">
-        <span class="pain-icon">🏆</span>
-        <div class="pain-title">Missing Recruiting Opportunities</div>
-        <p class="pain-desc">College scouts watch measurables first — 40 time, vertical, strength numbers. Athletes who don't train specifically for these moments get overlooked.</p>
-        <div class="pain-stat">70%</div>
-        <div class="pain-stat-label">Of college-bound athletes never get recruited without active development</div>
+      <p class="lede rv d2">The gap between starters and the bench isn't talent alone. It's measurable — and it widens every season without targeted training.</p>
+    </div>
+    <div class="bento-3">
+      <article class="stat-card feature rv">
+        <span class="ic"><svg><use href="#i-bolt"/></svg></span>
+        <div class="stat-num" data-count="0.3" data-dec="1">0.3<em>s</em></div>
+        <div class="stat-cap">Average speed gap between starters and bench players</div>
+        <h3 class="card-t">Falling behind on speed</h3>
+        <p class="card-d">Speed is the #1 differentiator at every level. Without targeted training, the gap between your athlete and the competition widens every season.</p>
+      </article>
+      <article class="stat-card rv d1">
+        <span class="ic"><svg><use href="#i-trophy"/></svg></span>
+        <div class="stat-num" data-count="70">70<em>%</em></div>
+        <div class="stat-cap">Of college-bound athletes never get recruited without active development</div>
+        <h3 class="card-t">Missing recruiting opportunities</h3>
+        <p class="card-d">College scouts watch measurables first — 40 time, vertical, strength numbers. Athletes who don't train specifically for these moments get overlooked.</p>
+      </article>
+      <article class="stat-card rv d2">
+        <span class="ic"><svg><use href="#i-target"/></svg></span>
+        <div class="stat-num" data-count="3">3<em>×</em></div>
+        <div class="stat-cap">Faster improvement with sport-specific group training vs generic programs</div>
+        <h3 class="card-t">Generic training doesn't cut it</h3>
+        <p class="card-d">Big-box gym programs aren't built for sport-specific performance. Your athlete needs a program designed for competitive athletes — not general fitness.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section class="sec" id="programs">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow rv"><span class="tick"></span>What we deliver</p>
+        <h2 class="display h2 rv d1">Your athlete will<br><em>outperform</em> the<br>competition</h2>
       </div>
-      <div class="pain-card reveal delay-2">
-        <span class="pain-icon">🎯</span>
-        <div class="pain-title">Generic Training Doesn't Cut It</div>
-        <p class="pain-desc">Generic gym programs and big-box fitness classes aren't built for sport-specific performance. Your athlete needs a program designed for competitive athletes — not general fitness.</p>
-        <div class="pain-stat">3×</div>
-        <div class="pain-stat-label">Faster improvement with sport-specific group performance training vs generic programs</div>
-      </div>
+      <p class="lede rv d2">Every program is custom-built around your athlete's sport, position, strengths, and goals. We don't do generic. <strong>We do results.</strong></p>
+    </div>
+    <div class="bento">
+      <article class="tile t-speed rv">
+        <span class="idx">01</span><span class="ic"><svg><use href="#i-bolt"/></svg></span>
+        <span class="bg-word" aria-hidden="true">Speed</span>
+        <h3 class="card-t">Speed &amp; agility training</h3>
+        <p class="card-d">40-yard dash, lateral quickness, first-step explosion.</p>
+      </article>
+      <article class="tile t-strength rv d1">
+        <span class="idx">02</span><span class="ic"><svg><use href="#i-dumbbell"/></svg></span>
+        <h3 class="card-t">Strength &amp; power</h3>
+        <p class="card-d">Sport-specific strength that transfers to the field or court.</p>
+      </article>
+      <article class="tile t-nutrition rv">
+        <span class="idx">03</span><span class="ic"><svg><use href="#i-fuel"/></svg></span>
+        <h3 class="card-t">Custom nutrition plans</h3>
+        <p class="card-d">Fueling for performance, recovery, and body composition.</p>
+      </article>
+      <article class="tile t-combine rv d1">
+        <span class="idx">04</span><span class="ic"><svg><use href="#i-target"/></svg></span>
+        <span class="bg-word" aria-hidden="true">Combine</span>
+        <h3 class="card-t">Combine &amp; tryout prep</h3>
+        <p class="card-d">Targeted programs built around specific evaluation dates.</p>
+      </article>
+      <article class="tile t-sports rv">
+        <h3 class="card-t">Your sport is our sport</h3>
+        <ul class="sport-list">
+          <li>Football</li><li>Basketball</li><li>Baseball / Softball</li><li>Track &amp; Field</li><li>Soccer</li><li>Wrestling</li><li>Volleyball</li>
+        </ul>
+      </article>
     </div>
   </div>
 </section>
 
 <!-- COACH -->
-<section class="coach">
-  <div class="coach-card reveal">
-    <div class="coach-role">Owner · Personal Trainer · Pro Bodybuilder</div>
-    <div class="coach-name">Coach Kenny Sims</div>
-    <div class="coach-title">Flex Facility — Earth City, MO</div>
-    <p class="coach-bio">Since 2013, Coach Kenny has been developing athletes at every level — from first-time players to elite competitors. As a pro bodybuilder and certified trainer, he brings a level of knowledge and intensity that most coaches simply can't match.</p>
-    <div class="coach-credentials">
-      <div class="cred">Pro Bodybuilder & Certified Personal Trainer</div>
-      <div class="cred">10+ Years Developing Athletes</div>
-      <div class="cred">Custom Training & Nutrition Programs</div>
-      <div class="cred">Small-Group Performance Training — In-Person & Virtual</div>
-      <div class="cred">NIL Performance & Visibility Training</div>
-    </div>
-  </div>
-  <div class="coach-right reveal delay-1">
-    <div class="section-tag">What We Deliver</div>
-    <h2 class="coach-promise">Your Athlete Will<br><span class="accent">Outperform</span><br>The Competition</h2>
-    <p class="coach-promise-text">Every program is custom-built around your athlete's sport, position, strengths, and goals. We don't do generic. We do results.</p>
-    <div class="results-list">
-      <div class="result-item"><div class="result-icon">⚡</div><div class="result-text"><div class="result-title">Speed & Agility Training</div><div class="result-sub">40-yard dash, lateral quickness, first-step explosion</div></div></div>
-      <div class="result-item"><div class="result-icon">💪</div><div class="result-text"><div class="result-title">Strength & Power Development</div><div class="result-sub">Sport-specific strength that transfers to the field or court</div></div></div>
-      <div class="result-item"><div class="result-icon">🧠</div><div class="result-text"><div class="result-title">Custom Nutrition Plans</div><div class="result-sub">Fueling for performance, recovery, and body composition</div></div></div>
-      <div class="result-item"><div class="result-icon">🎯</div><div class="result-text"><div class="result-title">Combine & Tryout Prep</div><div class="result-sub">Targeted programs built around specific evaluation dates</div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- NIL -->
-<section class="nil">
-  <div class="nil-inner">
-    <div class="nil-left">
-      <div class="section-tag reveal">Name · Image · Likeness</div>
-      <h2 class="nil-headline reveal">Train Like a Pro.<br><span class="accent">Get Paid</span><br><span class="outline">Like One Too.</span></h2>
-      <p class="nil-body reveal">NIL changed everything. High school and college athletes can now earn real money from their name, image, and likeness — but <strong>only if they look the part.</strong></p>
-      <p class="nil-body reveal">Brands don't sign athletes who blend in. They sign athletes who stand out — physically, visually, and competitively. Coach Kenny's training builds the performance metrics and the physique that make athletes <strong>impossible to ignore</strong> by scouts, sponsors, and brands alike.</p>
-      <div class="nil-facts reveal">
-        <div><div class="nil-fact-num">$1B+</div><div class="nil-fact-label">NIL market in 2024</div></div>
-        <div class="nil-fact-sep"></div>
-        <div><div class="nil-fact-num">50K+</div><div class="nil-fact-label">Athletes earning deals</div></div>
-        <div class="nil-fact-sep"></div>
-        <div><div class="nil-fact-num">HS</div><div class="nil-fact-label">Eligible in most states</div></div>
-      </div>
-    </div>
-    <div class="nil-right reveal delay-1">
-      <div class="nil-card">
-        <div class="nil-card-number">01</div>
-        <div class="nil-card-title">Performance = Visibility</div>
-        <p class="nil-card-desc">The athletes earning NIL deals aren't just talented — they're measurably elite. Coach Kenny's training builds the speed, strength, and physique that gets athletes noticed on film and in person.</p>
-      </div>
-      <div class="nil-card">
-        <div class="nil-card-number">02</div>
-        <div class="nil-card-title">Build a Body Brands Want</div>
-        <p class="nil-card-desc">Physique matters in the NIL economy. Training with a pro bodybuilder means your athlete develops not just athletic performance but the presence that attracts sponsorships.</p>
-      </div>
-      <div class="nil-card">
-        <div class="nil-card-number">03</div>
-        <div class="nil-card-title">Get Ahead Before College</div>
-        <p class="nil-card-desc">Most athletes wait until college to think about NIL. The ones who arrive already built and performing at an elite level are the ones who land deals Day 1 on campus.</p>
-      </div>
-    </div>
-  </div>
-  <div class="nil-cta-strip reveal">
-    <div class="nil-cta-text">
-      <strong>Ready to build an NIL-ready athlete?</strong>
-      Start with a free assessment — Coach Kenny will map out exactly what your athlete needs to compete at the next level and attract real attention.
-    </div>
-    <a href="#assessment" class="btn-red" style="white-space:nowrap;flex-shrink:0;">Start Free Assessment →</a>
-  </div>
-</section>
-
-<!-- SPORTS -->
-<section class="sports">
-  <div class="sports-inner">
-    <div class="section-tag reveal">We Train Champions In</div>
-    <h2 class="section-title reveal">Your Sport <span class="accent">Is Our Sport</span></h2>
-    <div class="sports-grid">
-      <div class="sport-card reveal"><span class="sport-icon">🏈</span><div class="sport-name">Football</div></div>
-      <div class="sport-card reveal delay-1"><span class="sport-icon">🏀</span><div class="sport-name">Basketball</div></div>
-      <div class="sport-card reveal delay-2"><span class="sport-icon">⚾</span><div class="sport-name">Baseball</div></div>
-      <div class="sport-card reveal delay-3"><span class="sport-icon">🏃</span><div class="sport-name">Track & Field</div></div>
-      <div class="sport-card reveal delay-4"><span class="sport-icon">⚽</span><div class="sport-name">Soccer</div></div>
-      <div class="sport-card reveal delay-5"><span class="sport-icon">🤼</span><div class="sport-name">Wrestling</div></div>
+<section class="sec coach" id="coach">
+  <div class="coach-bgword" aria-hidden="true">Kenny</div>
+  <div class="wrap coach-grid">
+    <figure class="coach-photo rv">
+      <img src="/images/kenny-stage.webp" alt="Coach Kenny Sims on stage at the International Pro Elite World Championships" width="874" height="1311" loading="lazy">
+      <figcaption>
+        <span><b>International Pro Elite</b><small>World Championships stage</small></span>
+        <img class="badge" src="/flex-logo.png" alt="">
+      </figcaption>
+    </figure>
+    <div>
+      <p class="eyebrow rv"><span class="tick"></span>Meet your coach</p>
+      <h2 class="display h2 rv d1">Coach<br><em>Kenny</em> Sims</h2>
+      <p class="coach-role rv d1">Owner · Certified Sports Performance Trainer · Pro Bodybuilder</p>
+      <p class="coach-bio rv d2">Coach Kenny has been building competitive athletes since 2013 — from first-time players to elite competitors. As a pro bodybuilder and certified trainer, he brings a level of knowledge and intensity that most coaches simply can't match.</p>
+      <p class="coach-bio rv d2">His group training model is simple: put serious athletes in the same room, push them hard, and watch them rise. He meets your athlete where they are — and takes them further.</p>
+      <ul class="creds rv d3">
+        <li><svg><use href="#i-check"/></svg>Pro Bodybuilder &amp; Certified Personal Trainer</li>
+        <li><svg><use href="#i-check"/></svg>10+ years developing athletes</li>
+        <li><svg><use href="#i-check"/></svg>Custom training &amp; nutrition programs</li>
+        <li><svg><use href="#i-check"/></svg>Small-group training — in-person &amp; virtual</li>
+        <li><svg><use href="#i-check"/></svg>NIL performance &amp; visibility training</li>
+        <li><svg><use href="#i-check"/></svg>Every session tracked in real numbers</li>
+      </ul>
+      <a href="#assessment" class="btn btn-dark rv">Book your free assessment <span class="arr"><svg><use href="#i-arrow"/></svg></span></a>
     </div>
   </div>
 </section>
 
 <!-- PROCESS -->
-<section class="process" id="process">
-  <div class="section-tag reveal">How It Works</div>
-  <h2 class="section-title reveal">From <span class="accent">Assessment</span> to Dominance</h2>
-  <div class="process-steps">
-    <div class="process-step reveal"><div class="step-number">01</div><div class="step-title">Book Your Free Assessment</div><p class="step-desc">We learn your sport, your goals, and where you're at. Coach Kenny evaluates speed, strength, agility, and explosiveness. Zero cost, zero pressure.</p><div class="step-arrow"></div></div>
-    <div class="process-step reveal delay-1"><div class="step-number">02</div><div class="step-title">Join the Group</div><p class="step-desc">You train alongside other competitive athletes. The energy is real. The competition is real. Group sessions built for athletes who want more.</p><div class="step-arrow"></div></div>
-    <div class="process-step reveal delay-2"><div class="step-number">03</div><div class="step-title">Get Pushed Further</div><p class="step-desc">When someone next to you is grinding, you grind harder. That's the Flex effect. Every session is tracked so you can see real improvement in real numbers.</p><div class="step-arrow"></div></div>
-    <div class="process-step reveal delay-3"><div class="step-number">04</div><div class="step-title">Show Up Different</div><p class="step-desc">Better speed, strength, and confidence — on the field and off it. Show up to tryouts, combines, and games as the most prepared athlete out there.</p></div>
-  </div>
-</section>
-
-<!-- MEET COACH KENNY -->
-<section class="meet-coach">
-  <div class="meet-coach-inner">
-    <div class="meet-coach-photo reveal">
-      <img src="images/coach_kenny.jpg" alt="Coach Kenny — Flex Training Est. 2013" loading="lazy">
-    </div>
-    <div class="meet-coach-text">
-      <h2 class="meet-coach-heading reveal">Meet <span class="accent">Coach Kenny</span></h2>
-      <div class="meet-coach-sub reveal">Certified Sports Performance Trainer &middot; Flex Training Est. 2013</div>
-      <p class="meet-coach-bio reveal">Coach Kenny has been building competitive athletes since 2013. His group training model is simple: put serious athletes in the same room, push them hard, and watch them rise. Whether you're training for your sport or just ready to get serious, Coach Kenny meets you where you are — and takes you further.</p>
-      <a href="#final-cta" class="meet-coach-btn reveal">Book Your Free Assessment &rarr;</a>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="events-section" id="events" data-events-section style="display:none;padding:90px 24px;">
-  <div style="max-width:1200px;margin:0 auto;">
-    <div class="section-tag">What's Coming Up</div>
-    <h2 class="section-title">Upcoming <span class="accent">Events</span></h2>
-    <div data-goelev8-events="flex-facility" data-title="" data-accent="var(--red)" data-theme="dark" style="margin-top:32px;"></div>
-  </div>
-</section>
-
-<section class="testimonials">
-  <div class="testi-inner">
-    <div class="section-tag reveal">Results That Speak</div>
-    <h2 class="section-title reveal">Athletes Who <span class="accent">Leveled Up</span></h2>
-    <div class="testi-grid">
-      <div class="testi-card reveal">
-        <div class="testi-sport">Football · Wide Receiver</div>
-        <div class="testi-result">0.4s</div>
-        <div class="testi-result-label">Improvement in 40-yard dash in 8 weeks</div>
-        <p class="testi-quote">"My son went from being the slowest on the team to one of the fastest. Coach Kenny's program is different — it's built for athletes, not just anyone who wants to get in shape."</p>
-        <div class="testi-author"><div class="testi-avatar">DT</div><div><div class="testi-name">David T.</div><div class="testi-meta">Parent · St. Louis, MO</div></div></div>
+<section class="sec" id="process">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow rv"><span class="tick"></span>How it works</p>
+        <h2 class="display h2 rv d1">From <em>assessment</em><br>to dominance</h2>
       </div>
-      <div class="testi-card reveal delay-1">
-        <div class="testi-sport">Basketball · Point Guard</div>
-        <div class="testi-result">+6"</div>
-        <div class="testi-result-label">Vertical jump increase in 10 weeks</div>
-        <p class="testi-quote">"She made varsity as a sophomore. Coach Kenny focused on her explosiveness and first-step quickness and it showed immediately. The recruiters noticed."</p>
-        <div class="testi-author"><div class="testi-avatar">MJ</div><div><div class="testi-name">Michelle J.</div><div class="testi-meta">Parent · Earth City, MO</div></div></div>
-      </div>
-      <div class="testi-card reveal delay-2">
-        <div class="testi-sport">Track & Field · Sprinter</div>
-        <div class="testi-result">State</div>
-        <div class="testi-result-label">Qualified for state championships</div>
-        <p class="testi-quote">"I've been training with Coach Kenny for 6 months and the difference is night and day. He pushed me harder than I've ever been pushed and the results speak for themselves."</p>
-        <div class="testi-author"><div class="testi-avatar">KR</div><div><div class="testi-name">Kyle R.</div><div class="testi-meta">Athlete · 17 yrs old</div></div></div>
-      </div>
+      <p class="lede rv d2">When someone next to you is grinding, you grind harder. That's the Flex effect.</p>
     </div>
-    <div class="testi-more reveal">
-      <a href="/reviews#reviews">Read more reviews &rarr;</a>
-      <a href="/reviews">Leave a review &rarr;</a>
-    </div>
+    <ol class="steps" style="list-style:none">
+      <li class="step rv"><div class="top"><span class="n">01</span><span class="bar"></span></div><h3 class="card-t">Book your free assessment</h3><p class="card-d">We learn your sport, your goals, and where you're at. Coach Kenny evaluates speed, strength, agility, and explosiveness. Zero cost, zero pressure.</p></li>
+      <li class="step rv d1"><div class="top"><span class="n">02</span><span class="bar"></span></div><h3 class="card-t">Join the group</h3><p class="card-d">Train alongside other competitive athletes. The energy is real. The competition is real. Group sessions built for athletes who want more.</p></li>
+      <li class="step rv d2"><div class="top"><span class="n">03</span><span class="bar"></span></div><h3 class="card-t">Get pushed further</h3><p class="card-d">Every session is tracked so you can see real improvement in real numbers — not guesses.</p></li>
+      <li class="step rv d3"><div class="top"><span class="n">04</span><span class="bar"></span></div><h3 class="card-t">Show up different</h3><p class="card-d">Better speed, strength, and confidence. Show up to tryouts, combines, and games as the most prepared athlete out there.</p></li>
+    </ol>
   </div>
 </section>
 
-<!-- SOCIAL POSTS -->
-<section class="social-posts">
-  <div class="social-posts-inner">
-    <div class="section-tag reveal">Follow the Journey</div>
-    <h2 class="section-title reveal">See What's <span class="accent">Happening</span></h2>
-    <div class="social-grid">
-      <div class="social-card reveal">
-        <div class="social-img"><div class="social-img-icon">&#9889;</div></div>
-        <div class="social-body">
-          <div class="social-handle">@theflexfacility</div>
-          <p class="social-caption">Morning session with the QuickStart crew. These athletes don't play around. &#x1F4AA;&#x1F3FE;&#x1F525; #FlexFacility #SportsPerformance #EarthCity</p>
-          <div class="social-likes">&#10084; 187 likes</div>
+<!-- NIL -->
+<section class="sec sec-ink2 sec-line nil" id="nil">
+  <div class="wrap">
+    <div class="nil-grid">
+      <div>
+        <p class="eyebrow rv"><span class="tick"></span>Name · Image · Likeness</p>
+        <h2 class="display h2 rv d1">Train like a pro.<br><em>Get paid</em><br><span class="stroke">like one too.</span></h2>
+        <p class="lede rv d2">NIL changed everything. High school and college athletes can now earn real money from their name, image, and likeness — but <strong>only if they look the part.</strong></p>
+        <p class="lede rv d2">Brands sign athletes who stand out — physically, visually, and competitively. Coach Kenny's training builds the performance metrics and the physique that make athletes <strong>impossible to ignore.</strong></p>
+        <div class="facts rv d3">
+          <div><b>$1B+</b><small>NIL market in 2024</small></div>
+          <div><b>50K+</b><small>Athletes earning deals</small></div>
+          <div><b>HS</b><small>Eligible in most states</small></div>
         </div>
       </div>
-      <div class="social-card reveal delay-1">
-        <div class="social-img"><div class="social-img-icon">&#9889;</div></div>
-        <div class="social-body">
-          <div class="social-handle">@theflexfacility</div>
-          <p class="social-caption">Speed. Strength. Accountability. That's what group training builds. Book your free assessment — link in bio. #FlexTraining #AthleteLife #QuickStart</p>
-          <div class="social-likes">&#10084; 214 likes</div>
-        </div>
+      <div class="nil-cards">
+        <article class="nil-card rv"><span class="n">01</span><div><h3 class="card-t">Performance = visibility</h3><p class="card-d">The athletes earning NIL deals are measurably elite. We build the speed, strength, and physique that get noticed on film and in person.</p></div></article>
+        <article class="nil-card rv d1"><span class="n">02</span><div><h3 class="card-t">Build a body brands want</h3><p class="card-d">Physique matters in the NIL economy. Training with a pro bodybuilder builds the presence that attracts sponsorships.</p></div></article>
+        <article class="nil-card rv d2"><span class="n">03</span><div><h3 class="card-t">Get ahead before college</h3><p class="card-d">The athletes who arrive on campus already built and performing at an elite level land deals on Day 1.</p></div></article>
       </div>
     </div>
+    <div class="nil-strip rv">
+      <div>
+        <b>Ready to build an NIL-ready athlete?</b>
+        <p>Start with a free assessment — Coach Kenny will map out exactly what your athlete needs to compete at the next level and attract real attention.</p>
+      </div>
+      <a href="#assessment" class="btn btn-dark">Start free assessment <span class="arr"><svg><use href="#i-arrow"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="sec" id="results">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow rv"><span class="tick"></span>Results that speak</p>
+        <h2 class="display h2 rv d1">Athletes who<br><em>leveled up</em></h2>
+      </div>
+      <p class="lede rv d2">Real families. Real numbers. Here's what happens when athletes commit to the work.</p>
+    </div>
+    <div class="quotes">
+      <figure class="quote rv">
+        <span class="tag">Football · Wide receiver</span>
+        <div class="big">0.4s</div>
+        <div class="cap">Faster 40-yard dash in 8 weeks</div>
+        <div class="stars" aria-label="5 stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+        <blockquote>"My son went from being the slowest on the team to one of the fastest. Coach Kenny's program is different — it's built for athletes, not just anyone who wants to get in shape."</blockquote>
+        <figcaption class="who"><span class="av">DT</span><span><b>David T.</b><small>Parent · St. Louis, MO</small></span></figcaption>
+      </figure>
+      <figure class="quote rv d1">
+        <span class="tag">Basketball · Point guard</span>
+        <div class="big">+6"</div>
+        <div class="cap">Vertical jump increase in 10 weeks</div>
+        <div class="stars" aria-label="5 stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+        <blockquote>"She made varsity as a sophomore. Coach Kenny focused on her explosiveness and first-step quickness and it showed immediately. The recruiters noticed."</blockquote>
+        <figcaption class="who"><span class="av">MJ</span><span><b>Michelle J.</b><small>Parent · Earth City, MO</small></span></figcaption>
+      </figure>
+      <figure class="quote rv d2">
+        <span class="tag">Track &amp; Field · Sprinter</span>
+        <div class="big">State</div>
+        <div class="cap">Qualified for state championships</div>
+        <div class="stars" aria-label="5 stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+        <blockquote>"I've been training with Coach Kenny for 6 months and the difference is night and day. He pushed me harder than I've ever been pushed and the results speak for themselves."</blockquote>
+        <figcaption class="who"><span class="av">KR</span><span><b>Kyle R.</b><small>Athlete · 17 yrs old</small></span></figcaption>
+      </figure>
+    </div>
+    <div class="quotes-more rv">
+      <a class="btn btn-ghost" href="/reviews#reviews">Read more reviews</a>
+      <a class="btn btn-ghost" href="/reviews">Leave a review</a>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS — GoElev8 portal embed; hidden until at least one upcoming event -->
+<section class="events-section" id="events" data-events-section style="display:none;">
+  <div class="wrap">
+    <p class="eyebrow"><span class="tick"></span>What's coming up</p>
+    <h2 class="display h2">Upcoming <em>events</em></h2>
+    <div data-goelev8-events="flex-facility" data-title="" data-accent="var(--red)" data-theme="dark" style="margin-top:40px;"></div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <a class="ig rv" href="https://www.instagram.com/flextraining2013" target="_blank" rel="noopener">
+      <div>
+        <p class="eyebrow"><span class="tick"></span>Follow the journey</p>
+        <div class="display" style="margin-top:14px">See what's <em>happening</em><br>on the floor</div>
+        <span class="handle">@flextraining2013 on Instagram</span>
+      </div>
+      <span class="go"><svg><use href="#i-ig"/></svg></span>
+    </a>
   </div>
 </section>
 
 <!-- FINAL CTA -->
-<section class="final-cta" id="final-cta">
-  <div class="cta-inner">
-    <div class="section-tag reveal" style="display:inline-flex;margin-bottom:16px;">Limited Spots Available</div>
-    <h2 class="cta-h2 reveal">Don't Let<br><span class="accent">Tryouts</span><br>Decide For You</h2>
-    <p class="cta-sub reveal">Every week without elite training is a week your competition is pulling ahead. Book your athlete's free assessment today — spots fill fast.</p>
+<section class="sec sec-line final" id="final-cta">
+  <div class="wrap">
+    <p class="eyebrow rv"><span class="live"></span>Limited spots available</p>
+    <h2 class="display h2 rv d1">Don't let <em>tryouts</em><br>decide for you</h2>
+    <p class="lede rv d2">Every week without elite training is a week your competition is pulling ahead. Book your athlete's free assessment today — spots fill fast.</p>
 
-    <!-- NIL CALLOUT -->
-    <div class="nil-callout reveal">
-      <div class="nil-callout-icon">💰</div>
-      <div class="nil-callout-body">
-        <div class="nil-callout-title">This Is Also NIL Training</div>
-        <div class="nil-callout-desc">Athletes who train with Coach Kenny don't just perform better — they look the part. The physique, the measurables, the presence. That's what scouts and sponsors are paying for. Start building it now.</div>
+    <div class="final-card rv d2 cta-form">
+      <div class="nil-note">
+        <svg><use href="#i-cash"/></svg>
+        <div><b>This is also NIL training</b><p>The physique, the measurables, the presence — that's what scouts and sponsors pay for. Start building it now.</p></div>
       </div>
+      <div class="final-grid">
+        <div class="field"><label class="lbl" for="cfName">Athlete's name</label><input class="inp" id="cfName" type="text" autocomplete="name" placeholder="First and last name"></div>
+        <div class="field"><label class="lbl" for="cfPhone">Mobile number</label><input class="inp" id="cfPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(555) 123-4567"></div>
+        <div class="field"><label class="lbl" for="cfIg">Instagram <i>(optional)</i></label><input class="inp" id="cfIg" type="text" placeholder="@yourhandle"></div>
+        <div class="field">
+          <label class="lbl" for="cfSport">Sport</label>
+          <select class="inp" id="cfSport">
+            <option value="" selected>Choose a sport…</option>
+            <option>Football</option><option>Basketball</option><option>Baseball / Softball</option><option>Track & Field</option><option>Soccer</option><option>Wrestling</option><option>Other</option>
+          </select>
+        </div>
+        <p class="err full" id="cfErr">Add the athlete's name and a 10-digit phone number.</p>
+        <div class="full"><button class="btn btn-primary btn-block cta-btn" type="button" onclick="handleCTA(this)">Book free assessment now <span class="arr"><svg><use href="#i-arrow"/></svg></span></button></div>
+      </div>
+      <p class="fine">By submitting, you agree to receive SMS from The Flex Facility about your assessment and our programs. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. See <a href="/privacy">Privacy</a> &amp; <a href="/terms">Terms</a>.</p>
     </div>
-
-    <div class="cta-form reveal">
-      <input type="text" class="cta-input" placeholder="Athlete's Name">
-      <input type="tel" class="cta-input" placeholder="Phone Number">
-      <input type="text" class="cta-input" placeholder="Instagram Handle — @yourhandle" style="grid-column:span 2;">
-      <select class="cta-select"><option value="" disabled selected>Athlete's Sport...</option><option>Football</option><option>Basketball</option><option>Baseball / Softball</option><option>Track & Field</option><option>Soccer</option><option>Wrestling</option><option>Other</option></select>
-      <button class="cta-btn" onclick="handleCTA(this)">Book Free Assessment Now →</button>
-    </div>
-    <p class="cta-note reveal">No commitment required · 20-minute session · Earth City, MO or Virtual</p>
-    <p class="cta-note reveal" style="margin-top:8px;color:#666;font-size:0.65rem;line-height:1.5;max-width:680px;margin-left:auto;margin-right:auto;">By submitting, you agree to receive SMS from The Flex Facility about your assessment and our programs. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. See <a href="/privacy" style="color:var(--red);text-decoration:underline;">Privacy</a> &amp; <a href="/terms" style="color:var(--red);text-decoration:underline;">Terms</a>.</p>
+    <div class="final-meta"><span>No commitment</span><span>20-minute session</span><span>Earth City, MO or virtual</span></div>
+    <a class="fit-link" href="/fit">Not training for a sport? <span>Check out our Fitness &amp; Bodybuilding programs →</span></a>
   </div>
 </section>
 
-<!-- FIT CTA -->
-<div class="fit-cta">
-  <a href="/fit">Not training for a sport? Check out our Fitness &amp; Bodybuilding programs <span>&rarr;</span></a>
-</div>
-
 <footer>
-  <div class="footer-logo">FLEX <span>FACILITY</span></div>
-  <div class="footer-links">
-    <a href="https://www.flextraining.co" target="_blank">Full Website</a>
-    <a href="https://www.instagram.com/flextraining2013" target="_blank">Instagram</a>
-    <a href="/reviews">Reviews</a>
-    <a href="/trainers">Join Our Team</a>
-    <a href="https://fuel.theflexfacility.com" target="_blank" rel="noopener">Flex Fuel</a>
-    <a href="/fuel/agent">Fuel Agent</a>
-    <a href="/privacy">Privacy</a>
-    <a href="/terms">Terms</a>
-    <a href="mailto:kenny@flextraining.co">Contact</a>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="/flex-logo.png" alt="Flex Facility logo" loading="lazy">
+        <p>Elite athletic performance training with Coach Kenny Sims. Earth City, MO 63045 · <a href="tel:8775153539" style="color:var(--bone)">(877) 515-FLEX</a></p>
+      </div>
+      <div class="foot-col">
+        <h4>Train</h4>
+        <ul>
+          <li><a href="#assessment">Free assessment</a></li>
+          <li><a href="/fit">Fitness &amp; bodybuilding</a></li>
+          <li><a href="https://fuel.theflexfacility.com" target="_blank" rel="noopener">Flex Fuel</a></li>
+          <li><a href="/fuel/agent">Fuel Agent</a></li>
+          <li><a href="#" onclick="openAppModal();return false;">Get the app</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Flex Facility</h4>
+        <ul>
+          <li><a href="https://www.flextraining.co" target="_blank" rel="noopener">Full website</a></li>
+          <li><a href="https://www.instagram.com/flextraining2013" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="/reviews">Reviews</a></li>
+          <li><a href="/trainers">Join our team</a></li>
+          <li><a href="mailto:kenny@flextraining.co">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-word" aria-hidden="true">Flex Facility</div>
+    <div class="foot-bottom">
+      <span>© 2026 Flex Training LLC · Earth City, MO 63045 · Powered by <a href="https://goelev8.ai" target="_blank" rel="noopener">GoElev8.ai</a></span>
+      <span><a href="/privacy">Privacy</a> &nbsp;·&nbsp; <a href="/terms">Terms</a></span>
+    </div>
   </div>
-  <div class="footer-copy">© 2026 Flex Training LLC · Earth City, MO 63045 · Powered by <a href="https://goelev8.ai" target="_blank" rel="noopener">GoElev8.ai</a></div>
 </footer>
 
+<!-- STICKY MOBILE ACTION BAR -->
+<div class="mbar" id="mbar">
+  <a href="#assessment" class="btn btn-primary">Free assessment <span class="arr"><svg><use href="#i-arrow"/></svg></span></a>
+  <button class="call" onclick="handleCallFlex()" aria-label="Have FLEX call you"><svg><use href="#i-phone"/></svg></button>
+</div>
+
 <!-- FLEX CALL MODAL -->
-<div class="flex-modal-overlay" id="flexCallModal" onclick="if(event.target===this)closeFlexModal()">
-  <div class="flex-modal">
-    <div class="flex-modal-head">
-      <div class="flex-modal-title">Have FLEX Call You</div>
-      <button class="flex-modal-close" onclick="closeFlexModal()">&times;</button>
+<div class="modal-overlay" id="flexCallModal" onclick="if(event.target===this)closeFlexModal()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="flexCallTitle">
+    <button class="modal-x" onclick="closeFlexModal()" aria-label="Close">&times;</button>
+    <div id="flexModalForm">
+      <span class="ic-lg"><svg><use href="#i-phone"/></svg></span>
+      <h3 class="display modal-title" id="flexCallTitle">Have FLEX call you</h3>
+      <p class="modal-sub">We'll call you within minutes during business hours.</p>
+      <div class="field"><label class="lbl" for="flexCallName">Full name</label><input class="inp" type="text" id="flexCallName" autocomplete="name" placeholder="Your full name"></div>
+      <div class="field"><label class="lbl" for="flexCallPhone">Phone number</label><input class="inp" type="tel" id="flexCallPhone" autocomplete="tel" inputmode="tel" placeholder="(555) 123-4567"></div>
+      <p class="err" id="flexCallErr">Please enter your name and phone number.</p>
+      <button class="btn btn-primary btn-block" onclick="submitFlexCall()">Call me now <span class="arr"><svg><use href="#i-phone"/></svg></span></button>
+      <p class="fine">By submitting, you agree to receive SMS &amp; calls from The Flex Facility. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. See <a href="/privacy">Privacy</a> &amp; <a href="/terms">Terms</a>.</p>
     </div>
-    <div class="flex-modal-body" id="flexModalForm">
-      <div class="flex-modal-field">
-        <label>Full Name *</label>
-        <input type="text" id="flexCallName" placeholder="Your full name" required>
-      </div>
-      <div class="flex-modal-field">
-        <label>Phone Number *</label>
-        <input type="tel" id="flexCallPhone" placeholder="(555) 123-4567" required>
-      </div>
-      <button class="flex-modal-submit" onclick="submitFlexCall()">Call Me Now</button>
-      <div class="flex-modal-note">We'll call you within minutes during business hours</div>
-      <div class="flex-modal-note" style="margin-top:6px;color:#666;font-size:11px;line-height:1.5;">By submitting, you agree to receive SMS &amp; calls from The Flex Facility. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. See <a href="/privacy" style="color:var(--red);text-decoration:underline;">Privacy</a> &amp; <a href="/terms" style="color:var(--red);text-decoration:underline;">Terms</a>.</div>
-    </div>
-    <div class="flex-modal-confirm" id="flexModalConfirm" style="display:none">
-      <div class="icon">&#128242;</div>
-      <p>FLEX will call you shortly!</p>
+    <div class="modal-confirm" id="flexModalConfirm" style="display:none">
+      <span class="ic-lg"><svg><use href="#i-check"/></svg></span>
+      <h3 class="display modal-title">FLEX will call you shortly!</h3>
     </div>
   </div>
 </div>
 
 <!-- APP DOWNLOAD BUTTON & POPUP -->
-<style>
-  .app-download-btn{position:fixed;bottom:100px;right:24px;background:#c8a84b;color:#0d0d0d;font-weight:700;font-size:14px;padding:12px 20px;border-radius:50px;border:none;cursor:pointer;z-index:9999;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(200,168,75,0.35);transition:transform 0.2s ease,box-shadow 0.2s ease;font-family:inherit;}
-  .app-download-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(200,168,75,0.5);}
-  .app-download-btn svg{width:18px;height:18px;fill:#0d0d0d;}
-  @media(max-width:600px){.app-download-btn{bottom:96px;right:16px;font-size:13px;padding:10px 16px;}}
-  .app-dl-overlay{display:none;position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,0.8);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;}
-  .app-dl-overlay.open{display:flex;}
-  .app-dl-popup{background:#141720;border:1px solid rgba(200,168,75,0.3);border-radius:20px;padding:40px 32px;max-width:380px;width:100%;text-align:center;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.6);}
-  .app-dl-popup h3{color:#c8a84b;font-size:22px;margin:0 0 8px;}
-  .app-dl-popup p{color:#ccc;font-size:15px;margin:0 0 24px;line-height:1.5;}
-  .app-dl-popup .app-dl-store-btn{display:inline-flex;align-items:center;gap:10px;background:#c8a84b;color:#0d0d0d;font-weight:700;font-size:16px;padding:14px 28px;border-radius:50px;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;}
-  .app-dl-popup .app-dl-store-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(200,168,75,0.5);}
-  .app-dl-popup .app-dl-store-btn svg{width:22px;height:22px;fill:#0d0d0d;}
-  .app-dl-close{position:absolute;top:14px;right:18px;background:none;border:none;color:#888;font-size:24px;cursor:pointer;line-height:1;}
-  .app-dl-close:hover{color:#fff;}
-</style>
-
-<button class="app-download-btn" onclick="document.getElementById('appDlOverlay').classList.add('open')" aria-label="Download the App">
-  <svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184 4 270.2c0 26.5 4.9 53.9 14.6 82.3C30.7 386.8 71.5 512 124.1 512c25.6-.6 43.5-18.1 76.2-18.1 31.8 0 48.3 18.1 76.4 18.1 52.9-.7 90.4-116.7 102.2-151.1-64.6-30.5-59.2-89.5-60.2-92.2zM245.1 0c-35.3 2.6-76.7 23.6-101.5 50.5-22.5 24.5-42.2 63.5-34.7 100.8 38.3 3 77.5-21.2 100.2-47.3 23.1-26.4 39.2-65.5 36-104z"/></svg>
-  Download the App
+<button class="app-download-btn" onclick="openAppModal()" aria-label="Download the App">
+  <svg viewBox="0 0 384 512"><use href="#i-apple"/></svg>
+  <span class="txt">Get the app</span>
 </button>
-
-<div class="app-dl-overlay" id="appDlOverlay" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="app-dl-popup">
-    <button class="app-dl-close" onclick="document.getElementById('appDlOverlay').classList.remove('open')">&times;</button>
-    <h3>Get The Flex Facility App</h3>
-    <p>Train smarter. Track progress. Book sessions — all from your phone.</p>
-    <a href="https://apps.apple.com/app/id6755446262" target="_blank" rel="noopener" class="app-dl-store-btn">
-      <svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184 4 270.2c0 26.5 4.9 53.9 14.6 82.3C30.7 386.8 71.5 512 124.1 512c25.6-.6 43.5-18.1 76.2-18.1 31.8 0 48.3 18.1 76.4 18.1 52.9-.7 90.4-116.7 102.2-151.1-64.6-30.5-59.2-89.5-60.2-92.2zM245.1 0c-35.3 2.6-76.7 23.6-101.5 50.5-22.5 24.5-42.2 63.5-34.7 100.8 38.3 3 77.5-21.2 100.2-47.3 23.1-26.4 39.2-65.5 36-104z"/></svg>
+<div class="modal-overlay" id="appDlOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="appDlTitle" style="text-align:center">
+    <button class="modal-x" onclick="document.getElementById('appDlOverlay').classList.remove('open')" aria-label="Close">&times;</button>
+    <img src="/flex-logo.png" alt="" width="72" height="72" style="margin:0 auto 18px;border-radius:50%">
+    <h3 class="display modal-title" id="appDlTitle">Get the Flex Facility app</h3>
+    <p class="modal-sub">Train smarter. Track progress. Book sessions — all from your phone.</p>
+    <a href="https://apps.apple.com/app/id6755446262" target="_blank" rel="noopener" class="app-store-btn">
+      <svg viewBox="0 0 384 512"><use href="#i-apple"/></svg>
       Download on the App Store
     </a>
   </div>
@@ -842,11 +1053,11 @@ div[class*="vapi"] button {
 
 <!-- KINETIC KEN CHAT WIDGET -->
 <div class="kk-widget" id="kkWidget">
-  <div class="kk-bubble" onclick="launchVapiFromKK()">
-    <div class="kk-pulse"></div>
-    <img src="transparent_kinetic_ken.png" alt="Kinetic Ken">
-    <div class="kk-badge">1</div>
-  </div>
+  <button class="kk-bubble" onclick="launchVapiFromKK()" aria-label="Talk to Kinetic Ken">
+    <span class="kk-pulse"></span>
+    <img src="transparent_kinetic_ken.png" alt="">
+    <span class="kk-badge">1</span>
+  </button>
 </div>
 
 <script>
@@ -887,31 +1098,48 @@ function sendGoElev8Lead(extra) {
   }
 }
 
-// ── SCROLL REVEAL ──
-document.querySelectorAll('.reveal').forEach(el => el.classList.add('animate'));
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); e.target.classList.remove('animate'); } });
-}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+// ── HELPERS ──
+function $(id) { return document.getElementById(id); }
+function val(id) { var el = $(id); return el ? el.value.trim() : ''; }
+function digits(s) { return (s || '').replace(/\D/g, ''); }
+function validPhone(s) { var d = digits(s); return d.length === 10 || (d.length === 11 && d[0] === '1'); }
+function showErr(id, on) { var el = $(id); if (el) el.classList.toggle('show', !!on); }
+function markBad(id, on) { var el = $(id); if (el) el.classList.toggle('bad', !!on); }
 
-// ── FORM SUBMIT (top form) ──
-function submitFormTop(formEl, btn) {
-  const inputs = formEl.querySelectorAll('input');
-  const selects = formEl.querySelectorAll('select');
+// ── ASSESSMENT FORM (2 steps) ──
+function setStep(n) {
+  document.querySelectorAll('#assessForm .fstep').forEach(function (s) { s.classList.toggle('on', s.dataset.step === String(n)); });
+  $('afStepLabel').textContent = 'Step ' + n + ' of 2';
+}
+function assessNext() {
+  var ok = !!val('afName');
+  markBad('afName', !ok); showErr('afNameErr', !ok);
+  if (!ok) { $('afName').focus(); return; }
+  setStep(2);
+  setTimeout(function () { $('afPhone').focus({ preventScroll: true }); }, 50);
+}
+function assessBack() { setStep(1); }
+$('afName').addEventListener('input', function () { markBad('afName', false); showErr('afNameErr', false); });
+$('afPhone').addEventListener('input', function () { markBad('afPhone', false); showErr('afPhoneErr', false); });
+
+// ── FORM SUBMIT (top form) — payload keys unchanged ──
+function submitFormTop(btn) {
+  var sport = document.querySelector('input[name="afSport"]:checked');
   const payload = {
-    name: (inputs[0] || {}).value || '',
-    athlete_age: (inputs[1] || {}).value || '',
-    parent_name: (inputs[2] || {}).value || '',
-    phone: (inputs[3] || {}).value || '',
+    name: val('afName'),
+    athlete_age: val('afAge'),
+    parent_name: val('afParent'),
+    phone: val('afPhone'),
     email: '',
-    program_interest: (selects[0] || {}).value || '',
-    primary_goal: (selects[1] || {}).value || '',
+    program_interest: sport ? sport.value : '',
+    primary_goal: val('afGoal'),
     source: 'primary_page_top',
     timestamp: new Date().toISOString(),
     page_url: window.location.href
   };
 
-  btn.textContent = 'Redirecting...'; btn.disabled = true; btn.style.opacity = '0.7';
+  btn.disabled = true; btn.style.opacity = '0.7';
+  btn.firstChild.textContent = 'Redirecting… ';
 
   // keepalive lets the requests complete after we navigate away
   sendGoElev8Lead(Object.assign({}, payload, { funnel: 'main', tag: 'athlete' }));
@@ -923,22 +1151,21 @@ function submitFormTop(formEl, btn) {
   window.location.href = goal ? (BOOKING_LINK + '?goal=' + goal) : BOOKING_LINK;
 }
 
-// ── FORM SUBMIT (bottom form) ──
-function submitFormBottom(formEl, btn) {
-  const inputs = formEl.querySelectorAll('input');
-  const selects = formEl.querySelectorAll('select');
+// ── FORM SUBMIT (bottom form) — payload keys unchanged ──
+function submitFormBottom(btn) {
   const payload = {
-    name: (inputs[0] || {}).value || '',
-    phone: (inputs[1] || {}).value || '',
-    instagram: (inputs[2] || {}).value || '',
+    name: val('cfName'),
+    phone: val('cfPhone'),
+    instagram: val('cfIg'),
     email: '',
-    program_interest: (selects[0] || {}).value || '',
+    program_interest: val('cfSport'),
     source: 'primary_page_bottom',
     timestamp: new Date().toISOString(),
     page_url: window.location.href
   };
 
-  btn.textContent = 'Redirecting...'; btn.disabled = true; btn.style.opacity = '0.7';
+  btn.disabled = true; btn.style.opacity = '0.7';
+  btn.firstChild.textContent = 'Redirecting… ';
 
   // keepalive lets the requests complete after we navigate away
   sendGoElev8Lead(Object.assign({}, payload, { funnel: 'main', tag: 'athlete' }));
@@ -950,31 +1177,41 @@ function submitFormBottom(formEl, btn) {
   window.location.href = goal ? (BOOKING_LINK + '?goal=' + goal) : BOOKING_LINK;
 }
 
-function handleAssessment(btn) { submitFormTop(btn.closest('.urgency-form'), btn); }
-function handleCTA(btn) { submitFormBottom(btn.closest('.cta-form'), btn); }
+function handleAssessment(btn) {
+  var ok = validPhone(val('afPhone'));
+  markBad('afPhone', !ok); showErr('afPhoneErr', !ok);
+  if (!ok) { $('afPhone').focus(); return; }
+  submitFormTop(btn);
+}
+function handleCTA(btn) {
+  var okName = !!val('cfName'), okPhone = validPhone(val('cfPhone'));
+  markBad('cfName', !okName); markBad('cfPhone', !okPhone);
+  showErr('cfErr', !(okName && okPhone));
+  if (!okName) { $('cfName').focus(); return; }
+  if (!okPhone) { $('cfPhone').focus(); return; }
+  submitFormBottom(btn);
+}
 
 // ── FLEX CALL MODAL ──
 function handleCallFlex() {
-  document.getElementById('flexModalForm').style.display = '';
-  document.getElementById('flexModalConfirm').style.display = 'none';
-  document.getElementById('flexCallName').value = '';
-  document.getElementById('flexCallPhone').value = '';
-  // Pre-fill from hero form if available
-  const heroName = document.querySelector('.urgency-form input[placeholder="Athlete\'s Name"]');
-  const heroPhone = document.querySelector('.urgency-form input[placeholder="Phone Number"]');
-  if (heroName && heroName.value) document.getElementById('flexCallName').value = heroName.value;
-  if (heroPhone && heroPhone.value) document.getElementById('flexCallPhone').value = heroPhone.value;
-  document.getElementById('flexCallModal').classList.add('open');
+  $('flexModalForm').style.display = '';
+  $('flexModalConfirm').style.display = 'none';
+  showErr('flexCallErr', false);
+  // Pre-fill from the assessment form if the visitor already typed there
+  $('flexCallName').value = val('afParent') || val('afName') || val('cfName');
+  $('flexCallPhone').value = val('afPhone') || val('cfPhone');
+  $('flexCallModal').classList.add('open');
+  setTimeout(function () { (val('flexCallName') ? $('flexCallPhone') : $('flexCallName')).focus(); }, 60);
 }
 
 function closeFlexModal() {
-  document.getElementById('flexCallModal').classList.remove('open');
+  $('flexCallModal').classList.remove('open');
 }
 
 function submitFlexCall() {
-  const name = document.getElementById('flexCallName').value.trim();
-  const phone = document.getElementById('flexCallPhone').value.trim();
-  if (!name || !phone) { alert('Please enter your name and phone number.'); return; }
+  const name = val('flexCallName');
+  const phone = val('flexCallPhone');
+  if (!name || !phone) { showErr('flexCallErr', true); return; }
 
   const payload = {
     name: name,
@@ -991,10 +1228,15 @@ function submitFlexCall() {
     body: JSON.stringify(payload)
   }).catch(() => {});
 
-  document.getElementById('flexModalForm').style.display = 'none';
-  document.getElementById('flexModalConfirm').style.display = '';
+  $('flexModalForm').style.display = 'none';
+  $('flexModalConfirm').style.display = '';
   setTimeout(closeFlexModal, 2500);
 }
+
+function openAppModal() { $('appDlOverlay').classList.add('open'); }
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') { closeFlexModal(); $('appDlOverlay').classList.remove('open'); }
+});
 
 // ── LAUNCH VAPI HELPER (for Kinetic Ken only) ──
 function launchVapi() {
@@ -1021,17 +1263,63 @@ function launchVapiFromKK() {
   launchVapi();
 }
 
-// ── SMOOTH SCROLL ──
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); } });
-});
+// ── SCROLL REVEAL + COUNTERS ──
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function countUp(el) {
+    var target = parseFloat(el.dataset.count), dec = parseInt(el.dataset.dec || '0', 10);
+    var suffix = el.querySelector('em') ? el.querySelector('em').outerHTML : '';
+    if (reduce) return;
+    var t0 = null, dur = 1400;
+    function frame(t) {
+      if (!t0) t0 = t;
+      var p = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+      el.innerHTML = (target * e).toFixed(dec) + suffix;
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
+    $('spots').classList.add('in');
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      var c = e.target.querySelector('[data-count]');
+      if (c) countUp(c);
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.rv, #spots').forEach(function (el) { io.observe(el); });
+})();
 
-// ── NAV SHADOW ──
-window.addEventListener('scroll', () => {
-  const nav = document.querySelector('nav');
-  if (window.scrollY > 50) { nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)'; }
-  else { nav.style.boxShadow = 'none'; }
-});
+// ── NAV STATE + STICKY MOBILE BAR ──
+(function () {
+  var nav = $('nav'), bar = $('mbar'), hero = document.querySelector('.hero');
+  var forms = [$('assessment'), $('final-cta')];
+  var formInView = false;
+  if ('IntersectionObserver' in window) {
+    var vis = new Map();
+    var fo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { vis.set(e.target, e.isIntersecting); });
+      formInView = Array.from(vis.values()).some(Boolean);
+      update();
+    }, { threshold: 0.15 });
+    forms.forEach(function (f) { if (f) fo.observe(f); });
+  }
+  function update() {
+    var y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 40);
+    var show = y > hero.offsetHeight * 0.7 && !formInView;
+    bar.classList.toggle('show', show);
+    document.body.classList.toggle('mbar-on', show);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
 </script>
 <!-- GoElev8 events: published from the portal (Bookings → Events).
      The section stays hidden until there's at least one upcoming event. -->
