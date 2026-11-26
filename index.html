@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#0A0A0B">
 <meta property="og:title" content="The Flex Facility — Elite Athletic Performance Training">
 <meta property="og:description" content="Speed, strength and explosiveness training for competitive athletes. Claim a free athletic performance assessment with Coach Kenny.">
-<meta property="og:image" content="/images/kenny-flex-xmas.webp">
+<meta property="og:image" content="/images/kenny-flex.webp">
 <!-- GoElev8 Portal embed — lead tracking (portal.goelev8.ai is the source of truth) -->
 <script>
   window.GoElev8 = {
@@ -24,7 +24,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="/images/kenny-flex-xmas.webp">
+<!-- HOLIDAY: the theme is on until the end of Jan 6, 2027 (visitor's local time), then
+     the page falls back to the normal look automatically. Move XMAS_END to change it. -->
+<script>
+  (function () {
+    var XMAS_END = new Date(2027, 0, 7); // midnight starting Jan 7, 2027
+    var on = window.FLEX_XMAS = Date.now() < XMAS_END.getTime();
+    if (on) document.documentElement.classList.add('xmas');
+    var l = document.createElement('link');
+    l.rel = 'preload'; l.as = 'image'; l.fetchPriority = 'high';
+    l.href = on ? '/images/kenny-flex-xmas.webp' : '/images/kenny-flex.webp';
+    document.head.appendChild(l);
+  })();
+</script>
 <!-- Vapi Widget -->
 <script
   src="https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js"
@@ -430,10 +442,11 @@
   .app-store-btn svg { width: 20px; height: 20px; fill: currentColor; }
 
   /* ───────────────────────── HOLIDAY THEME ─────────────────────────
-     Seasonal layer: light string, snowfall, pine glow, candy-cane ticker.
-     To retire after the season: delete this block, the .xmas-* markup,
-     the HOLIDAY SNOW script, and point the hero image back at kenny-flex.webp. */
-  .hero::before { background:
+     Only applies while <html> has the .xmas class (set by the date check in <head>).
+     Outside the season the .xmas-* markup is hidden and the page looks as normal. */
+  html:not(.xmas) .xmas-lights, html:not(.xmas) .xmas-snow, html:not(.xmas) .xmas-tag,
+  html:not(.xmas) .xmas-word, html:not(.xmas) .xmas-foot { display: none; }
+  .xmas .hero::before { background:
       radial-gradient(60% 55% at 78% 45%, rgba(var(--red-rgb),.22) 0%, transparent 62%),
       radial-gradient(45% 45% at 8% 88%, rgba(var(--pine-rgb),.18) 0%, transparent 70%),
       linear-gradient(180deg, #0B0B0C 0%, #0A0A0B 100%); }
@@ -446,10 +459,11 @@
   .xmas-lights .bulb:nth-of-type(3n+1) { animation-delay: -1.6s; }
   @keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
   .eyebrow .xmas-tag { color: var(--gold); }
-  .ticker { border-block: 0; }
-  .ticker::before, .ticker::after { content: ''; position: absolute; left: 0; right: 0; height: 6px; background: repeating-linear-gradient(-45deg, #fff 0 10px, var(--red-deep) 10px 20px); }
-  .ticker::before { top: 0; } .ticker::after { bottom: 0; }
-  .ticker-track .xmas-word { color: var(--ink); }
+  .xmas .ticker { border-block: 0; }
+  .xmas .ticker::before, .xmas .ticker::after { content: ''; position: absolute; left: 0; right: 0; height: 6px; background: repeating-linear-gradient(-45deg, #fff 0 10px, var(--red-deep) 10px 20px); }
+  .xmas .ticker::before { top: 0; } .xmas .ticker::after { bottom: 0; }
+  .ticker-track .xmas-word { display: inline-flex; align-items: center; gap: 28px; padding: 0; font: inherit; color: var(--ink); }
+  .ticker-track .xmas-word svg { color: #fff; }
   .xmas-foot { margin-top: 18px; font-family: var(--mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 8px; }
   .xmas-foot svg { width: 14px; height: 14px; flex-shrink: 0; }
   @media (prefers-reduced-motion: reduce) { .xmas-snow { display: none; } .xmas-lights .bulb { animation: none; } }
@@ -621,7 +635,7 @@ div[class*="vapi"] button {
   <canvas class="xmas-snow" id="xmasSnow" aria-hidden="true"></canvas>
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow rv"><span class="live"></span>Earth City, MO &nbsp;·&nbsp; Est. 2013 &nbsp;·&nbsp; <span class="xmas-tag">Happy Holidays</span></p>
+      <p class="eyebrow rv"><span class="live"></span>Earth City, MO &nbsp;·&nbsp; Est. 2013<span class="xmas-tag"> &nbsp;·&nbsp; Happy Holidays</span></p>
       <h1 class="display hero-h1 rv d1">
         <span class="line">Is your</span>
         <span class="line"><em>athlete</em></span>
@@ -643,7 +657,8 @@ div[class*="vapi"] button {
 
     <div class="hero-visual rv d1">
       <div class="hv-card">
-        <img src="/images/kenny-flex-xmas.webp" alt="Coach Kenny Sims in a Santa hat, flexing in a Flex Training Est. 2013 tank" width="1000" height="1295" fetchpriority="high">
+        <img id="heroImg" src="/images/kenny-flex.webp" alt="Coach Kenny Sims flexing in a Flex Training Est. 2013 tank" width="1000" height="1294" fetchpriority="high">
+        <script>if (window.FLEX_XMAS) { var hi = document.getElementById('heroImg'); hi.src = '/images/kenny-flex-xmas.webp'; hi.height = 1295; hi.alt = 'Coach Kenny Sims in a Santa hat, flexing in a Flex Training Est. 2013 tank'; }</script>
         <div class="hv-chip c1"><span class="ic"><svg><use href="#i-trophy"/></svg></span><span><b>Pro Elite</b><small>Bodybuilder</small></span></div>
         <div class="hv-chip c2"><span class="ic"><svg><use href="#i-bolt"/></svg></span><span><b>Coach Kenny Sims</b><small>Owner · Head coach</small></span></div>
       </div>
@@ -658,8 +673,8 @@ div[class*="vapi"] button {
 <!-- TICKER -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track">
-    <span>Speed <svg><use href="#i-snow"/></svg> Strength <svg><use href="#i-snow"/></svg> <span class="xmas-word">Happy Holidays</span> <svg><use href="#i-snow"/></svg> Explosiveness <svg><use href="#i-snow"/></svg> NIL ready <svg><use href="#i-snow"/></svg> Combine prep <svg><use href="#i-snow"/></svg> Est. 2013 <svg><use href="#i-snow"/></svg></span>
-    <span>Speed <svg><use href="#i-snow"/></svg> Strength <svg><use href="#i-snow"/></svg> <span class="xmas-word">Happy Holidays</span> <svg><use href="#i-snow"/></svg> Explosiveness <svg><use href="#i-snow"/></svg> NIL ready <svg><use href="#i-snow"/></svg> Combine prep <svg><use href="#i-snow"/></svg> Est. 2013 <svg><use href="#i-snow"/></svg></span>
+    <span>Speed <svg><use href="#i-star"/></svg> Strength <svg><use href="#i-star"/></svg> <span class="xmas-word">Happy Holidays <svg><use href="#i-snow"/></svg></span> Explosiveness <svg><use href="#i-star"/></svg> NIL ready <svg><use href="#i-star"/></svg> Combine prep <svg><use href="#i-star"/></svg> Est. 2013 <svg><use href="#i-star"/></svg></span>
+    <span>Speed <svg><use href="#i-star"/></svg> Strength <svg><use href="#i-star"/></svg> <span class="xmas-word">Happy Holidays <svg><use href="#i-snow"/></svg></span> Explosiveness <svg><use href="#i-star"/></svg> NIL ready <svg><use href="#i-star"/></svg> Combine prep <svg><use href="#i-star"/></svg> Est. 2013 <svg><use href="#i-star"/></svg></span>
   </div>
 </div>
 
@@ -1296,8 +1311,10 @@ function launchVapiFromKK() {
   launchVapi();
 }
 
-// ── HOLIDAY SNOW (hero only, pauses off-screen, skipped for reduced motion) ──
+// ── HOLIDAY SNOW + ticker snowflakes (in season only; snow skipped for reduced motion) ──
 (function () {
+  if (!window.FLEX_XMAS) return;
+  document.querySelectorAll('.ticker-track use[href="#i-star"]').forEach(function (u) { u.setAttribute('href', '#i-snow'); });
   var c = document.getElementById('xmasSnow');
   if (!c || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var ctx = c.getContext('2d'), hero = c.parentNode, flakes = [], w, h, visible = true, raf = null;
