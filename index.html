@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#0A0A0B">
 <meta property="og:title" content="The Flex Facility — Elite Athletic Performance Training">
 <meta property="og:description" content="Speed, strength and explosiveness training for competitive athletes. Claim a free athletic performance assessment with Coach Kenny.">
-<meta property="og:image" content="/images/kenny-flex.webp">
+<meta property="og:image" content="/images/kenny-flex-xmas.webp">
 <!-- GoElev8 Portal embed — lead tracking (portal.goelev8.ai is the source of truth) -->
 <script>
   window.GoElev8 = {
@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="/images/kenny-flex.webp">
+<link rel="preload" as="image" href="/images/kenny-flex-xmas.webp">
 <!-- Vapi Widget -->
 <script
   src="https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js"
@@ -65,6 +65,9 @@
     --red-hot: #FF3B1F;
     --red-deep: #9E1505;
     --red-rgb: 232,32,10;
+    --pine: #1E8A55;
+    --pine-rgb: 30,138,85;
+    --gold: #F2C14E;
     --radius: 22px;
     --radius-sm: 14px;
     --wrap: 1240px;
@@ -426,6 +429,31 @@
   .app-store-btn:hover { transform: translateY(-2px); }
   .app-store-btn svg { width: 20px; height: 20px; fill: currentColor; }
 
+  /* ───────────────────────── HOLIDAY THEME ─────────────────────────
+     Seasonal layer: light string, snowfall, pine glow, candy-cane ticker.
+     To retire after the season: delete this block, the .xmas-* markup,
+     the HOLIDAY SNOW script, and point the hero image back at kenny-flex.webp. */
+  .hero::before { background:
+      radial-gradient(60% 55% at 78% 45%, rgba(var(--red-rgb),.22) 0%, transparent 62%),
+      radial-gradient(45% 45% at 8% 88%, rgba(var(--pine-rgb),.18) 0%, transparent 70%),
+      linear-gradient(180deg, #0B0B0C 0%, #0A0A0B 100%); }
+  .xmas-snow { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
+  .hero-grid { position: relative; z-index: 1; }
+  .xmas-lights { position: absolute; top: 0; left: 0; right: 0; height: 64px; z-index: 0; pointer-events: none; overflow: hidden; }
+  .xmas-lights svg { display: block; width: 100%; height: 100%; }
+  .xmas-lights .bulb { animation: twinkle 2.4s ease-in-out infinite; }
+  .xmas-lights .bulb:nth-of-type(3n) { animation-delay: -.8s; }
+  .xmas-lights .bulb:nth-of-type(3n+1) { animation-delay: -1.6s; }
+  @keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+  .eyebrow .xmas-tag { color: var(--gold); }
+  .ticker { border-block: 0; }
+  .ticker::before, .ticker::after { content: ''; position: absolute; left: 0; right: 0; height: 6px; background: repeating-linear-gradient(-45deg, #fff 0 10px, var(--red-deep) 10px 20px); }
+  .ticker::before { top: 0; } .ticker::after { bottom: 0; }
+  .ticker-track .xmas-word { color: var(--ink); }
+  .xmas-foot { margin-top: 18px; font-family: var(--mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 8px; }
+  .xmas-foot svg { width: 14px; height: 14px; flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .xmas-snow { display: none; } .xmas-lights .bulb { animation: none; } }
+
   /* ───────────────────────── MOTION ───────────────────────── */
   .js .rv { opacity: 0; transform: translateY(26px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
   .js .rv.in { opacity: 1; transform: none; }
@@ -557,6 +585,7 @@ div[class*="vapi"] button {
     <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></symbol>
     <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-snow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M3.3 7l17.4 10M3.3 17 20.7 7M9 4l3 2 3-2M9 20l3-2 3 2"/></symbol>
     <symbol id="i-star" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
     <symbol id="i-cash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></symbol>
     <symbol id="i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
@@ -587,9 +616,12 @@ div[class*="vapi"] button {
 
 <!-- HERO -->
 <header class="hero" id="top">
+  <!-- HOLIDAY: light string + snow -->
+  <div class="xmas-lights" aria-hidden="true"><svg viewBox="0 0 1440 64" preserveAspectRatio="none"><path d="M0 0 8.0 L20 11.5 L40 14.8 L60 18.0 L80 20.9 L100 23.3 L120 25.3 L140 26.8 L160 27.7 L180 28.0 L200 27.7 L220 26.8 L240 25.3 L260 23.3 L280 20.9 L300 18.0 L320 14.8 L340 11.5 L360 8.0 L380 11.5 L400 14.8 L420 18.0 L440 20.9 L460 23.3 L480 25.3 L500 26.8 L520 27.7 L540 28.0 L560 27.7 L580 26.8 L600 25.3 L620 23.3 L640 20.9 L660 18.0 L680 14.8 L700 11.5 L720 8.0 L740 11.5 L760 14.8 L780 18.0 L800 20.9 L820 23.3 L840 25.3 L860 26.8 L880 27.7 L900 28.0 L920 27.7 L940 26.8 L960 25.3 L980 23.3 L1000 20.9 L1020 18.0 L1040 14.8 L1060 11.5 L1080 8.0 L1100 11.5 L1120 14.8 L1140 18.0 L1160 20.9 L1180 23.3 L1200 25.3 L1220 26.8 L1240 27.7 L1260 28.0 L1280 27.7 L1300 26.8 L1320 25.3 L1340 23.3 L1360 20.9 L1380 18.0 L1400 14.8 L1420 11.5 L1440 8.0" fill="none" stroke="#2f2f35" stroke-width="2"/><g class="bulb"><ellipse cx="30" cy="26.2" rx="15" ry="17" fill="#E8200A" opacity=".22"/><rect x="27" y="12.2" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="30" cy="26.2" rx="6" ry="9" fill="#E8200A"/></g><g class="bulb"><ellipse cx="90" cy="35.1" rx="15" ry="17" fill="#1E8A55" opacity=".22"/><rect x="87" y="21.1" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="90" cy="35.1" rx="6" ry="9" fill="#1E8A55"/></g><g class="bulb"><ellipse cx="150" cy="40.3" rx="15" ry="17" fill="#F2C14E" opacity=".22"/><rect x="147" y="26.3" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="150" cy="40.3" rx="6" ry="9" fill="#F2C14E"/></g><g class="bulb"><ellipse cx="210" cy="40.3" rx="15" ry="17" fill="#3D8BFF" opacity=".22"/><rect x="207" y="26.3" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="210" cy="40.3" rx="6" ry="9" fill="#3D8BFF"/></g><g class="bulb"><ellipse cx="270" cy="35.1" rx="15" ry="17" fill="#E8200A" opacity=".22"/><rect x="267" y="21.1" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="270" cy="35.1" rx="6" ry="9" fill="#E8200A"/></g><g class="bulb"><ellipse cx="330" cy="26.2" rx="15" ry="17" fill="#1E8A55" opacity=".22"/><rect x="327" y="12.2" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="330" cy="26.2" rx="6" ry="9" fill="#1E8A55"/></g><g class="bulb"><ellipse cx="390" cy="26.2" rx="15" ry="17" fill="#F2C14E" opacity=".22"/><rect x="387" y="12.2" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="390" cy="26.2" rx="6" ry="9" fill="#F2C14E"/></g><g class="bulb"><ellipse cx="450" cy="35.1" rx="15" ry="17" fill="#3D8BFF" opacity=".22"/><rect x="447" y="21.1" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="450" cy="35.1" rx="6" ry="9" fill="#3D8BFF"/></g><g class="bulb"><ellipse cx="510" cy="40.3" rx="15" ry="17" fill="#E8200A" opacity=".22"/><rect x="507" y="26.3" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="510" cy="40.3" rx="6" ry="9" fill="#E8200A"/></g><g class="bulb"><ellipse cx="570" cy="40.3" rx="15" ry="17" fill="#1E8A55" opacity=".22"/><rect x="567" y="26.3" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="570" cy="40.3" rx="6" ry="9" fill="#1E8A55"/></g><g class="bulb"><ellipse cx="630" cy="35.1" rx="15" ry="17" fill="#F2C14E" opacity=".22"/><rect x="627" y="21.1" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="630" cy="35.1" rx="6" ry="9" fill="#F2C14E"/></g><g class="bulb"><ellipse cx="690" cy="26.2" rx="15" ry="17" fill="#3D8BFF" opacity=".22"/><rect x="687" y="12.2" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="690" cy="26.2" rx="6" ry="9" fill="#3D8BFF"/></g><g class="bulb"><ellipse cx="750" cy="26.2" rx="15" ry="17" fill="#E8200A" opacity=".22"/><rect x="747" y="12.2" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="750" cy="26.2" rx="6" ry="9" fill="#E8200A"/></g><g class="bulb"><ellipse cx="810" cy="35.1" rx="15" ry="17" fill="#1E8A55" opacity=".22"/><rect x="807" y="21.1" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="810" cy="35.1" rx="6" ry="9" fill="#1E8A55"/></g><g class="bulb"><ellipse cx="870" cy="40.3" rx="15" ry="17" fill="#F2C14E" opacity=".22"/><rect x="867" y="26.3" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="870" cy="40.3" rx="6" ry="9" fill="#F2C14E"/></g><g class="bulb"><ellipse cx="930" cy="40.3" rx="15" ry="17" fill="#3D8BFF" opacity=".22"/><rect x="927" y="26.3" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="930" cy="40.3" rx="6" ry="9" fill="#3D8BFF"/></g><g class="bulb"><ellipse cx="990" cy="35.1" rx="15" ry="17" fill="#E8200A" opacity=".22"/><rect x="987" y="21.1" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="990" cy="35.1" rx="6" ry="9" fill="#E8200A"/></g><g class="bulb"><ellipse cx="1050" cy="26.2" rx="15" ry="17" fill="#1E8A55" opacity=".22"/><rect x="1047" y="12.2" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="1050" cy="26.2" rx="6" ry="9" fill="#1E8A55"/></g><g class="bulb"><ellipse cx="1110" cy="26.2" rx="15" ry="17" fill="#F2C14E" opacity=".22"/><rect x="1107" y="12.2" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="1110" cy="26.2" rx="6" ry="9" fill="#F2C14E"/></g><g class="bulb"><ellipse cx="1170" cy="35.1" rx="15" ry="17" fill="#3D8BFF" opacity=".22"/><rect x="1167" y="21.1" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="1170" cy="35.1" rx="6" ry="9" fill="#3D8BFF"/></g><g class="bulb"><ellipse cx="1230" cy="40.3" rx="15" ry="17" fill="#E8200A" opacity=".22"/><rect x="1227" y="26.3" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="1230" cy="40.3" rx="6" ry="9" fill="#E8200A"/></g><g class="bulb"><ellipse cx="1290" cy="40.3" rx="15" ry="17" fill="#1E8A55" opacity=".22"/><rect x="1287" y="26.3" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="1290" cy="40.3" rx="6" ry="9" fill="#1E8A55"/></g><g class="bulb"><ellipse cx="1350" cy="35.1" rx="15" ry="17" fill="#F2C14E" opacity=".22"/><rect x="1347" y="21.1" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="1350" cy="35.1" rx="6" ry="9" fill="#F2C14E"/></g><g class="bulb"><ellipse cx="1410" cy="26.2" rx="15" ry="17" fill="#3D8BFF" opacity=".22"/><rect x="1407" y="12.2" width="6" height="6" rx="1.5" fill="#4a4a52"/><ellipse cx="1410" cy="26.2" rx="6" ry="9" fill="#3D8BFF"/></g></svg></div>
+  <canvas class="xmas-snow" id="xmasSnow" aria-hidden="true"></canvas>
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow rv"><span class="live"></span>Earth City, MO &nbsp;·&nbsp; Est. 2013</p>
+      <p class="eyebrow rv"><span class="live"></span>Earth City, MO &nbsp;·&nbsp; Est. 2013 &nbsp;·&nbsp; <span class="xmas-tag">Happy Holidays</span></p>
       <h1 class="display hero-h1 rv d1">
         <span class="line">Is your</span>
         <span class="line"><em>athlete</em></span>
@@ -611,7 +643,7 @@ div[class*="vapi"] button {
 
     <div class="hero-visual rv d1">
       <div class="hv-card">
-        <img src="/images/kenny-flex.webp" alt="Coach Kenny Sims flexing in a Flex Training Est. 2013 tank" width="1000" height="1294" fetchpriority="high">
+        <img src="/images/kenny-flex-xmas.webp" alt="Coach Kenny Sims in a Santa hat, flexing in a Flex Training Est. 2013 tank" width="1000" height="1294" fetchpriority="high">
         <div class="hv-chip c1"><span class="ic"><svg><use href="#i-trophy"/></svg></span><span><b>Pro Elite</b><small>Bodybuilder</small></span></div>
         <div class="hv-chip c2"><span class="ic"><svg><use href="#i-bolt"/></svg></span><span><b>Coach Kenny Sims</b><small>Owner · Head coach</small></span></div>
       </div>
@@ -626,8 +658,8 @@ div[class*="vapi"] button {
 <!-- TICKER -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track">
-    <span>Speed <svg><use href="#i-star"/></svg> Strength <svg><use href="#i-star"/></svg> Explosiveness <svg><use href="#i-star"/></svg> NIL ready <svg><use href="#i-star"/></svg> Combine prep <svg><use href="#i-star"/></svg> Est. 2013 <svg><use href="#i-star"/></svg></span>
-    <span>Speed <svg><use href="#i-star"/></svg> Strength <svg><use href="#i-star"/></svg> Explosiveness <svg><use href="#i-star"/></svg> NIL ready <svg><use href="#i-star"/></svg> Combine prep <svg><use href="#i-star"/></svg> Est. 2013 <svg><use href="#i-star"/></svg></span>
+    <span>Speed <svg><use href="#i-snow"/></svg> Strength <svg><use href="#i-snow"/></svg> <span class="xmas-word">Happy Holidays</span> <svg><use href="#i-snow"/></svg> Explosiveness <svg><use href="#i-snow"/></svg> NIL ready <svg><use href="#i-snow"/></svg> Combine prep <svg><use href="#i-snow"/></svg> Est. 2013 <svg><use href="#i-snow"/></svg></span>
+    <span>Speed <svg><use href="#i-snow"/></svg> Strength <svg><use href="#i-snow"/></svg> <span class="xmas-word">Happy Holidays</span> <svg><use href="#i-snow"/></svg> Explosiveness <svg><use href="#i-snow"/></svg> NIL ready <svg><use href="#i-snow"/></svg> Combine prep <svg><use href="#i-snow"/></svg> Est. 2013 <svg><use href="#i-snow"/></svg></span>
   </div>
 </div>
 
@@ -976,6 +1008,7 @@ div[class*="vapi"] button {
       <div class="foot-brand">
         <img src="/flex-logo.png" alt="Flex Facility logo" loading="lazy">
         <p>Elite athletic performance training with Coach Kenny Sims. Earth City, MO 63045 · <a href="tel:8775153539" style="color:var(--bone)">(877) 515-FLEX</a></p>
+        <p class="xmas-foot"><svg><use href="#i-snow"/></svg>Happy holidays from Coach Kenny &amp; the Flex family</p>
       </div>
       <div class="foot-col">
         <h4>Train</h4>
@@ -1262,6 +1295,42 @@ function launchVapiFromKK() {
   if (badge) badge.style.display = 'none';
   launchVapi();
 }
+
+// ── HOLIDAY SNOW (hero only, pauses off-screen, skipped for reduced motion) ──
+(function () {
+  var c = document.getElementById('xmasSnow');
+  if (!c || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var ctx = c.getContext('2d'), hero = c.parentNode, flakes = [], w, h, visible = true, raf = null;
+  function make(any) {
+    return { x: Math.random() * w, y: any ? Math.random() * h : -10, r: Math.random() * 2.2 + .6,
+             s: Math.random() * .6 + .35, d: Math.random() * 6.283, o: Math.random() * .5 + .35 };
+  }
+  function size() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = hero.offsetWidth; h = hero.offsetHeight;
+    c.width = w * dpr; c.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var n = Math.round(Math.min(110, w / 12));
+    while (flakes.length < n) flakes.push(make(true));
+    flakes.length = n;
+  }
+  function tick() {
+    ctx.clearRect(0, 0, w, h);
+    for (var i = 0; i < flakes.length; i++) {
+      var f = flakes[i];
+      f.y += f.s; f.d += .01; f.x += Math.sin(f.d) * .35;
+      if (f.y > h + 10) flakes[i] = f = make(false);
+      ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283);
+      ctx.fillStyle = 'rgba(255,255,255,' + f.o + ')'; ctx.fill();
+    }
+    raf = visible ? requestAnimationFrame(tick) : null;
+  }
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (e) {
+    visible = e[0].isIntersecting;
+    if (visible && !raf) raf = requestAnimationFrame(tick);
+  }).observe(hero);
+  window.addEventListener('resize', size);
+  size(); raf = requestAnimationFrame(tick);
+})();
 
 // ── SCROLL REVEAL + COUNTERS ──
 (function () {
